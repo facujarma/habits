@@ -1,6 +1,6 @@
 function ActionBox() {
   return (
-    <div className="w-36 aspect-square bg-[#242424] border border-[#616161]">
+    <div className="min-w-36 aspect-square bg-[#242424] border border-[#616161] rounded-2xl">
 
     </div>
   )

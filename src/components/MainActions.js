@@ -1,14 +1,16 @@
 import ActionBox from "@components/ActionBox"
+import SeparatorLine from "@components/SeparatorLine"
 
 function MainActions() {
     return (
-        <div className="">
+        <div className="flex flex-col gap-6">
             <h2 className="text-[#C5C5C5] text-lg ">Que estas buscando?</h2>
-            <div className="flex overflow-auto max-w-full">
+            <div className="flex gap-6 overflow-auto max-w-full pb-2">
                 <ActionBox />
                 <ActionBox />
                 <ActionBox />
             </div>
+            <SeparatorLine />
         </div>
     )
 }
