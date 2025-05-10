@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "paths": {
+      "@root/*": ["./src/*"],
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@sections/*": ["./src/sections/*"],
+      "@lib/*": ["src/utils/*"],
+
     }
   }
 }
