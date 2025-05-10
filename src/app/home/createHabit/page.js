@@ -2,11 +2,12 @@ import CreateNewHabitFirstStep from "@/components/CreateNewHabitFirstStep"
 import CreateNewhabitSecondStep from "@/components/CreateNewhabitSecondStep"
 import CreateNewHabitThirdStep from "@/components/CreateNewHabitThirdStep"
 import SeparatorLine from "@/components/SeparatorLine"
+import Header from "@/sections/Header"
 
 function page() {
   return (
     <div className="w-full">
-      <h2 className="text-2xl text-white">Crear un nuevo habito:</h2>
+      <Header title={"Crear un nuevo habito"} text={"La forma mas inteligente de iniciar un habito efectivo es completando la siguiente frase"} />
       <CreateNewHabitFirstStep />
       <SeparatorLine />
       <CreateNewhabitSecondStep />
