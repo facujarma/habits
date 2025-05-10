@@ -16,10 +16,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body
-        className={`${lexend.className} antialiased bg-[#111111] min-h-screen w-full`}
-
+        className={`${lexend.className} relative antialiased bg-[#111111] h-screen w-full flex flex-col`}
       >
-        <div className="px-8 h-full">
+        <div className="px-8 flex-1 mb-20 overflow-y-auto">
           {children}
         </div>
         <Navbar />
