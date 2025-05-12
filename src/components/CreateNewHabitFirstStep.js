@@ -1,17 +1,33 @@
-function CreateNewHabitFirstStep() {
+function CreateNewHabitFirstStep({ habitDescriptiveInfo, setHabitDescriptiveInfo }) {
     return (
         <div className="w-full flex flex-col gap-6 pb-6">
             <div className="w-full min-h-28 bg-[#0A0A0A] border border-[#555555] rounded-xl p-3 flex gap-2 items-baseline flex-wrap">
-                
+
                 <span className="text-stone-300 text-base">Yo voy a </span>
-                <input className="border border-[#616161] max-w-48 h-6 bg-[#242424] rounded-full text-stone-300 px-1" placeholder="Habito a formar"></input>
-                
+                <input onChange={(e) => setHabitDescriptiveInfo({
+                    name: e.target.value,
+                    when: habitDescriptiveInfo.when,
+                    personToBe: habitDescriptiveInfo.personToBe
+                })} className="border border-[#616161] max-w-48 h-6 bg-[#242424] rounded-full text-stone-300 px-1" placeholder="Habito a formar"></input>
+
                 <span className="text-stone-300 text-base">, </span>
-                <input className="border border-[#616161] max-w-32 h-6 bg-[#242424] rounded-full text-stone-300 px-1" placeholder="Cuando"></input>
-                
+                <input onChange={
+                    (e) => setHabitDescriptiveInfo({
+                        name: habitDescriptiveInfo.name,
+                        when: e.target.value,
+                        personToBe: habitDescriptiveInfo.personToBe
+                    })
+                } className="border border-[#616161] max-w-32 h-6 bg-[#242424] rounded-full text-stone-300 px-1" placeholder="Cuando"></input>
+
                 <span className="text-stone-300 text-base">para asi convertirme en </span>
-                <input className="border border-[#616161] max-w-32 h-6 bg-[#242424] rounded-full text-stone-300 px-1" placeholder="Persona que quiero ser"></input>
-            
+                <input onChange={
+                    (e) => setHabitDescriptiveInfo({
+                        name: habitDescriptiveInfo.name,
+                        when: habitDescriptiveInfo.when,
+                        personToBe: e.target.value
+                    })
+                } className="border border-[#616161] max-w-32 h-6 bg-[#242424] rounded-full text-stone-300 px-1" placeholder="Persona que quiero ser"></input>
+
             </div>
         </div>
     )
