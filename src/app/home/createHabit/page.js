@@ -7,6 +7,7 @@ import Header from "@/sections/Header"
 import Button from "@/components/Button"
 import { IconCirclePlus } from "@tabler/icons-react"
 import { useState } from "react"
+import { addHabit } from "@root/utils/habits"
 
 function page() {
 
@@ -20,11 +21,18 @@ function page() {
     S: false,
     D: false
   })
-  const [habitTimes, setHabitTimes] = useState('')
+  const [habitTimes, setHabitTimes] = useState([])
 
   const handleCreateHabit = (e) => {
     e.preventDefault()
     console.log(habitDescriptiveInfo, habitDays, habitTimes)
+    addHabit({
+      name: habitDescriptiveInfo.name,
+      when: habitDescriptiveInfo.when,
+      personToBe: habitDescriptiveInfo.personToBe,
+      weekdays: habitDays,
+      times: habitTimes
+    })
   }
 
 
