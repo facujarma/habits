@@ -29,16 +29,14 @@ function page() {
 
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       <Header title={"Crear un nuevo habito"} text={"La forma mas inteligente de iniciar un habito efectivo es completando la siguiente frase"} />
-      <form className="flex flex-col " onSubmit={(e) => handleCreateHabit(e)}>
-        <CreateNewHabitFirstStep habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} />
-        <SeparatorLine />
-        <CreateNewhabitSecondStep setHabitDays={setHabitDays} habitDays={habitDays} />
-        <SeparatorLine />
-        <CreateNewHabitThirdStep setHabitTimes={setHabitTimes} habitTimes={habitTimes} />
-        <Button icon={<IconCirclePlus />} text={"Crear"} />
-      </form>
+      <CreateNewHabitFirstStep habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} />
+      <SeparatorLine />
+      <CreateNewhabitSecondStep setHabitDays={setHabitDays} habitDays={habitDays} />
+      <SeparatorLine />
+      <CreateNewHabitThirdStep setHabitTimes={setHabitTimes} habitTimes={habitTimes} />
+      <Button icon={<IconCirclePlus />} text={"Crear"} handleClick={handleCreateHabit} />
     </div>
   )
 }
