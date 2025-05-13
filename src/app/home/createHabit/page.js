@@ -8,6 +8,7 @@ import Button from "@/components/Button"
 import { IconCirclePlus } from "@tabler/icons-react"
 import { useState } from "react"
 import { addHabit } from "@root/utils/habits"
+import { addToast, ToastProvider } from "@heroui/react";
 
 function page() {
 
@@ -23,21 +24,45 @@ function page() {
   })
   const [habitTimes, setHabitTimes] = useState([])
 
-  const handleCreateHabit = (e) => {
-    e.preventDefault()
-    console.log(habitDescriptiveInfo, habitDays, habitTimes)
-    addHabit({
+  const handleCreateHabit = async (e) => {
+    e.preventDefault();
+
+    const promise = addHabit({
       name: habitDescriptiveInfo.name,
       when: habitDescriptiveInfo.when,
       personToBe: habitDescriptiveInfo.personToBe,
       weekdays: habitDays,
       times: habitTimes
-    })
-  }
+    });
+
+    addToast({
+      title: "Crear habito",
+      description: "Por favor espera mientras se crea el hábito.",
+      promise,
+    });
+
+    try {
+      await promise;
+      addToast({
+        title: "Hábito creado",
+        description: "El hábito se ha creado correctamente.",
+        color: "success",
+      })
+    } catch (e) {
+      addToast({
+        title: "Error",
+        description: "Ha ocurrido un error al crear el hábito.",
+        color: "danger",
+      })
+
+    }
+  };
+
 
 
   return (
     <div className="w-full h-full">
+      <ToastProvider />
       <Header title={"Crear un nuevo habito"} text={"La forma mas inteligente de iniciar un habito efectivo es completando la siguiente frase"} />
       <CreateNewHabitFirstStep habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} />
       <SeparatorLine />

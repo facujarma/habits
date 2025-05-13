@@ -13,6 +13,7 @@
     "@heroui/react": "2.8.0-beta.4",
     "@heroui/system": "2.4.16-beta.1",
     "@heroui/theme": "2.4.16-beta.1",
+    "@heroui/toast": "2.0.10-beta.1",
     "@next/env": "^15.3.2",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
