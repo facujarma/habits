@@ -189,3 +189,54 @@ export async function markHabitAsIncomplete(habitID) {
 
     return true;
 }
+
+export async function selectHabitsForToday() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    console.error("No hay usuario autenticado:", userError);
+    throw new Error("Usuario no autenticado");
+  }
+
+  const jsDay = new Date().getDay(); 
+
+  const { data: habits, error } = await supabase
+    .from("habit")
+    .select("*, habit_schedules!inner(weekday)")
+    .eq("userID", user.id)
+    .eq("habit_schedules.weekday", jsDay);
+
+  if (error) {
+    console.error("Error al obtener hábitos de hoy:", error);
+    throw new Error("No se pudieron obtener los hábitos de hoy");
+  }
+
+  return habits;
+}
+
+export async function deleteHabit(habitID) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    console.error("No hay usuario autenticado:", userError);
+    throw new Error("Usuario no autenticado");
+  }
+
+  const { error } = await supabase.from("habit").delete().eq("id", habitID);
+
+  if (error) {
+    console.error("Error al eliminar hábito:", error);
+    throw new Error("No se pudo eliminar el hábito");
+  }
+  
+}

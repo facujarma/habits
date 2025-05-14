@@ -7,7 +7,6 @@ module.exports = {
     "./node_modules/@heroui/theme/dist/components/modal.js",
     "./node_modules/@heroui/theme/dist/components/spinner.js",
     "./node_modules/@heroui/theme/dist/components/toast.js",
-
 ],
   theme: {
     extend: {},

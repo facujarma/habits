@@ -4,8 +4,9 @@ import { useState, useEffect } from "react"
 import { getHabitStatus } from "@root/utils/habits"
 import { markHabitAsComplete, markHabitAsIncomplete } from "@root/utils/habits"
 import { addToast, Spinner } from "@heroui/react";
-import { IconCheck } from "@tabler/icons-react";
+import { IconCheck, IconMenu2 } from "@tabler/icons-react";
 import { motion } from "motion/react"
+import HabitContainerMenu from "./HabitContainerMenu";
 function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
 
   const [loading, setLoading] = useState(true);
@@ -88,17 +89,17 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
       <motion.div
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={handleClick}
-        className={`flex items-center p-3 h-full w-full border border-[#616161] rounded-xl cursor-pointer ${status ? "bg-blue-700" : "bg-[#242424]"}`}
-
+        className={`flex items-center  h-full w-full border border-[#616161] rounded-xl cursor-pointer ${status ? "bg-blue-800" : "bg-[#242424]"}`}
       >
-
-        <div className="w-full flex flex-col">
+        <div className="w-full flex flex-col p-3"
+          onClick={handleClick}
+        >
           <h3 className="text-2xl font-bold text-[#C5C5C5]">
             {habitName}
           </h3>
           <span className="text-base text-[#C5C5C5]"> {personToBe} </span>
         </div>
+        <HabitContainerMenu habitID={habitID}/>
       </motion.div>
 
     </div >

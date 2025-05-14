@@ -8,7 +8,7 @@ import Button from "@/components/Button"
 import { IconCirclePlus } from "@tabler/icons-react"
 import { useState } from "react"
 import { addHabit } from "@root/utils/habits"
-import { addToast, ToastProvider } from "@heroui/react";
+import { addToast } from "@heroui/react";
 
 function page() {
 
@@ -65,7 +65,6 @@ function page() {
 
   return (
     <div className="w-full h-full">
-      <ToastProvider />
       <Header title={"Crear un nuevo habito"} text={"La forma mas inteligente de iniciar un habito efectivo es completando la siguiente frase"} />
       <CreateNewHabitFirstStep habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} />
       <SeparatorLine />

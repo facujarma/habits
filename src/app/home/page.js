@@ -1,6 +1,8 @@
 import DayInfo from "@/components/DayInfo";
 import HabitsList from "@components/HabitsList";
 import MainActions from "@components/MainActions";
+import { HabitsProvider } from "@/context/habitContext";
+
 export default function Home() {
   return (
 
@@ -8,7 +10,9 @@ export default function Home() {
       <DayInfo />
       <MainActions />
       <h2 className="mt-6 text-xl  text-[#C5C5C5]">Tus Habitos:</h2>
-      <HabitsList />
+      <HabitsProvider>
+        <HabitsList />
+      </HabitsProvider>
     </div>
   );
 }
