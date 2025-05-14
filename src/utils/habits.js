@@ -96,3 +96,96 @@ export async function selectHabits() {
     console.log(habits);
     return habits;
 }
+
+export async function getHabitStatus(habitID) {
+    const supabase = await createClient();
+
+    const today = new Date().toISOString().split("T")[0]; // formato YYYY-MM-DD
+
+    const { data, error } = await supabase
+        .from("habit_records")
+        .select("status")
+        .eq("habitID", habitID)
+        .eq("record_date", today)
+        .maybeSingle();
+
+    if (error) {
+        console.error("Error al obtener estado del hábito:", error);
+        throw new Error("No se pudo obtener el estado del hábito");
+    }
+
+    return data?.status ?? null;
+}
+
+
+export async function markHabitAsComplete(habitID) {
+    const supabase = await createClient();
+
+    const {
+        data: { user },
+        error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+        console.error("No hay usuario autenticado:", userError);
+        throw new Error("Usuario no autenticado");
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const { error } = await supabase.from("habit_records").upsert(
+        [
+            {
+                habitID,
+                record_date: today,
+                status: true,
+            },
+        ],
+        {
+            onConflict: "habitID,record_date", // para que actualice si ya existe
+        }
+    );
+
+    if (error) {
+        console.error("Error al marcar hábito como completado:", error);
+        throw new Error("No se pudo marcar como completado");
+    }
+
+    return true;
+}
+
+export async function markHabitAsIncomplete(habitID) {
+    const supabase = await createClient();
+
+    const {
+        data: { user },
+        error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+        console.error("No hay usuario autenticado:", userError);
+        throw new Error("Usuario no autenticado");
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const { error } = await supabase.from("habit_records").upsert(
+        [
+            {
+                habitID,
+                record_date: today,
+                status: false,
+            },
+        ],
+        {
+            onConflict: "habitID,record_date",
+        }
+    );
+
+    if (error) {
+        console.error("Error al marcar hábito como incompleto:", error);
+        throw new Error("No se pudo marcar como incompleto");
+    }
+
+    return true;
+}

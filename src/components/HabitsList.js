@@ -3,6 +3,7 @@
 import HabitContainer from "@components/HabitContainer"
 import { useEffect, useState } from "react"
 import { selectHabits } from "@root/utils/habits"
+import { Spinner } from "@heroui/spinner";
 function HabitsList() {
 
   const [habits, setHabits] = useState([]);
@@ -17,15 +18,16 @@ function HabitsList() {
     };
     fetchHabits();
   }, []);
+  
 
   return (
     <div className="flex flex-col gap-8 pt-6">
       {
         loading ?
-        ( <span>Cargando...</span> )
+        ( <Spinner color="primary" /> )
         :
         habits.map((habit, index) => {
-          return <HabitContainer key={index} habitName={habit.name} personToBe={habit.personToBe} />
+          return <HabitContainer key={index} habitID={habit.id} habitName={habit.name} personToBe={habit.personToBe} />
         })
       }
     </div>
