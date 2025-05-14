@@ -39,6 +39,7 @@ function page() {
       title: "Crear habito",
       description: "Por favor espera mientras se crea el hábito.",
       promise,
+      timeout: 2000
     });
 
     try {
@@ -47,12 +48,14 @@ function page() {
         title: "Hábito creado",
         description: "El hábito se ha creado correctamente.",
         color: "success",
+        timeout: 2000
       })
     } catch (e) {
       addToast({
         title: "Error",
         description: "Ha ocurrido un error al crear el hábito.",
         color: "danger",
+        timeout: 2000
       })
 
     }

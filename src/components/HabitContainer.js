@@ -23,6 +23,8 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
           title: "Error",
           description: "Ha ocurrido un error al obtener el estado del hábito.",
           color: "danger",
+          timeout: 2000
+
         })
       }
       setLoading(false);
@@ -43,6 +45,8 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
           title: "Error",
           description: "Ha ocurrido un error al marcar el hábito como incompleto.",
           color: "danger",
+          timeout: 2000
+
         })
       }
     }
@@ -57,6 +61,8 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
           title: "Error",
           description: "Ha ocurrido un error al marcar el hábito como completo.",
           color: "danger",
+          timeout: 2000
+
         })
       }
 
@@ -84,7 +90,7 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
         whileTap={{ scale: 0.95 }}
         onClick={handleClick}
         className={`flex items-center p-3 h-full w-full border border-[#616161] rounded-xl cursor-pointer ${status ? "bg-blue-700" : "bg-[#242424]"}`}
-      
+
       >
 
         <div className="w-full flex flex-col">
