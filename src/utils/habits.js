@@ -191,52 +191,129 @@ export async function markHabitAsIncomplete(habitID) {
 }
 
 export async function selectHabitsForToday() {
-  const supabase = await createClient();
+    const supabase = await createClient();
 
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+    const {
+        data: { user },
+        error: userError,
+    } = await supabase.auth.getUser();
 
-  if (userError || !user) {
-    console.error("No hay usuario autenticado:", userError);
-    throw new Error("Usuario no autenticado");
-  }
+    if (userError || !user) {
+        console.error("No hay usuario autenticado:", userError);
+        throw new Error("Usuario no autenticado");
+    }
 
-  const jsDay = new Date().getDay(); 
+    const jsDay = new Date().getDay();
 
-  const { data: habits, error } = await supabase
-    .from("habit")
-    .select("*, habit_schedules!inner(weekday)")
-    .eq("userID", user.id)
-    .eq("habit_schedules.weekday", jsDay);
+    const { data: habits, error } = await supabase
+        .from("habit")
+        .select("*, habit_schedules!inner(weekday)")
+        .eq("userID", user.id)
+        .eq("habit_schedules.weekday", jsDay);
 
-  if (error) {
-    console.error("Error al obtener hábitos de hoy:", error);
-    throw new Error("No se pudieron obtener los hábitos de hoy");
-  }
+    if (error) {
+        console.error("Error al obtener hábitos de hoy:", error);
+        throw new Error("No se pudieron obtener los hábitos de hoy");
+    }
 
-  return habits;
+    return habits;
 }
 
 export async function deleteHabit(habitID) {
+    const supabase = await createClient();
+
+    const {
+        data: { user },
+        error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+        console.error("No hay usuario autenticado:", userError);
+        throw new Error("Usuario no autenticado");
+    }
+
+    const { error } = await supabase.from("habit").delete().eq("id", habitID);
+
+    if (error) {
+        console.error("Error al eliminar hábito:", error);
+        throw new Error("No se pudo eliminar el hábito");
+    }
+
+}
+const WEEKDAY_MAP = {
+    1: "L", 2: "M", 3: "X", 4: "J", 5: "V", 6: "S", 7: "D"
+};
+const WEEKDAY_INITIALS = { L: 0, M: 0, X: 0, J: 0, V: 0, S: 0, D: 0 };
+
+export async function getHabitFullData(habitID) {
   const supabase = await createClient();
 
+  // 1. Autenticación
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
-
   if (userError || !user) {
     console.error("No hay usuario autenticado:", userError);
     throw new Error("Usuario no autenticado");
   }
 
-  const { error } = await supabase.from("habit").delete().eq("id", habitID);
-
-  if (error) {
-    console.error("Error al eliminar hábito:", error);
-    throw new Error("No se pudo eliminar el hábito");
+  // 2. Obtener el hábito
+  const { data: habit, error: habitError } = await supabase
+    .from("habit")
+    .select("*")
+    .eq("userID", user.id)
+    .eq("id", habitID)
+    .maybeSingle();
+  if (habitError) {
+    console.error("Error al obtener el hábito:", habitError);
+    throw new Error("No se pudo obtener el hábito");
   }
-  
+  if (!habit) return null;
+
+  // 3. Obtener sus días programados
+  const { data: schedules, error: schedError } = await supabase
+    .from("habit_schedules")
+    .select("weekday")
+    .eq("habitID", habitID);
+  if (schedError) {
+    console.error("Error al obtener schedules:", schedError);
+    throw new Error("No se pudieron obtener los schedules");
+  }
+
+  // 4. Obtener sus completaciones
+  const { data: records, error: recError } = await supabase
+    .from("habit_records")
+    .select("record_date")
+    .eq("habitID", habitID);
+  if (recError) {
+    console.error("Error al obtener records:", recError);
+    throw new Error("No se pudieron obtener los registros");
+  }
+
+  // 5. Construir estructura de días programados
+  const scheduledWeekdays = schedules.map((s) => s.weekday);
+  const scheduledDays = { ...WEEKDAY_INITIALS };
+  scheduledWeekdays.forEach((wd) => {
+    const key = WEEKDAY_MAP[wd];
+    if (key) scheduledDays[key] = true;
+  });
+
+  // 6. Construir lista de fechas completadas (formato YYYY-MM-DD)
+  const completedDates = records.map((r) => {
+    // si record_date ya es string "YYYY-MM-DD", lo devolvemos directamente
+    if (typeof r.record_date === "string") return r.record_date;
+    // si no, parseamos a Date
+    return new Date(r.record_date).toISOString().split("T")[0];
+  });
+  const totalCompletions = completedDates.length;
+
+  // 7. Devolver el objeto con toda la info
+  return {
+    ...habit,
+    scheduledWeekdays,
+    scheduledDays,
+    completedDates,
+    totalCompletions,
+  };
 }

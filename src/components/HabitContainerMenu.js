@@ -47,6 +47,9 @@ export default function HabitContainerMenu({habitID}) {
         if (option === "delete") {
             onOpen();
         }
+        if(option === "view"){
+            window.location.href = `/habits/info/${habitID}`
+        }
     }
 
     return (
