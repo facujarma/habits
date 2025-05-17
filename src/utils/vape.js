@@ -41,18 +41,19 @@ export async function startVapeProgram() {
   const supabase = await getSupabase();
   const user = await getCurrentUser();
 
-  const isActive = await userIsInProgram();
-  if (isActive) return;
-
   const { error } = await supabase
     .from('stop_vaping_program')
-    .insert({ userID: user.id, is_active: true });
+    .upsert(
+      { userID: user.id, is_active: true },
+      { onConflict: 'userID' } // clave única para evitar duplicados
+    );
 
   if (error) {
     console.error('Error al iniciar programa:', error);
     throw new Error('No se pudo iniciar el programa');
   }
 }
+
 
 export async function addAPuff() {
   const supabase = await getSupabase();

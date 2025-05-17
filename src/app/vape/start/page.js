@@ -1,9 +1,23 @@
 import StopVapingBenefitCard from '@root/components/StopVapingBenefitCard'
 import StopVapingButton from '@root/components/StopVapingButton'
 import Header from '@root/sections/Header'
+import { userIsInProgram } from '@root/utils/vape'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
-function page() {
+async function getIsInProgram() {
+  const isInProgram = await userIsInProgram();
+  return isInProgram;
+}
+
+async function page() {
+
+  const isInProgram = await getIsInProgram();
+  
+  if(isInProgram){
+    redirect('/vape')
+  }
+
   return (
     <div className='flex flex-col  relative'>
       <Header title={"Stop vaping"} text={"You can use Habits in many ways—one of them is to quit vaping. The app helps you track your puffs per day and recommends ways to reduce them."} />

@@ -7,7 +7,7 @@ const HabitsContext = createContext();
 
 export function HabitsProvider({ children }) {
   const [habits, setHabits] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Define loadHabits como función que actualiza el estado
   async function loadHabits() {
