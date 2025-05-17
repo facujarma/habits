@@ -75,7 +75,7 @@ function page() {
       <CreateNewhabitSecondStep setHabitDays={setHabitDays} habitDays={habitDays} />
       <SeparatorLine />
       <CreateNewHabitThirdStep setHabitTimes={setHabitTimes} habitTimes={habitTimes} />
-      <Button icon={<IconCirclePlus />} text={"Crear"} handleClick={handleCreateHabit} />
+      <Button icon={<IconCirclePlus />} text={"Creates"} handleClick={handleCreateHabit} />
     </div>
   )
 }

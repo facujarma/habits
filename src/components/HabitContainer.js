@@ -87,6 +87,12 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
           </button>
       }
       <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.4,
+          scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
+        }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         className={`flex items-center  h-full w-full border border-[#616161] rounded-xl cursor-pointer ${status ? "bg-blue-800" : "bg-[#242424]"}`}
@@ -99,7 +105,7 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
           </h3>
           <span className="text-base text-[#C5C5C5]"> {personToBe} </span>
         </div>
-        <HabitContainerMenu habitID={habitID}/>
+        <HabitContainerMenu habitID={habitID} />
       </motion.div>
 
     </div >

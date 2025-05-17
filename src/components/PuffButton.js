@@ -67,6 +67,12 @@ function PuffButton() {
                 className="absolute aspect-square rounded-full blur-3xl opacity-70 z-0 transition-all duration-500"
             />
             <motion.button
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                    duration: 0.4,
+                    scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
+                }}
                 disabled={loading}
                 onClick={handlePuff}
                 whileHover={{ scale: 1.2 }}
