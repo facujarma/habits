@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
 
   return (
-    <html lang="es">
+    <html lang="es" className="dark">
       <body
         className={`${lexend.className} relative antialiased bg-[#111111] h-screen w-full flex flex-col items-center`}
       >

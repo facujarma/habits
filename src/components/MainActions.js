@@ -12,7 +12,7 @@ function MainActions() {
             <div className="flex gap-6 overflow-x-auto max-w-full xl:justify-center  py-4">
                 <ActionBox
                 handleClick={() => {
-                    redirect("/home/createHabit")
+                    redirect("/habits/createHabit")
                 }}
                 icon={<IconCirclePlus className="w-full h-full text-[#B3B3B3]" />} text={"Crear un habito"} />
                 <ActionBox icon={<IconSmoking className="w-full h-full text-[#B3B3B3]" />} text={"Dejar de vapear"} />

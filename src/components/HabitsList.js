@@ -1,8 +1,9 @@
 'use client'
 
 import HabitContainer from "@components/HabitContainer"
-import { Spinner } from "@heroui/spinner";
+import HabitContainerSkeleton from "@components/Skeletons/HabitContainerSkeleton"
 import { useHabits } from "@/context/habitContext";
+
 
 function HabitsList() {
   const { habits, loading } = useHabits();
@@ -11,7 +12,11 @@ function HabitsList() {
     <div className="flex flex-col gap-8 pt-6">
       {
         loading ? (
-          <Spinner color="primary" />
+          <>
+            <HabitContainerSkeleton key={1} />
+            <HabitContainerSkeleton key={2} />
+          </>
+
         ) : (
           habits.map((habit) => (
             <HabitContainer
