@@ -62,9 +62,9 @@ export default function HabitContainerMenu({habitID}) {
                     </div>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Dropdown Variants" onAction={(key) => handleOptionSelected(key)}>
-                    <DropdownItem key="view">Ver informacion</DropdownItem>
+                    <DropdownItem key="view">View Habit</DropdownItem>
                     <DropdownItem key="delete" className="text-danger" color="danger">
-                        Eliminar Habito
+                        Delete Habit
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -73,18 +73,18 @@ export default function HabitContainerMenu({habitID}) {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Eliminar Habito.</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">Delete Habit.</ModalHeader>
                             <ModalBody>
                                 <p>
-                                    ¿Estas seguro que deseas eliminar el habito?.
+                                    Are you sure you want to delete this habit?
                                 </p>
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="primary" variant="light" onPress={onClose}>
-                                    Cerrar
+                                    Cancel
                                 </Button>
                                 <Button color="danger" onPress={() => { handleConfirmDelete(habitID); onClose(); }}>
-                                    Eliminar
+                                    Delete
                                 </Button>
                             </ModalFooter>
                         </>

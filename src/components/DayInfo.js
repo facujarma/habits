@@ -4,12 +4,12 @@ function DayInfo() {
         const day = date.getDate();
         const month = date.getMonth();
 
-        const months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+        const months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
 
         const monthName = months[month];
 
         const year = date.getFullYear();
-        return `${day} de ${monthName} del ${year}`
+        return `${day}th ${monthName} of ${year}`
     }
 
     return (

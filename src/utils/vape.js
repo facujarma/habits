@@ -4,8 +4,6 @@ import { createClient } from '@/utils/supabase/server';
 
 
 export async function addAPuff() {
-
-
     const supabase = await createClient();
 
     const {
@@ -18,7 +16,6 @@ export async function addAPuff() {
         throw new Error('Usuario no autenticado');
     }
 
-    console.log(user);
 
     const today = new Date().toISOString().split('T')[0];
 
@@ -49,7 +46,7 @@ export async function addAPuff() {
             ],
             { onConflict: 'userID,date' }
         );
-
+    console.log('upsertError', upsertError);
     if (upsertError) {
         console.error('Error al guardar puff:', upsertError);
         throw new Error('No se pudo guardar el puff');

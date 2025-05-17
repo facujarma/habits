@@ -4,16 +4,17 @@ import { revalidatePath } from 'next/cache';
 import { createClient } from '@/utils/supabase/server';
 
 const weekdayMap = {
-    D: 0, // Domingo
-    L: 1, // Lunes
-    M: 2, // Martes
-    X: 3, // Miércoles
-    J: 4, // Jueves
-    V: 5, // Viernes
-    S: 6, // Sábado
+    Su: 0, // Domingo
+    M: 1, // Lunes
+    Tu: 2, // Martes
+    W: 3, // Miércoles
+    Th: 4, // Jueves
+    F: 5, // Viernes
+    Sa: 6, // Sábado
 };
 
 export async function addHabit(habit) {
+    console.log(habit);
     const supabase = await createClient();
 
     // 1. Obtener el usuario
@@ -241,9 +242,9 @@ export async function deleteHabit(habitID) {
 
 }
 const WEEKDAY_MAP = {
-    1: "L", 2: "M", 3: "X", 4: "J", 5: "V", 6: "S", 7: "D"
+    1: "M", 2: "Tu", 3: "W", 4: "Th", 5: "F", 6: "Sa", 7: "Su"
 };
-const WEEKDAY_INITIALS = { L: 0, M: 0, X: 0, J: 0, V: 0, S: 0, D: 0 };
+const WEEKDAY_INITIALS = { M: 0, Tu: 0, W: 0, Th: 0, F: 0, Sa: 0, Su: 0 };
 
 export async function getHabitFullData(habitID) {
   const supabase = await createClient();

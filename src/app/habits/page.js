@@ -9,7 +9,7 @@ export default function Home() {
     <div>
       <DayInfo />
       <MainActions />
-      <h2 className="mt-6 text-xl  text-[#C5C5C5]">Tus Habitos:</h2>
+      <h2 className="mt-6 text-xl  text-[#C5C5C5]">Your Habits:</h2>
       <HabitsProvider>
         <HabitsList />
       </HabitsProvider>

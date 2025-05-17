@@ -12,21 +12,25 @@ import { addToast } from "@heroui/react";
 
 function page() {
 
-  const [habitDescriptiveInfo, setHabitDescriptiveInfo] = useState('')
+  const [habitDescriptiveInfo, setHabitDescriptiveInfo] = useState({
+    name: '',
+    when: '',
+    personToBe: ''
+  })
   const [habitDays, setHabitDays] = useState({
-    L: false,
     M: false,
-    X: false,
-    J: false,
-    V: false,
-    S: false,
-    D: false
+    Tu: false,
+    W: false,
+    Th: false,
+    F: false,
+    Sa: false,
+    Su: false
   })
   const [habitTimes, setHabitTimes] = useState([])
 
   const handleCreateHabit = async (e) => {
     e.preventDefault();
-
+    console.log(habitDescriptiveInfo, habitDays, habitTimes)
     const promise = addHabit({
       name: habitDescriptiveInfo.name,
       when: habitDescriptiveInfo.when,
@@ -65,7 +69,7 @@ function page() {
 
   return (
     <div className="w-full h-full">
-      <Header title={"Crear un nuevo habito"} text={"La forma mas inteligente de iniciar un habito efectivo es completando la siguiente frase"} />
+      <Header title={"Create a new Habit"} text={"The best way to start a habit is by completing the following phrase:"} />
       <CreateNewHabitFirstStep habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} />
       <SeparatorLine />
       <CreateNewhabitSecondStep setHabitDays={setHabitDays} habitDays={habitDays} />

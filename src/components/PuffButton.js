@@ -30,7 +30,7 @@ function getSize(counter, max = 20) {
 function PuffButton() {
 
     const { puffCounter, setPuffCounter } = usePuff()
-
+    const [loading, setLoading] = useState(false)
     const glowColor = getInterpolatedColor(22, 70, 134, puffCounter, 20, [128, 128, 128])
     const backgroundColor = getInterpolatedColor(21, 26, 49, puffCounter, 20, [70, 70, 80])
     const borderColor = getInterpolatedColor(102, 111, 154, puffCounter, 20, [100, 100, 100])
@@ -41,6 +41,7 @@ function PuffButton() {
     }
 
     const handlePuff = async () => {
+        setLoading(true)
         try {
             await addAPuff(puffCounter)
             setPuffCounter(puffCounter + 1)
@@ -54,15 +55,19 @@ function PuffButton() {
                 timeout: 2000
             })
         }
+        finally {
+            setLoading(false)
+        }
     }
 
     return (
-        <div className='w-full flex items-center justify-center mt-18 relative'>
+        <div className='w-full lg:w-[40%] flex items-center justify-center mt-18 relative lg:mx-auto'>
             <div
                 style={radialStyle}
                 className="absolute aspect-square rounded-full blur-3xl opacity-70 z-0 transition-all duration-500"
             />
-            <motion.div
+            <motion.button
+                disabled={loading}
                 onClick={handlePuff}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.7 }}
@@ -72,7 +77,7 @@ function PuffButton() {
                 }}
                 className='relative z-10 flex items-center justify-center w-5/6 aspect-square border-2 rounded-full'>
                 <IconSmoking className="w-1/2 h-1/2 text-[#656E9A]" />
-            </motion.div>
+            </motion.button>
         </div>
     )
 }

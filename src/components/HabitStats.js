@@ -2,21 +2,21 @@ import React from 'react'
 
 function HabitStats({ maxStreak, totalCompletitions, completionPercentage }) {
   return (
-    <div className='w-full h-40 py-2 flex items-center justify-between gap-12'>
-      <div className="w-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
-        <p className='text-lg text-[#B3B3B3] text-center w-full py-2'> Mayor racha:</p>
+    <div className='w-full h-40 py-2 flex items-center justify-between gap-4 overflow-x-auto'>
+      <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
+        <p className='text-base text-[#B3B3B3] text-center w-full py-1 text-wrap'> Longest Streak:</p>
         <span className='text-5xl text-white flex-1 flex items-center'> {maxStreak} </span>
-        <p className='text-lg text-[#B3B3B3] text-center w-full py-2'> Días</p>
+        <p className='text-base text-[#B3B3B3] text-center w-full py-1'> days</p>
       </div>
-      <div className="w-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
-        <p className='text-lg text-[#B3B3B3] text-center w-full py-2'> Total de completados:</p>
+      <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
+        <p className='text-base text-[#B3B3B3] text-center w-full py-1 text-wrap'> Total completions:</p>
         <span className='text-5xl text-white flex-1 flex items-center'> {totalCompletitions} </span>
-        <p className='text-lg text-[#B3B3B3] text-center w-full py-2'> veces</p>
+        <p className='text-base text-[#B3B3B3] text-center w-full py-1'> times</p>
       </div>
-      <div className="w-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
-        <p className='text-lg text-[#B3B3B3] text-center w-full py-2'> Indice de completitud: </p>
+      <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
+        <p className='text-base text-[#B3B3B3] text-center w-full py-1 text-wrap'> Completion: </p>
         <span className='text-5xl text-white flex-1 flex items-center'> {completionPercentage} </span>
-        <p className='text-lg text-[#B3B3B3] text-center w-full py-2'> porciento</p>
+        <p className='text-base text-[#B3B3B3] text-center w-full py-1'> percent</p>
       </div>
 
     </div>

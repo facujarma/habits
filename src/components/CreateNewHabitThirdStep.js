@@ -16,7 +16,7 @@ function CreateNewHabitThirdStep({ setHabitTimes, habitTimes }) {
 
     return (
         <div className="w-full flex flex-col gap-6 py-6">
-            <h2 className="text-[#C5C5C5] text-xl">Hora:</h2>
+            <h2 className="text-[#C5C5C5] text-xl">Time:</h2>
 
             <div className="w-full flex items-center gap-4">
 
@@ -26,7 +26,7 @@ function CreateNewHabitThirdStep({ setHabitTimes, habitTimes }) {
                         console.log("Clicked!!")
                     }}
                     className="w-28 px-4 py-2 bg-[#242424] rounded-full border border-[#616161] text-[#C5C5C5] text-sm">
-                    Añadir
+                    Add
                 </button>
                 <AddTimeModal isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} addTime={addTime} />
                 <ul className="flex gap-4">

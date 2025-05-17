@@ -27,7 +27,7 @@ export function PuffProvider({ children }) {
   }, []);
 
   return (
-    <PuffContext.Provider value={{ puffCounter, loading, loadPuffs }}>
+    <PuffContext.Provider value={{ puffCounter, loading, loadPuffs, setPuffCounter }}>
       {children}
     </PuffContext.Provider>
   );
