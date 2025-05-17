@@ -15,7 +15,11 @@ function MainActions() {
                     redirect("/habits/createHabit")
                 }}
                 icon={<IconCirclePlus className="w-full h-full text-[#B3B3B3]" />} text={"Crear un habito"} />
-                <ActionBox icon={<IconSmoking className="w-full h-full text-[#B3B3B3]" />} text={"Dejar de vapear"} />
+                <ActionBox 
+                handleClick={() => {
+                    redirect("/vape")
+                }}
+                icon={<IconSmoking className="w-full h-full text-[#B3B3B3]" />} text={"Dejar de vapear"} />
                 <ActionBox />
             </div>
             <SeparatorLine />
