@@ -6,7 +6,7 @@ import React from 'react'
 
 function page() {
   return (
-    <div>
+    <div className='lg:max-h-full flex flex-col lg:overflow-y-auto'>
       <PuffProvider>
         <PuffTodayCounting />
         <PuffButton />

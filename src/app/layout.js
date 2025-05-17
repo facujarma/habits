@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
       >
         <ToastProvider />
 
-        <div className="w-full max-w-2xl h-full flex flex-col xl:overflow-auto">
+        <div className="w-full max-w-2xl h-full flex flex-col overflow-x-hidden xl:overflow-y-auto">
 
           {children}
         </div>

@@ -17,7 +17,7 @@ function MainActions() {
                 icon={<IconCirclePlus className="w-full h-full text-[#B3B3B3]" />} text={"Create a new habit"} />
                 <ActionBox 
                 handleClick={() => {
-                    redirect("/vape")
+                    redirect("/vape/start")
                 }}
                 icon={<IconSmoking className="w-full h-full text-[#B3B3B3]" />} text={"Stop vaping"} />
                 <ActionBox />

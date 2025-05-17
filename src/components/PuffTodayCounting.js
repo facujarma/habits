@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { usePuff } from '@root/context/puffContext'
+import { Spinner } from '@heroui/spinner';
 function PuffTodayCounting() {
 
     const { loading, puffCounter } = usePuff();
@@ -9,8 +10,8 @@ function PuffTodayCounting() {
     if (loading) {
         return (
             <div className='flex flex-col gap-2 w-full items-center mt-12'>
-                <h2 className='font-bold text-[#C5C5C5] text-3xl'>Today Puffs:</h2>
-                <span className='font-bold text-white text-6xl'>loading</span>
+                <h2 className='font-bold text-[#C5C5C5] text-3xl mb-4'>Today Puffs:</h2>
+                <Spinner />
             </div>
         )
     }
