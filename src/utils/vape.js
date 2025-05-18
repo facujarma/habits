@@ -117,3 +117,93 @@ export async function getVapeCounterForToday() {
 
   return data?.counter ?? 0;
 }
+
+function getWeekRanges(weeks) {
+  const now = new Date();
+  const thisMonday = getLastMonday(now);
+  const ranges = [];
+
+  for (let i = weeks - 1; i >= 0; i--) {
+    const start = new Date(thisMonday);
+    start.setDate(thisMonday.getDate() - i * 7);
+
+    const end = new Date(start);
+    end.setDate(start.getDate() + 7);
+
+    ranges.push({ start, end });
+  }
+
+  return ranges;
+}
+
+export async function getVapeCountersForLast10Weeks() {
+  const supabase = await getSupabase();
+  const user = await getCurrentUser();
+
+  const isActive = await userIsInProgram();
+  if (!isActive) {
+    return redirect('/vape/start');
+  }
+
+  const weekRanges = getWeekRanges(10);
+  const vapeCounts = [];
+
+  for (const { start, end } of weekRanges) {
+    const { data, error } = await supabase
+      .from('vape_counter') // tu tabla
+      .select('counter')
+      .eq('userID', user.id)
+      .gte('created_at', start.toISOString())
+      .lt('created_at', end.toISOString());
+
+    if (error) {
+      console.error(`Error en semana que comienza el ${start.toISOString()}:`, error);
+      vapeCounts.push(-1);
+      continue;
+    }
+
+    const total = data.length === 0
+      ? -1
+      : data.reduce((sum, entry) => sum + (entry.counter || 0), 0); vapeCounts.push(total);
+  }
+
+  return vapeCounts;
+}
+
+function getLastMonday() {
+  const today = new Date();
+  const day = today.getDay();
+  const diff = (day === 0 ? 6 : day - 1);
+  const lastMonday = new Date(today);
+  lastMonday.setDate(today.getDate() - diff);
+  lastMonday.setHours(0, 0, 0, 0);
+  return lastMonday;
+}
+
+export async function getVApeCounterForWeek() {
+  const supabase = await getSupabase();
+  const user = await getCurrentUser();
+
+  const isActive = await userIsInProgram();
+  if (!isActive) {
+    return redirect('/vape/start');
+  }
+
+  const sinceMonday = getLastMonday();
+  console.log(sinceMonday);
+
+  const { data, error } = await supabase
+    .from('vape_counter')
+    .select('counter')
+    .eq('userID', user.id)
+    .gte('created_at', sinceMonday.toISOString());
+
+  if (error) {
+    console.error('Error al obtener entradas:', error);
+    throw new Error('No se pudieron obtener las entradas');
+  }
+
+  const total = data.reduce((sum, entry) => sum + (entry.counter || 0), 0);
+  console.log(total)
+  return total;
+}

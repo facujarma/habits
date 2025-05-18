@@ -7,6 +7,7 @@ import HabitInfoTitle from './HabitInfoTitle'
 import { addToast } from '@heroui/toast'
 import HabitStats from './HabitStats'
 import HabitCalendar from './HabitCalendar'
+import { Skeleton } from '@heroui/skeleton'
 
 export default function HabitsAllInfo({ habitID }) {
     const [habitInfo, setHabitInfo] = useState([])
@@ -97,9 +98,37 @@ export default function HabitsAllInfo({ habitID }) {
 
         return maxStreak;
     }
+    if (loading) return (
+        <div className="flex flex-col gap-8">
+            <Skeleton className='rounded-2xl'>
+                <div className="w-full h-20 bg-[#242424] rounded-2xl border border-[#616161] flex items-center">
 
+                </div>
+            </Skeleton>
+            <div className='w-full h-40 py-2 flex items-center justify-between gap-4 overflow-x-auto'>
 
-    if (loading) return <Spinner color="primary" />
+                <Skeleton className='rounded-2xl'>
+                    <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
+                    </div>
+                </Skeleton>
+
+                <Skeleton className='rounded-2xl'>
+                    <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
+                    </div>
+                </Skeleton>
+
+                <Skeleton className='rounded-2xl'>
+                    <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
+                    </div>
+                </Skeleton>
+            </div>
+            <Skeleton className='rounded-2xl'>
+                <div className="w-full aspect-square ">
+
+                </div>
+            </Skeleton>
+        </div>
+    )
     return (
         <div className="flex flex-col gap-8">
             <HabitInfoTitle title={habitInfo.name} />

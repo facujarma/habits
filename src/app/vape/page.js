@@ -5,6 +5,7 @@ import { PuffProvider } from '@root/context/puffContext'
 import React from 'react'
 import { userIsInProgram } from '@root/utils/vape'
 import { redirect } from 'next/navigation'
+import VapeMessage from '@root/sections/VapeMessage'
 
 async function getIsInProgram() {
   const isInProgram = await userIsInProgram();
@@ -23,10 +24,7 @@ async function page() {
       <PuffProvider>
         <PuffTodayCounting />
         <PuffButton />
-        <div className='flex flex-col gap-2 w-full items-center mt-12'>
-          <h2 className='font-bold text-[#C5C5C5] text-base'>Total Puffs in the week:</h2>
-          <span className='font-bold text-white text-2xl'>3123</span>
-        </div>
+        <VapeMessage />
       </PuffProvider>
 
       <NewsList />

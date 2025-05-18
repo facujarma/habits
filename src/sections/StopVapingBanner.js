@@ -25,38 +25,28 @@ function StopVapingBanner() {
         return (
             <Skeleton className='mx-auto mt-2 max-w-96 w-full p-2 flex flex-col items-center rounded-2xl'>
                 <div className='mx-auto mt-2 max-w-96 w-full bg-[#151A31] border-2 border-[#666F9A] p-2 flex flex-col items-center rounded-2xl'>
-                    <Skeleton>
-                        <div className='w-full flex justify-between'>
-                            <h4 className='font-bold text-white text-lg'>
-                                Stop vaping program
-                            </h4>
-                            <IconArrowAutofitRight />
-                        </div>
-                    </Skeleton>
-                    <p className='text-white text-sm'>
-                        Did you smoke today? remember to track your puffs.
-                    </p>
+                   
                 </div>
             </Skeleton>
         )
     }
-    if(!isInProgram){
+    if (!isInProgram) {
         return null;
     }
     return (
         <motion.a
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.8 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
             href='/vape'
-            className='mx-auto mt-2 max-w-96 w-full bg-[#151A31] border-2 border-[#666F9A] p-2 flex flex-col items-center rounded-2xl'>
+            className='mx-auto mt-2 max-w-96 w-full bg-[#151A31] border-2 border-[#666F9A] p-2 flex flex-col justify-center rounded-2xl'>
             <div className='w-full flex justify-between'>
                 <h4 className='font-bold text-white text-lg'>
                     Stop vaping program
                 </h4>
                 <IconArrowAutofitRight />
             </div>
-            <p className='text-white text-sm'>
-                Did you smoke today? remember to track your puffs.
+            <p className='text-white text-sm text-left'>
+                Track your puffs so we can help you stop vaping.
             </p>
         </motion.a>
     )
