@@ -9,6 +9,7 @@ import { IconCirclePlus } from "@tabler/icons-react"
 import { useState } from "react"
 import { addHabit } from "@root/utils/habits"
 import { addToast } from "@heroui/react";
+import CreateNewHabitFourthStep from "@root/components/CreateNewHabitFourthStep"
 
 function page() {
 
@@ -28,15 +29,17 @@ function page() {
   })
   const [habitTimes, setHabitTimes] = useState([])
 
+  const [habitColor, setHabitColor] = useState(new Set(["#668C9A"]))
+
   const handleCreateHabit = async (e) => {
     e.preventDefault();
-    console.log(habitDescriptiveInfo, habitDays, habitTimes)
     const promise = addHabit({
       name: habitDescriptiveInfo.name,
       when: habitDescriptiveInfo.when,
       personToBe: habitDescriptiveInfo.personToBe,
       weekdays: habitDays,
-      times: habitTimes
+      times: habitTimes,
+      color: Array.from(habitColor)[0]
     });
 
     addToast({
@@ -65,17 +68,17 @@ function page() {
     }
   };
 
-
-
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full mb-10">
       <Header title={"Create a new Habit"} text={"The best way to start a habit is by completing the following phrase:"} />
-      <CreateNewHabitFirstStep habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} />
+      <CreateNewHabitFirstStep colorSet={habitColor} habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} />
       <SeparatorLine />
       <CreateNewhabitSecondStep setHabitDays={setHabitDays} habitDays={habitDays} />
       <SeparatorLine />
       <CreateNewHabitThirdStep setHabitTimes={setHabitTimes} habitTimes={habitTimes} />
-      <Button icon={<IconCirclePlus />} text={"Creates"} handleClick={handleCreateHabit} />
+      <SeparatorLine />
+      <CreateNewHabitFourthStep color={habitColor} setColor={setHabitColor} />
+      <Button icon={<IconCirclePlus />} text={"Create"} handleClick={handleCreateHabit} />
     </div>
   )
 }

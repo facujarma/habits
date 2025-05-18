@@ -38,6 +38,7 @@ export async function addHabit(habit) {
                 when: habit.when,
                 personToBe: habit.personToBe,
                 times: habit.times,
+                color: habit.color,
             },
         ])
         .select()

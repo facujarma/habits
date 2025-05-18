@@ -10,6 +10,11 @@ module.exports = {
     "./node_modules/@heroui/theme/dist/components/toast.js",
     "./node_modules/@heroui/theme/dist/components/dropdown.js",
     "./node_modules/@heroui/theme/dist/components/calendar.js",
+    "./node_modules/@heroui/theme/dist/components/select.js",
+    "./node_modules/@heroui/theme/dist/components/popover.js",
+    "./node_modules/@heroui/theme/dist/components/ripple.js",
+
+
 
 
   ],

@@ -7,7 +7,7 @@ import { addToast, Spinner } from "@heroui/react";
 import { IconCheck, IconMenu2 } from "@tabler/icons-react";
 import { motion } from "motion/react"
 import HabitContainerMenu from "./HabitContainerMenu";
-function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
+function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
 
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState(false);
@@ -72,6 +72,15 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
     setLoading(false);
   }
 
+  function hexToRgba(hex, opacity) {
+    const r = parseInt(hex.slice(1, 3), 16)
+    const g = parseInt(hex.slice(3, 5), 16)
+    const b = parseInt(hex.slice(5, 7), 16)
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`
+  }
+
+  const backgroundColor = hexToRgba(color, 0.37)
+
   return (
     <div className="w-full h-24 flex items-center gap-6 ">
       {
@@ -89,7 +98,8 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
       <motion.div
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`flex items-center  h-full w-full border border-[#616161] rounded-xl cursor-pointer ${status ? "bg-blue-800" : "bg-[#242424]"}`}
+        className={`flex items-center  h-full w-full border  rounded-xl cursor-pointer ${status == false && "bg-[#242424] border-[#616161]"}`}
+        style={ status == true && { backgroundColor, borderColor: color }}
       >
         <div className="w-full flex flex-col p-3"
           onClick={handleClick}
@@ -99,7 +109,7 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe }) {
           </h3>
           <span className="text-base text-[#C5C5C5]"> {personToBe} </span>
         </div>
-        <HabitContainerMenu habitID={habitID}/>
+        <HabitContainerMenu habitID={habitID} />
       </motion.div>
 
     </div >

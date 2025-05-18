@@ -1,4 +1,6 @@
-function CreateNewHabitFirstStep({ habitDescriptiveInfo, setHabitDescriptiveInfo }) {
+function CreateNewHabitFirstStep({ habitDescriptiveInfo, setHabitDescriptiveInfo, colorSet }) {
+
+
     const handleChange = (field, value) => {
         setHabitDescriptiveInfo(prev => ({
             ...prev,
@@ -6,15 +8,26 @@ function CreateNewHabitFirstStep({ habitDescriptiveInfo, setHabitDescriptiveInfo
         }));
     };
 
+    function hexToRgba(hex, opacity) {
+        const r = parseInt(hex.slice(1, 3), 16)
+        const g = parseInt(hex.slice(3, 5), 16)
+        const b = parseInt(hex.slice(5, 7), 16)
+        return `rgba(${r}, ${g}, ${b}, ${opacity})`
+    }
+
+    const color = Array.from(colorSet)[0]
+    const backgroundColor = hexToRgba(color, 0.37)
+
+
     return (
         <div className="w-full flex flex-col gap-6 pb-6">
-            <div className="w-full min-h-28 bg-[#0A0A0A] border border-[#555555] rounded-xl p-3 flex gap-2 items-baseline flex-wrap">
+            <div className="w-full  border rounded-xl p-3 flex gap-2 items-baseline flex-wrap" style={{ backgroundColor, borderColor: color }}>
 
                 <span className="text-stone-300 text-base">I want to </span>
                 <input
                     value={habitDescriptiveInfo?.name || ""}
                     onChange={(e) => handleChange("name", e.target.value)}
-                    className="border border-[#616161] max-w-48 h-6 bg-[#242424] rounded-full text-stone-300 px-1"
+                    className="max-w-48 h-6 bg-black/40 rounded-md text-stone-300 px-1"
                     placeholder="Habit"
                 />
 
@@ -22,7 +35,7 @@ function CreateNewHabitFirstStep({ habitDescriptiveInfo, setHabitDescriptiveInfo
                 <input
                     value={habitDescriptiveInfo?.when || ""}
                     onChange={(e) => handleChange("when", e.target.value)}
-                    className="border border-[#616161] max-w-32 h-6 bg-[#242424] rounded-full text-stone-300 px-1"
+                    className="max-w-48 h-6 bg-black/40 rounded-md text-stone-300 px-1"
                     placeholder="When"
                 />
 
@@ -30,7 +43,7 @@ function CreateNewHabitFirstStep({ habitDescriptiveInfo, setHabitDescriptiveInfo
                 <input
                     value={habitDescriptiveInfo?.personToBe || ""}
                     onChange={(e) => handleChange("personToBe", e.target.value)}
-                    className="border border-[#616161] max-w-32 h-6 bg-[#242424] rounded-full text-stone-300 px-1"
+                    className="max-w-48 h-6 bg-black/40 rounded-md text-stone-300 px-1"
                     placeholder="Person I want to become"
                 />
 

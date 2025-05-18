@@ -21,6 +21,7 @@ function HabitsList() {
           habits.map((habit) => (
             <HabitContainer
               key={habit.id}
+              color={habit.color}
               habitID={habit.id}
               habitName={habit.name}
               personToBe={habit.personToBe}
