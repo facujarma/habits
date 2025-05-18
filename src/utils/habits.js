@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
 const weekdayMap = {
     Su: 0, // Domingo
@@ -71,7 +72,7 @@ export async function addHabit(habit) {
         }
     }
     console.log(insertedHabit);
-    revalidatePath('/home');
+    revalidatePath('/habits');
 
     return insertedHabit;
 }
@@ -271,7 +272,10 @@ export async function getHabitFullData(habitID) {
     console.error("Error al obtener el hábito:", habitError);
     throw new Error("No se pudo obtener el hábito");
   }
-  if (!habit) return null;
+  if (!habit){
+    console.error("No se pudo obtener el hábito");
+    throw new Error("No se pudo obtener el hábito");
+  };
 
   // 3. Obtener sus días programados
   const { data: schedules, error: schedError } = await supabase

@@ -1,3 +1,5 @@
+'use client'
+
 import { motion } from "motion/react"
 function Button({ text, icon, handleClick }) {
     return (

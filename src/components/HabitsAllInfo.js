@@ -8,6 +8,7 @@ import { addToast } from '@heroui/toast'
 import HabitStats from './HabitStats'
 import HabitCalendar from './HabitCalendar'
 import { Skeleton } from '@heroui/skeleton'
+import { redirect } from 'next/navigation'
 
 export default function HabitsAllInfo({ habitID }) {
     const [habitInfo, setHabitInfo] = useState([])
@@ -18,6 +19,7 @@ export default function HabitsAllInfo({ habitID }) {
             setLoading(true)
             try {
                 const data = await getHabitFullData(habitID)
+                
                 setHabitInfo(data)
                 console.log(data)
             } catch (err) {
@@ -26,8 +28,7 @@ export default function HabitsAllInfo({ habitID }) {
                     message: "No se puso obtener la información del hábito.",
                     type: 'danger',
                 })
-            } finally {
-                setLoading(false)
+                redirect("/habits")
             }
         }
 
@@ -63,6 +64,7 @@ export default function HabitsAllInfo({ habitID }) {
         return percentage;
     }
     function getMaxStreak(habit) {
+        if(!habit.completedDates || !habit.scheduledWeekdays) return 0
         const completedDates = habit.completedDates
             .map(date => date.split("T")[0]) // solo fecha
             .sort(); // ascendente
@@ -98,7 +100,7 @@ export default function HabitsAllInfo({ habitID }) {
 
         return maxStreak;
     }
-    if (loading) return (
+    if (loading || !habitInfo) return (
         <div className="flex flex-col gap-8">
             <Skeleton className='rounded-2xl'>
                 <div className="w-full h-20 bg-[#242424] rounded-2xl border border-[#616161] flex items-center">

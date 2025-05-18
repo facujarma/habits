@@ -11,7 +11,7 @@ function page() {
       <SignupForm />
       <SeparatorLine />
       <h2 className="text-[#C5C5C5] text-lg my-6">O inicia sesion con:</h2>
-      <Button icon={<IconBrandGoogleFilled />} text={"Google"} handleClick={() => { }} />
+      <Button icon={<IconBrandGoogleFilled />} text={"Google"}  />
     </div>
   )
 }

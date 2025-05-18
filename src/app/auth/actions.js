@@ -20,8 +20,8 @@ export async function login(email, password) {
   if (error) {
     redirect('/error')
   }
-  revalidatePath('/home', 'layout')
-  redirect('/home')
+  revalidatePath('/habits', 'layout')
+  redirect('/habits')
 }
 
 export async function signup(email, password) {
@@ -40,6 +40,6 @@ export async function signup(email, password) {
     redirect('/error')
   }
 
-  revalidatePath('/home', 'layout')
+  revalidatePath('/habits', 'layout')
   redirect('/auth/emailsented')
 }
