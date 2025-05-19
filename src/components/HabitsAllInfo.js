@@ -2,26 +2,28 @@
 
 import { useState, useEffect } from 'react'
 import { getHabitFullData } from '@root/utils/habits'
-import { Spinner } from '@heroui/spinner'
 import HabitInfoTitle from './HabitInfoTitle'
 import { addToast } from '@heroui/toast'
 import HabitStats from './HabitStats'
 import HabitCalendar from './HabitCalendar'
 import { Skeleton } from '@heroui/skeleton'
 import { redirect } from 'next/navigation'
+import EditHabitModal from './EditHabitModal'
+import { useDisclosure } from '@heroui/modal'
 
 export default function HabitsAllInfo({ habitID }) {
     const [habitInfo, setHabitInfo] = useState([])
     const [loading, setLoading] = useState(true)
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     useEffect(() => {
         async function fetchHabitInfo() {
             setLoading(true)
             try {
                 const data = await getHabitFullData(habitID)
-                
+
                 setHabitInfo(data)
-                console.log(data)
+                setLoading(false)
             } catch (err) {
                 addToast({
                     title: 'Error',
@@ -64,7 +66,7 @@ export default function HabitsAllInfo({ habitID }) {
         return percentage;
     }
     function getMaxStreak(habit) {
-        if(!habit.completedDates || !habit.scheduledWeekdays) return 0
+        if (!habit.completedDates || !habit.scheduledWeekdays) return 0
         const completedDates = habit.completedDates
             .map(date => date.split("T")[0]) // solo fecha
             .sort(); // ascendente
@@ -133,11 +135,12 @@ export default function HabitsAllInfo({ habitID }) {
     )
     return (
         <div className="flex flex-col gap-8">
-            <HabitInfoTitle title={habitInfo.name} />
+            <HabitInfoTitle onOpen={onOpen} title={habitInfo.name} color={habitInfo.color} when={habitInfo.when} personToBe={habitInfo.personToBe} />
             <HabitStats totalCompletitions={habitInfo.totalCompletions} maxStreak={getMaxStreak(habitInfo)} completionPercentage={getHabitCompletionPercentage(habitInfo)} />
-            <div className='w-full flex justify-center '>
+            <div className='mt-12 w-full flex justify-center scale-130 '>
                 <HabitCalendar dates={habitInfo.completedDates} />
             </div>
+            <EditHabitModal defName={habitInfo.name} defWhen={habitInfo.when} defPersonToBe={habitInfo.personToBe}  habitID={habitInfo.id} isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} />
         </div>
     )
 }

@@ -250,7 +250,7 @@ const WEEKDAY_INITIALS = { M: 0, Tu: 0, W: 0, Th: 0, F: 0, Sa: 0, Su: 0 };
 
 export async function getHabitFullData(habitID) {
   const supabase = await createClient();
-
+    console.log(habitID);
   // 1. Autenticación
   const {
     data: { user },
@@ -313,7 +313,6 @@ export async function getHabitFullData(habitID) {
     return new Date(r.record_date).toISOString().split("T")[0];
   });
   const totalCompletions = completedDates.length;
-
   // 7. Devolver el objeto con toda la info
   return {
     ...habit,
@@ -322,4 +321,13 @@ export async function getHabitFullData(habitID) {
     completedDates,
     totalCompletions,
   };
+}
+
+export async function editHabit(habitID, data) {
+    const supabase = await createClient();
+    const { error } = await supabase.from("habit").update(data).eq("id", habitID);
+    if (error) {
+        console.error("Error al editar el hábito:", error);
+        throw new Error("No se pudo editar el hábito", error);
+    }
 }
