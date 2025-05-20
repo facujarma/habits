@@ -7,6 +7,7 @@ import { addToast, Spinner } from "@heroui/react";
 import { IconCheck, IconMenu2 } from "@tabler/icons-react";
 import { motion } from "motion/react"
 import HabitContainerMenu from "./HabitContainerMenu";
+import { hexToRgba } from "@root/utils/color";
 function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
 
   const [loading, setLoading] = useState(true);
@@ -72,12 +73,6 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
     setLoading(false);
   }
 
-  function hexToRgba(hex, opacity) {
-    const r = parseInt(hex.slice(1, 3), 16)
-    const g = parseInt(hex.slice(3, 5), 16)
-    const b = parseInt(hex.slice(5, 7), 16)
-    return `rgba(${r}, ${g}, ${b}, ${opacity})`
-  }
 
   const backgroundColor = hexToRgba(color, 0.37)
 

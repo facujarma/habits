@@ -1,86 +1,17 @@
-'use client'
-import CreateNewHabitFirstStep from "@/components/CreateNewHabitFirstStep"
-import CreateNewhabitSecondStep from "@/components/CreateNewhabitSecondStep"
-import CreateNewHabitThirdStep from "@/components/CreateNewHabitThirdStep"
-import SeparatorLine from "@/components/SeparatorLine"
-import Header from "@/sections/Header"
-import Button from "@/components/Button"
-import { IconCirclePlus } from "@tabler/icons-react"
-import { useState } from "react"
-import { addHabit } from "@root/utils/habits"
-import { addToast } from "@heroui/react";
-import CreateNewHabitFourthStep from "@root/components/CreateNewHabitFourthStep"
+import SelectHabitTypeBlock from '@root/components/SelectHabitTypeBlock'
+import Header from '@root/sections/Header'
+import React from 'react'
 
 function page() {
-
-  const [habitDescriptiveInfo, setHabitDescriptiveInfo] = useState({
-    name: '',
-    when: '',
-    personToBe: ''
-  })
-  const [habitDays, setHabitDays] = useState({
-    M: false,
-    Tu: false,
-    W: false,
-    Th: false,
-    F: false,
-    Sa: false,
-    Su: false
-  })
-  const [habitTimes, setHabitTimes] = useState([])
-
-  const [habitColor, setHabitColor] = useState(new Set(["#668C9A"]))
-
-  const handleCreateHabit = async (e) => {
-    e.preventDefault();
-    const promise = addHabit({
-      name: habitDescriptiveInfo.name,
-      when: habitDescriptiveInfo.when,
-      personToBe: habitDescriptiveInfo.personToBe,
-      weekdays: habitDays,
-      times: habitTimes,
-      color: Array.from(habitColor)[0]
-    });
-
-    addToast({
-      title: "Crear habito",
-      description: "Por favor espera mientras se crea el hábito.",
-      promise,
-      timeout: 2000
-    });
-
-    try {
-      await promise;
-      addToast({
-        title: "Hábito creado",
-        description: "El hábito se ha creado correctamente.",
-        color: "success",
-        timeout: 2000
-      })
-    } catch (e) {
-      addToast({
-        title: "Error",
-        description: "Ha ocurrido un error al crear el hábito.",
-        color: "danger",
-        timeout: 2000
-      })
-
-    }
-  };
-
-  return (
-    <div className="w-full h-full mb-10">
-      <Header title={"Create a new Habit"} text={"The best way to start a habit is by completing the following phrase:"} />
-      <CreateNewHabitFirstStep colorSet={habitColor} habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} />
-      <SeparatorLine />
-      <CreateNewhabitSecondStep setHabitDays={setHabitDays} habitDays={habitDays} />
-      <SeparatorLine />
-      <CreateNewHabitThirdStep setHabitTimes={setHabitTimes} habitTimes={habitTimes} />
-      <SeparatorLine />
-      <CreateNewHabitFourthStep color={habitColor} setColor={setHabitColor} />
-      <Button icon={<IconCirclePlus />} text={"Create"} handleClick={handleCreateHabit} />
-    </div>
-  )
+    return (
+        <div>
+            <Header title="Create a new habit:" text="We have two types of habits: positive and negative. Choose the one that best fits your needs." />
+            <div className='flex flex-col gap-10'>
+                <SelectHabitTypeBlock color={"#82669A"} title={"Create a new positive:"} text={"Create a habit that you’ll need to complete on certain days of the week. We’ll keep track of the days you perform the habit."} goTo={'/habits/createHabit/positive'} />
+                <SelectHabitTypeBlock color={"#9A6666"} title={"Create a new negative:"} text={"Create a negative habit — that is, a habit in reverse. All days will be marked as completed by default, and you’ll need to unmark the days on which you actually do the habit."} goTo={'/habits/createHabit/negative'} />
+            </div>
+        </div>
+    )
 }
 
 export default page

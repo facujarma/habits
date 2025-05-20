@@ -2,14 +2,8 @@
 
 import React from 'react'
 import { IconEditCircle } from '@tabler/icons-react';
+import { hexToRgba } from '@root/utils/color';
 function HabitInfoTitle({ title, when, personToBe, color, onOpen }) {
-
-    function hexToRgba(hex, opacity) {
-        const r = parseInt(hex.slice(1, 3), 16)
-        const g = parseInt(hex.slice(3, 5), 16)
-        const b = parseInt(hex.slice(5, 7), 16)
-        return `rgba(${r}, ${g}, ${b}, ${opacity})`
-    }
 
     const backgroundColor = hexToRgba(color, 0.37)
 
