@@ -24,7 +24,7 @@ export default function HabitContainerMenu({habitID}) {
     const handleConfirmDelete = async () => {
         try {
             await deleteHabit(habitID);
-            await loadHabits();
+            await loadHabits(force=true);
             addToast({
                 title: "Hábito eliminado",
                 description: "El hábito se ha eliminado correctamente.",

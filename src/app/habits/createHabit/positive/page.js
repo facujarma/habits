@@ -51,6 +51,7 @@ function page() {
 
     try {
       await promise;
+      await loadHabits(force=true);
       addToast({
         title: "Habit created",
         description: "The habit has been created successfully.",

@@ -8,11 +8,12 @@ import { IconCheck, IconMenu2 } from "@tabler/icons-react";
 import { motion } from "motion/react"
 import HabitContainerMenu from "./HabitContainerMenu";
 import { hexToRgba } from "@root/utils/color";
+import { useHabits } from "@root/context/habitContext";
 function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
 
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState(false);
-
+  const { updateHabit } = useHabits();
   useEffect(() => {
     const fetchHabits = async () => {
       setLoading(true);
@@ -69,7 +70,7 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
       }
 
     }
-
+    await updateHabit(habitID, { status: !status });
     setLoading(false);
   }
 
@@ -94,7 +95,7 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         className={`flex items-center  h-full w-full border  rounded-xl cursor-pointer ${status == false && "bg-[#242424] border-[#616161]"}`}
-        style={ status == true && { backgroundColor, borderColor: color }}
+        style={status == true && { backgroundColor, borderColor: color }}
       >
         <div className="w-full flex flex-col p-3"
           onClick={handleClick}

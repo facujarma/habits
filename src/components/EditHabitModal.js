@@ -18,7 +18,7 @@ function EditHabitModal({ habitID, isOpen, onOpen, onOpenChange, defName, defWhe
     const [when, setWhen] = useState(defWhen);
     const [personToBe, setPersonToBe] = useState(defPersonToBe);
     const [color, setColor] = useState(new Set(["#668C9A"]));
-
+    const { loadHabits } = useHabits()
     const handleEditHabit = async () => {
         const habit = {
             name: name,
@@ -29,6 +29,7 @@ function EditHabitModal({ habitID, isOpen, onOpen, onOpenChange, defName, defWhe
 
         try {
             await editHabit(habitID, habit);
+            await loadHabits(force = true);
             addToast({
                 title: "Habit edited",
                 description: "The habit has been edited successfully.",
