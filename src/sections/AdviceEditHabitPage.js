@@ -41,7 +41,7 @@ function AdviceEditHabitPage() {
                 {
                     advices.map((advice) => {
                         return (
-                            <li className='w-full bg-[#242424] border border-[#616161] rounded-2xl p-2'>
+                            <li key={advice.id} className='w-full bg-[#242424] border border-[#616161] rounded-2xl p-2'>
                                 <h3 className='font-bold text-white text-base'> {advice.title} </h3>
                                 <p className='text-sm'> {advice.description} </p>
                             </li>

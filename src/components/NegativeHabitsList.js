@@ -3,6 +3,7 @@
 import HabitContainer from "@components/HabitContainer"
 import HabitContainerSkeleton from "@components/Skeletons/HabitContainerSkeleton"
 import { useNegativeHabits } from "@/context/negativeHabitContext";
+import NegativeHabitContainer from "./NegativeHabitContainer";
 
 function NegativeHabitsList() {
     const { negativesHabits, loading } = useNegativeHabits();
@@ -18,9 +19,7 @@ function NegativeHabitsList() {
 
                 ) : (
                     negativesHabits.map((negative) => (
-                        <div key={negative.id} style={{ backgroundColor: negative.color }}>
-                            <h2>{negative.bad_habit}</h2>
-                        </div>
+                        <NegativeHabitContainer key={negative.id} negative={negative}  />
                     ))
                 )
             }

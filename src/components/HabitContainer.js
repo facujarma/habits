@@ -23,7 +23,7 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
       } catch (error) {
         addToast({
           title: "Error",
-          description: "Ha ocurrido un error al obtener el estado del hábito.",
+          description: "An error occurred while getting the habits.",
           color: "danger",
           timeout: 2000
 

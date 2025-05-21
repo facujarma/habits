@@ -14,27 +14,27 @@ import {
     addToast
 } from "@heroui/react";
 import { IconMenu2 } from "@tabler/icons-react";
-import { deleteHabit } from "@root/utils/habits";
-import { useHabits } from "@root/context/habitContext";
+import { useNegativeHabits } from "@root/context/negativeHabitContext";
+import { deleteNegativeHabit } from "@root/utils/negativeHabit";
 
-export default function HabitContainerMenu({habitID}) {
+export default function NegativeContainerMenu({ negativeID }) {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const {loadHabits} = useHabits();
+    const { loadNegativeHabits } = useNegativeHabits();
     const handleConfirmDelete = async () => {
         try {
-            await deleteHabit(habitID);
-            await loadHabits();
+            await deleteNegativeHabit(negativeID);
+            await loadNegativeHabits()
             addToast({
-                title: "Hábito eliminado",
-                description: "El hábito se ha eliminado correctamente.",
+                title: "Delete Habit",
+                description: "The negative habit has been deleted.",
                 color: "success",
                 timeout: 2000
             })
         } catch (e) {
             addToast({
                 title: "Error",
-                description: "Ha ocurrido un error al eliminar el hábito.",
+                description: "There was an error deleting the negative habit.",
                 color: "danger",
                 timeout: 2000
             })
@@ -42,19 +42,16 @@ export default function HabitContainerMenu({habitID}) {
         }
     };
 
-
     const handleOptionSelected = (option) => {
         if (option === "delete") {
             onOpen();
         }
-        if(option === "view"){
-            window.location.href = `/habits/info/positive/${habitID}`
+        if (option === "view") {
+            window.location.href = `/habits/info/negative/${negativeID}`
         }
     }
-
     return (
         <>
-
             <Dropdown>
                 <DropdownTrigger>
                     <div className="rounded-r-xl h-full p-2 border-l border-[#616161] flex items-center justify-center bg-[#242424] hover:bg-[#616161] duration-200">
