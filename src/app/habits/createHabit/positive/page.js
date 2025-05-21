@@ -70,7 +70,7 @@ function page() {
 
   return (
     <div className="w-full h-full mb-10">
-      <Header title={"Create a new Habit"} text={"The best way to start a habit is by completing the following phrase:"} />
+      <Header title={"Create a new positive"} text={"The best way to start a habit is by completing the following phrase:"} />
       <CreateNewHabitFirstStep colorSet={habitColor} habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} />
       <SeparatorLine />
       <CreateNewhabitSecondStep setHabitDays={setHabitDays} habitDays={habitDays} />

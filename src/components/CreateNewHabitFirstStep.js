@@ -1,8 +1,6 @@
 import { hexToRgba } from "@root/utils/color";
 
 function CreateNewHabitFirstStep({ habitDescriptiveInfo, setHabitDescriptiveInfo, colorSet }) {
-
-
     const handleChange = (field, value) => {
         setHabitDescriptiveInfo(prev => ({
             ...prev,

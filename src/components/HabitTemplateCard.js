@@ -1,11 +1,11 @@
 'use client'
 
-import { IconArrowBarToRight } from '@tabler/icons-react'
-import React from 'react'
-import { motion } from 'motion/react'
-import { redirect } from 'next/navigation'
 import { hexToRgba } from '@root/utils/color'
-function SelectHabitTypeBlock({ color, title, text, goTo }) {
+import { motion } from 'motion/react'
+import { IconCirclePlus } from '@tabler/icons-react'
+import React from 'react'
+
+function HabitTemplateCard({ color, title, text, handleClick }) {
 
     const backgroundColor = hexToRgba(color, 0.37)
 
@@ -20,12 +20,12 @@ function SelectHabitTypeBlock({ color, title, text, goTo }) {
             <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={() => redirect(goTo)}
+                onClick={() => handleClick()}
                 className={`'h-full w-24 border-2 flex items-center justify-center rounded-2xl`} style={{ borderColor: color, backgroundColor }}>
-                <IconArrowBarToRight />
+                <IconCirclePlus />
             </motion.button>
         </div>
     )
 }
 
-export default SelectHabitTypeBlock
+export default HabitTemplateCard

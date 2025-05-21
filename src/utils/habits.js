@@ -222,6 +222,35 @@ export async function selectHabitsForToday() {
     return habits;
 }
 
+export async function selectHabitsNotForToday() {
+    const supabase = await createClient();
+
+    const {
+        data: { user },
+        error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+        console.error("No hay usuario autenticado:", userError);
+        throw new Error("Usuario no autenticado");
+    }
+
+    const jsDay = new Date().getDay();
+
+    const { data: habits, error } = await supabase
+        .from("habit")
+        .select("*, habit_schedules!inner(weekday)")
+        .eq("userID", user.id)
+        .neq("habit_schedules.weekday", jsDay); // La diferencia está acá
+
+    if (error) {
+        console.error("Error al obtener hábitos que no son para hoy:", error);
+        throw new Error("No se pudieron obtener los hábitos");
+    }
+
+    return habits;
+}
+
 export async function deleteHabit(habitID) {
     const supabase = await createClient();
 
