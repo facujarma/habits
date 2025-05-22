@@ -41,6 +41,7 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
     if (status == true) {
       try {
         await markHabitAsIncomplete(habitID);
+        await updateHabit(habitID, { status: false });
         setStatus(false);
       }
       catch (error) {
@@ -57,6 +58,7 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
       setLoading(true);
       try {
         await markHabitAsComplete(habitID);
+        await updateHabit(habitID, { status: true });
         setStatus(true);
       }
       catch (error) {
@@ -70,7 +72,6 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
       }
 
     }
-    await updateHabit(habitID, { status: !status });
     setLoading(false);
   }
 

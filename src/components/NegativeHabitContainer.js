@@ -6,12 +6,13 @@ import NegativeContainerMenu from './NegativeContainerMenu';
 import { getNegativeStatus, markNegativeAsComplete, markNegativeAsIncomplete } from '@root/utils/negativeHabit';
 import { addToast } from '@heroui/toast';
 import { Spinner } from '@heroui/spinner';
+import { useNegativeHabits } from '@root/context/negativeHabitContext';
 
 function NegativeHabitContainer({ negative }) {
 
     const [loading, setLoading] = useState(true);
     const [status, setStatus] = useState(null);
-
+    const { updateNegativeHabit } = useNegativeHabits();
     useEffect(() => {
         const getStatus = async () => {
 
@@ -39,7 +40,9 @@ function NegativeHabitContainer({ negative }) {
         if (status == true) {
             try {
                 await markNegativeAsIncomplete(negative.id);
+                await updateNegativeHabit(negative.id, { status: false });
                 setStatus(false);
+
             }
             catch (error) {
                 addToast({
@@ -54,6 +57,7 @@ function NegativeHabitContainer({ negative }) {
             setLoading(true);
             try {
                 await markNegativeAsComplete(negative.id);
+                await updateNegativeHabit(negative.id, { status: true });
                 setStatus(true);
             }
             catch (error) {
@@ -66,7 +70,6 @@ function NegativeHabitContainer({ negative }) {
             }
 
         }
-
         setLoading(false);
     }
     const backgroundColor = hexToRgba(negative.color, 0.37)

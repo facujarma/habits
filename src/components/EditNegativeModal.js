@@ -10,34 +10,32 @@ import {
 import { useEffect, useState } from "react";
 import Input from "./Input";
 import CreateNewHabitFourthStep from "./CreateNewHabitFourthStep";
-import { editHabit } from "@root/utils/habits";
 import { redirect } from "next/navigation";
-import { useHabits } from "@root/context/habitContext";
+import { useNegativeHabits } from "@root/context/negativeHabitContext";
+import { editNegative } from "@root/utils/negativeHabit";
 
-function EditHabitModal({ habitID, isOpen, onOpen, onOpenChange, defName, defWhen, defPersonToBe }) {
-    const [name, setName] = useState(defName);
-    const [when, setWhen] = useState(defWhen);
-    const [personToBe, setPersonToBe] = useState(defPersonToBe);
+function EditNegativeModal({ negativeID, isOpen, onOpen, onOpenChange, defBad, defGood }) {
+    const [badHabit, setBadHabit] = useState(defBad);
+    const [goodHabit, setGoodHabit] = useState(defGood);
     const [color, setColor] = useState(new Set(["#668C9A"]));
-    const { loadHabits } = useHabits()
+    const { loadNegativeHabits } = useNegativeHabits()
     const handleEditHabit = async () => {
-        const habit = {
-            name: name,
-            when: when,
-            personToBe: personToBe,
+        const negative = {
+            bad_habit: badHabit,
+            good_habit: goodHabit,
             color: Array.from(color)[0],
         }
 
         try {
-            await editHabit(habitID, habit);
-            await loadHabits(force = true);
+            await editNegative(negativeID, negative);
+            await loadNegativeHabits(true);
             addToast({
-                title: "Habit edited",
-                description: "The habit has been edited successfully.",
+                title: "Negative habit edited",
+                description: "The negative habit has been edited successfully.",
                 color: "success",
                 timeout: 2000
             })
-            redirect('/habits');
+            
         }
         catch (e) {
             addToast({
@@ -57,9 +55,8 @@ function EditHabitModal({ habitID, isOpen, onOpen, onOpenChange, defName, defWhe
                         <ModalHeader className="flex flex-col gap-1">Edit Habit.</ModalHeader>
                         <ModalBody>
                             <p>Here you can edit the habit.</p>
-                            <Input label="Habit" placeholder="Example: Go to the gym" setText={setName} defaultValue={name} />
-                            <Input label="When" placeholder="Example: After dinner" setText={setWhen} defaultValue={when} />
-                            <Input label="Person to be" placeholder="Example: Myself" setText={setPersonToBe} defaultValue={personToBe} />
+                            <Input label="Bad Habit" placeholder="Example: Smoking" setText={setBadHabit} defaultValue={badHabit} />
+                            <Input label="Good Habit" placeholder="Example: Exercising" setText={setGoodHabit} defaultValue={goodHabit} />
                             <CreateNewHabitFourthStep color={color} setColor={setColor} />
 
                         </ModalBody>
@@ -78,4 +75,4 @@ function EditHabitModal({ habitID, isOpen, onOpen, onOpenChange, defName, defWhe
     );
 }
 
-export default EditHabitModal;
+export default EditNegativeModal;

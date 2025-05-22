@@ -10,6 +10,7 @@ import EditHabitModal from './EditHabitModal'
 import { useDisclosure } from '@heroui/modal'
 import { getNegativeAllData } from '@root/utils/negativeHabit'
 import NegativeInfoTitle from './NegativeInfoTitle'
+import EditNegativeModal from './EditNegativeModal'
 
 export default function NegativeAllInfo({ negativeID }) {
     const [habitInfo, setHabitInfo] = useState([])
@@ -134,11 +135,12 @@ export default function NegativeAllInfo({ negativeID }) {
     )
     return (
         <div className="flex flex-col gap-8">
-            <NegativeInfoTitle badHabit={habitInfo.bad_habit} goodHabit={habitInfo.good_habit} color={habitInfo.color} />
+            <NegativeInfoTitle onOpen={onOpen} badHabit={habitInfo.bad_habit} goodHabit={habitInfo.good_habit} color={habitInfo.color} />
             <HabitStats totalCompletitions={habitInfo.totalCompletions} maxStreak={getMaxStreak(habitInfo)} completionPercentage={getHabitCompletionPercentage(habitInfo)} />
             <div className='mt-12 w-full flex justify-center scale-130 '>
                 <HabitCalendar dates={habitInfo.completedDates} />
             </div>
+            <EditNegativeModal negativeID={habitInfo.id} defBad={habitInfo.bad_habit} defGood={habitInfo.good_habit} isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} />
         </div>
     )
 }

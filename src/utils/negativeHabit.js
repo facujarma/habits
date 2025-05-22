@@ -230,3 +230,13 @@ export async function getNegativeAllData(negativeID) {
         totalCompletions,
     };
 }
+
+
+export async function editNegative(negativeID, data) {
+    const supabase = await createClient();
+    const { error } = await supabase.from("negative_habit").update(data).eq("id", negativeID);
+    if (error) {
+        console.error("Error al editar el hábito:", error);
+        throw new Error("No se pudo editar el hábito", error);
+    }
+}
