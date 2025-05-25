@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from 'react'
 import QuoteCard from './QuoteCard'
 import { IconHeart } from '@tabler/icons-react'
-import { getAllQuotes } from '@root/utils/quotes'
+import { addQuoteToFavorites } from '@root/utils/quotes'
 import { useQuotes } from '@root/context/quotesContext'
+import { addToast } from '@heroui/toast'
 
 function QuotesList() {
 
@@ -19,6 +20,23 @@ function QuotesList() {
                 <QuoteCard />
             </div>
         )
+    }
+
+    const addToFavorites = async () => {
+        try {
+            const actualQuoteID = quotes[actualQuote].id;
+            await addQuoteToFavorites(actualQuoteID);
+        }
+        catch (error) {
+            console.error("Error al agregar cita a favoritos:", error);
+            addToast({
+                title: "Error",
+                description: "An error occurred while adding the quote to favorites.",
+                color: "danger",
+                timeout: 2000
+            })
+        }
+
     }
 
     return (
@@ -46,7 +64,9 @@ function QuotesList() {
                     <button className="w-28 h-9 bg-slate-500/40 rounded-full border border-slate-500">
                         Share
                     </button >
-                    <button className="aspect-square h-9 bg-slate-500/40 rounded-full border border-slate-500 flex justify-center items-center">
+                    <button
+                        onClick={addToFavorites}
+                        className="aspect-square h-9 bg-slate-500/40 rounded-full border border-slate-500 flex justify-center items-center">
                         <IconHeart />
                     </button >
                 </div>

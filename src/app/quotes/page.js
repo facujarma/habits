@@ -1,3 +1,4 @@
+import FavoriteQuotes from '@root/components/FavoriteQuotes';
 import QuotesFilters from '@root/components/QuotesFilters'
 import QuotesList from '@root/components/QuotesList'
 import { QuotesProvider } from '@root/context/quotesContext';
@@ -18,7 +19,10 @@ function page() {
             <QuotesProvider>
                 <QuotesFilters />
                 <QuotesList />
+                <h2 className='text-xl text-[#C5C5C5] my-4 z-10'>You saved this quotes:</h2>
+                <FavoriteQuotes />
             </QuotesProvider>
+
         </div>
     );
 }
