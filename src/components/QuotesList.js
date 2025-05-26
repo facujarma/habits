@@ -1,15 +1,15 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import QuoteCard from './QuoteCard'
-import { IconHeart } from '@tabler/icons-react'
+import { IconHeart, IconHeartFilled } from '@tabler/icons-react'
 import { addQuoteToFavorites } from '@root/utils/quotes'
 import { useQuotes } from '@root/context/quotesContext'
 import { addToast } from '@heroui/toast'
 
 function QuotesList() {
 
-    const { actualQuote, quotes, loading } = useQuotes();
+    const { actualQuote, quotes, loading, isFav, addLocalyToFavorites } = useQuotes();
 
     const current = quotes[actualQuote];
     const next = quotes[actualQuote + 1];
@@ -26,6 +26,8 @@ function QuotesList() {
         try {
             const actualQuoteID = quotes[actualQuote].id;
             await addQuoteToFavorites(actualQuoteID);
+            await addLocalyToFavorites(quotes[actualQuote])
+
         }
         catch (error) {
             console.error("Error al agregar cita a favoritos:", error);
@@ -61,14 +63,32 @@ function QuotesList() {
             {
                 quotes.length > 0 &&
                 <div className='mt-[90vw] flex gap-6 items-center'>
-                    <button className="w-28 h-9 bg-slate-500/40 rounded-full border border-slate-500">
-                        Share
-                    </button >
                     <button
-                        onClick={addToFavorites}
-                        className="aspect-square h-9 bg-slate-500/40 rounded-full border border-slate-500 flex justify-center items-center">
-                        <IconHeart />
+                        onClick={() => navigator.clipboard.writeText(quotes[actualQuote].text).then(() => {
+                            addToast({
+                                title: "Copied",
+                                description: "The quote has been copied to the clipboard.",
+                                color: "success",
+                                timeout: 2000
+                            })
+                        })}
+                        className="w-28 h-9 bg-slate-500/40 rounded-full border border-slate-500">
+                        Copy
                     </button >
+                    {
+                        isFav ?
+                            <button
+                                onClick={addToFavorites}
+                                className="aspect-square h-9 bg-slate-500/40 rounded-full border border-slate-500 flex justify-center items-center">
+                                <IconHeartFilled />
+                            </button >
+                            :
+                            <button
+                                onClick={addToFavorites}
+                                className="aspect-square h-9 bg-slate-500/40 rounded-full border border-slate-500 flex justify-center items-center">
+                                <IconHeart />
+                            </button >
+                    }
                 </div>
             }
         </div >

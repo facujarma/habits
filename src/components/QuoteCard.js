@@ -5,8 +5,7 @@ import React, { useState, useRef } from 'react'
 
 function QuoteCard({ quote, author, index }) {
 
-    console.log(index)
-    const { goToNextQuote, actualQuoteRotation, setActualQuoteRotation, actualQuote, maxIndex } = useQuotes()
+    const { goToNextQuote, actualQuoteRotation, setActualQuoteRotation, actualQuote } = useQuotes()
 
 
     const isNextQuote = index == actualQuote + 1
