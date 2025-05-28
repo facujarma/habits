@@ -43,3 +43,18 @@ export async function signup(email, password) {
   revalidatePath('/habits', 'layout')
   redirect('/auth/emailsented')
 }
+
+export async function loginWithGoogle() {
+  const supabase = await createClient()
+
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+  })
+
+  if (error) {
+    redirect('/error')
+  }
+
+  revalidatePath('/habits', 'layout')
+  redirect('/habits')
+}

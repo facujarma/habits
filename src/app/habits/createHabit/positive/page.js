@@ -10,6 +10,7 @@ import { useState } from "react"
 import { addHabit } from "@root/utils/habits"
 import { addToast } from "@heroui/react";
 import CreateNewHabitFourthStep from "@root/components/CreateNewHabitFourthStep"
+import CreateNewHabitFifthStep from "@root/components/CreateNewHabitFifthStep"
 
 function page() {
 
@@ -30,6 +31,7 @@ function page() {
   const [habitTimes, setHabitTimes] = useState([])
 
   const [habitColor, setHabitColor] = useState(new Set(["#668C9A"]))
+  const [habitIcon, setHabitIcon] = useState("")
 
   const handleCreateHabit = async (e) => {
     e.preventDefault();
@@ -39,7 +41,8 @@ function page() {
       personToBe: habitDescriptiveInfo.personToBe,
       weekdays: habitDays,
       times: habitTimes,
-      color: Array.from(habitColor)[0]
+      color: Array.from(habitColor)[0],
+      icon: habitIcon
     });
 
     addToast({
@@ -79,6 +82,7 @@ function page() {
       <CreateNewHabitThirdStep setHabitTimes={setHabitTimes} habitTimes={habitTimes} />
       <SeparatorLine />
       <CreateNewHabitFourthStep color={habitColor} setColor={setHabitColor} />
+      <CreateNewHabitFifthStep onSelect={setHabitIcon} />
       <Button icon={<IconCirclePlus />} text={"Create"} handleClick={handleCreateHabit} />
     </div>
   )

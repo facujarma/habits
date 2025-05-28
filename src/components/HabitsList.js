@@ -25,6 +25,7 @@ function HabitsList() {
               habitID={habit.id}
               habitName={habit.name}
               personToBe={habit.personToBe}
+              habitIcon={habit.icon}
             />
           ))
         )

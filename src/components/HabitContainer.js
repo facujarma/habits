@@ -9,6 +9,7 @@ import { motion } from "motion/react"
 import HabitContainerMenu from "./HabitContainerMenu";
 import { hexToRgba } from "@root/utils/color";
 import { useHabits } from "@root/context/habitContext";
+import IconRenderer from "./IconRenderer";
 function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
 
   const [loading, setLoading] = useState(true);
@@ -98,6 +99,7 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
         className={`flex items-center  h-full w-full border  rounded-xl cursor-pointer ${status == false && "bg-[#242424] border-[#616161]"}`}
         style={status == true && { backgroundColor, borderColor: color }}
       >
+        <IconRenderer iconName={habitIcon} color={"white"} />
         <div className="w-full flex flex-col p-3"
           onClick={handleClick}
         >

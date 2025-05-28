@@ -9,13 +9,20 @@ export function HabitsProvider({ children }) {
   const [habits, setHabits] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  function getLocalDateString() {
+    const localDate = new Date();
+    localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());
+    return localDate.toISOString().split("T")[0];
+  }
+
+
   async function loadHabits(force = false) {
     setLoading(true);
 
     try {
-      const cached = localStorage.getItem("cachedHabits")
+      const cached = sessionStorage.getItem("cachedHabits")
       const parsed = cached ? JSON.parse(cached) : null
-      const today = new Date().toISOString().split("T")[0]
+      const today = getLocalDateString()
 
       if (!force && parsed?.date === today) {
         setHabits(parsed.habits)
@@ -23,7 +30,7 @@ export function HabitsProvider({ children }) {
       } else {
         const todayHabits = await selectHabitsForToday()
         setHabits(todayHabits)
-        localStorage.setItem("cachedHabits", JSON.stringify({
+        sessionStorage.setItem("cachedHabits", JSON.stringify({
           date: today,
           habits: todayHabits,
         }))
@@ -43,16 +50,16 @@ export function HabitsProvider({ children }) {
           habit.id === id ? { ...habit, ...updatedFields } : habit
         )
       )
-      const cached = localStorage.getItem("cachedHabits")
+      const cached = sessionStorage.getItem("cachedHabits")
       const parsed = cached ? JSON.parse(cached) : null
-      const today = new Date().toISOString().split("T")[0]
+      const today = getLocalDateString()
 
       if (parsed?.date === today) {
         const updatedHabits = parsed.habits.map((habit) =>
           habit.id === id ? { ...habit, ...updatedFields } : habit
         )
 
-        localStorage.setItem(
+        sessionStorage.setItem(
           "cachedHabits",
           JSON.stringify({ date: today, habits: updatedHabits })
         )

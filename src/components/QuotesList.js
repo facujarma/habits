@@ -41,6 +41,8 @@ function QuotesList() {
 
     }
 
+    const [isCopied, setIsCopied] = React.useState(false);
+
     return (
         <div className='z-10 w-full flex justify-center mt-20'>
             {current && (
@@ -65,14 +67,12 @@ function QuotesList() {
                 <div className='mt-[90vw] flex gap-6 items-center'>
                     <button
                         onClick={() => navigator.clipboard.writeText(quotes[actualQuote].text).then(() => {
-                            addToast({
-                                title: "Copied",
-                                description: "The quote has been copied to the clipboard.",
-                                color: "success",
-                                timeout: 2000
-                            })
+                            setIsCopied(true);
+                            setTimeout(() => {
+                                setIsCopied(false);
+                            }, 2000);
                         })}
-                        className="w-28 h-9 bg-slate-500/40 rounded-full border border-slate-500">
+                        className={`w-28 h-9 rounded-full border border-slate-500 duration-300 ${isCopied ? 'bg-green-300/40' : 'bg-slate-500/40'}`}>
                         Copy
                     </button >
                     {

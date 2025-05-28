@@ -140,7 +140,7 @@ export default function HabitsAllInfo({ habitID }) {
             <div className='mt-12 w-full flex justify-center scale-130 '>
                 <HabitCalendar dates={habitInfo.completedDates} />
             </div>
-            <EditHabitModal defName={habitInfo.name} defWhen={habitInfo.when} defPersonToBe={habitInfo.personToBe}  habitID={habitInfo.id} isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} />
+            <EditHabitModal defIcon={habitInfo.icon} defName={habitInfo.name} defWhen={habitInfo.when} defPersonToBe={habitInfo.personToBe}  habitID={habitInfo.id} isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} />
         </div>
     )
 }

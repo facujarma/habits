@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark">
       <body
-        className={`${lexend.className} relative antialiased bg-[#111111] h-screen w-full flex flex-col items-center`}
+        className={`${lexend.className} relative antialiased bg-[#111111] h-screen xl:min-h-screen w-full flex flex-col items-center`}
       >
         <ToastProvider />
 
