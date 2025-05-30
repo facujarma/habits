@@ -2,47 +2,68 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
 
 const weekdayMap = {
     Su: 0, M: 1, Tu: 2, W: 3, Th: 4, F: 5, Sa: 6,
 };
 
-const WEEKDAY_MAP = {
-    1: "M", 2: "Tu", 3: "W", 4: "Th", 5: "F", 6: "Sa", 7: "Su"
-};
-const WEEKDAY_INITIALS = { M: 0, Tu: 0, W: 0, Th: 0, F: 0, Sa: 0, Su: 0 };
-
-// ✅ Fecha local (formato YYYY-MM-DD)
+// Genera fecha local YYYY-MM-DD
 function getLocalDateString() {
-    const localDate = new Date();
-    localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());
-    return localDate.toISOString().split("T")[0];
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split('T')[0];
 }
 
 export async function addHabit(habit) {
     const supabase = await createClient();
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError || !user) throw new Error('Usuario no autenticado');
 
+    // 1) Obtener usuario autenticado
+    const {
+        data: { user },
+        error: userError,
+    } = await supabase.auth.getUser();
+    if (userError || !user) {
+        console.error('No hay usuario autenticado:', userError);
+        throw new Error('Usuario no autenticado');
+    }
+
+    // 2) Separar weekdays del resto
+    const { weekdays, ...habitData } = habit;
+    // 3) Insertar en tabla "habit" solo los campos válidos
     const { data: insertedHabit, error: insertError } = await supabase
         .from('habit')
-        .insert([{ userID: user.id, ...habit }])
+        .insert([{ userID: user.id, ...habitData }])
         .select()
         .single();
-    if (insertError) throw new Error('No se pudo crear el hábito');
+    if (insertError) {
+        console.error('Error al insertar hábito:', insertError);
+        throw new Error('No se pudo crear el hábito');
+    }
 
-    const activeDays = Object.entries(habit.weekdays)
+    // 4) Insertar días activos en "habit_schedules"
+    const activeDays = Object.entries(weekdays)
         .filter(([, isActive]) => isActive)
         .map(([dayInitial]) => weekdayMap[dayInitial]);
 
     if (activeDays.length > 0) {
-        const scheduleInserts = activeDays.map((weekday) => ({ habitID: insertedHabit.id, weekday }));
-        const { error: scheduleError } = await supabase.from('habit_schedules').insert(scheduleInserts);
-        if (scheduleError) throw new Error('No se pudieron asignar los días al hábito');
+        const scheduleInserts = activeDays.map((weekday) => ({
+            habitID: insertedHabit.id,
+            weekday,
+        }));
+        const { error: scheduleError } = await supabase
+            .from('habit_schedules')
+            .insert(scheduleInserts);
+        if (scheduleError) {
+            console.error('Error al insertar schedules:', scheduleError);
+            throw new Error('No se pudieron asignar los días al hábito');
+        }
     }
 
+    // 5) Si tienes tabla para "times", podrías insertarlos aquí de forma similar
+
+    // 6) Revalidar la cache de la página de hábitos
     revalidatePath('/habits');
+
     return insertedHabit;
 }
 

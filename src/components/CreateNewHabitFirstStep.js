@@ -1,6 +1,6 @@
 import { hexToRgba } from "@root/utils/color";
 
-function CreateNewHabitFirstStep({ habitDescriptiveInfo, setHabitDescriptiveInfo, colorSet }) {
+function CreateNewHabitFirstStep({ plural = false, habitDescriptiveInfo, setHabitDescriptiveInfo, colorSet }) {
     const handleChange = (field, value) => {
         setHabitDescriptiveInfo(prev => ({
             ...prev,
@@ -17,7 +17,7 @@ function CreateNewHabitFirstStep({ habitDescriptiveInfo, setHabitDescriptiveInfo
         <div className="w-full flex flex-col gap-6 pb-6">
             <div className="w-full  border rounded-xl p-3 flex gap-2 items-baseline flex-wrap" style={{ backgroundColor, borderColor: color }}>
 
-                <span className="text-stone-300 text-base">I want to </span>
+                <span className="text-stone-300 text-base">{plural ? "We want to" : "I want to"} </span>
                 <input
                     value={habitDescriptiveInfo?.name || ""}
                     onChange={(e) => handleChange("name", e.target.value)}
@@ -33,12 +33,12 @@ function CreateNewHabitFirstStep({ habitDescriptiveInfo, setHabitDescriptiveInfo
                     placeholder="When"
                 />
 
-                <span className="text-stone-300 text-base">so I can be </span>
+                <span className="text-stone-300 text-base">{plural ? "So we can be" : "So I can be"} </span>
                 <input
                     value={habitDescriptiveInfo?.personToBe || ""}
                     onChange={(e) => handleChange("personToBe", e.target.value)}
                     className="max-w-48 h-6 bg-black/40 rounded-md text-stone-300 px-1"
-                    placeholder="Person I want to become"
+                    placeholder={plural ? "People we want to become" : "Person I want to become"}
                 />
 
             </div>

@@ -43,16 +43,29 @@ function QuotesList() {
 
     const [isCopied, setIsCopied] = React.useState(false);
 
+    if (loading) {
+        return (
+            <div className='z-10 w-full flex justify-center mt-20'>
+                <QuoteCard />
+            </div>
+        )
+    }
+
     return (
         <div className='z-10 w-full flex justify-center mt-20'>
-            {current && (
-                <QuoteCard
-                    key={current.id}
-                    author={current.author}
-                    quote={current.text}
-                    index={actualQuote}
-                />
-            )}
+            {
+                quotes.length == 0 ? (
+                    <h1 className='text-2xl text-[#C5C5C5]'>No quotes found</h1>
+                )
+                    :
+                    current && (
+                        <QuoteCard
+                            key={current.id}
+                            author={current.author}
+                            quote={current.text}
+                            index={actualQuote}
+                        />
+                    )}
 
             {next && (
                 <QuoteCard
