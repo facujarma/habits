@@ -178,7 +178,7 @@ export async function getAllInfoRoomsWhereUserIsMember() {
     const supabase = await createClient();
 
     const rooms = await getAllRoomsMember();
-
+    const user = await getCurrentUser();
     const roomsInfo = [];
 
     for (const room of rooms) {
@@ -186,9 +186,9 @@ export async function getAllInfoRoomsWhereUserIsMember() {
         if (error) throw new Error('No se pudieron obtener las salas');
 
         const habits = await getHabitsFromRoom(room.roomID);
-
         roomsInfo.push({
             room: data,
+            isAdmin: data.created_by == user.id,
             habits: habits
         });
     }
@@ -205,8 +205,10 @@ export async function markRoomHabitAsComplete(habitID) {
     const today = getLocalDateString();
 
     const { error } = await supabase.from("room_habit_progress").upsert(
-        [{ habitID, record_date: today, status: true }],
-        { onConflict: "habitID,record_date" }
+        [{ habitID, record_date: today, status: true, userID: user.id }],
+        {
+            onConflict: 'userID,habitID,record_date',
+        }
     );
 
     if (error) {
@@ -225,8 +227,10 @@ export async function markRoomHabitAsIncomplete(habitID) {
     const today = getLocalDateString();
 
     const { error } = await supabase.from("room_habit_progress").upsert(
-        [{ habitID, record_date: today, status: false }],
-        { onConflict: "habitID,record_date" }
+        [{ habitID, record_date: today, status: false, userID: user.id }],
+        {
+            onConflict: 'userID,habitID,record_date',
+        }
     );
 
     if (error) throw new Error("No se pudo marcar como incompleto");
@@ -247,4 +251,32 @@ export async function gethabitRoomStatus(habitID) {
     if (error) throw new Error("No se pudo obtener el estado del hábito");
     return data?.status ?? null;
 
+}
+
+export async function updateRoomInfo(roomID, roomInfo) {
+    const supabase = await createClient();
+
+    const user = await getCurrentUser();
+
+    const { error } = await supabase.from('rooms').update(roomInfo).eq('id', roomID).eq('created_by', user.id);
+    if (error) {
+        console.error('Error al actualizar la sala:', error);
+        throw new Error('No se pudo actualizar la sala');
+
+    }
+    return true
+}
+
+
+export async function addUserToRoomByInvitationCode(invitationCode) {
+    const supabase = await createClient();
+
+    const user = await getCurrentUser();
+
+    const getRoomID = await supabase.from('rooms').select('id').eq('code', invitationCode).maybeSingle();
+    if (!getRoomID) throw new Error('No se pudo encontrar la sala');
+
+    const { error } = await supabase.from('room_members').insert({ roomID: getRoomID.data.id, userID: user.id });
+    if (error) throw new Error('No se pudo agregar el usuario a la sala');
+    return true;
 }

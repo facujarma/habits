@@ -16,7 +16,7 @@ function RoomsHabitsList() {
                 rooms &&
                 rooms.map((room) => (
                     <div key={room.room.id}>
-                        <RoomInfoContainer roomInfo={room.room} habits={room.habits} />
+                        <RoomInfoContainer  roomInfo={room.room} habits={room.habits} isAdmin={room.isAdmin} />
                     </div>
                 ))
             }

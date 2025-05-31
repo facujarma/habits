@@ -1,7 +1,7 @@
 'use client'
 
 import { addToast } from "@heroui/toast";
-import { getAllInfoRoomsWhereUserIsMember } from "@root/utils/rooms";
+import { getAllInfoRoomsWhereUserIsMember, updateRoomInfo } from "@root/utils/rooms";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const RoomsContext = createContext();
@@ -29,6 +29,15 @@ export function RoomsProvider({ children }) {
 
     };
 
+    const editRoomInfo = async (roomId, roomInfo) => {
+        try {
+            const data = await updateRoomInfo(roomId, roomInfo);
+            await fetchRooms(true);
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
     const fetchRooms = async (force) => {
 
         if (!force) {
@@ -54,7 +63,7 @@ export function RoomsProvider({ children }) {
 
     return (
         <RoomsContext.Provider
-            value={{ rooms, loading, fetchRooms }}
+            value={{ rooms, loading, fetchRooms, editRoomInfo }}
         >
             {children}
         </RoomsContext.Provider>
