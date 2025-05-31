@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Lexend } from 'next/font/google'
 import { ToastProvider } from "@heroui/react";
+import ToastClientLayout from "@root/sections/ToastClientLayout";
 
 const lexend = Lexend({
   subsets: ['latin'],
@@ -18,7 +19,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${lexend.className} relative antialiased bg-[#111111] h-screen xl:min-h-screen w-full flex flex-col items-center`}
       >
-        <ToastProvider />
+        <ToastClientLayout />
 
         <div className="w-full max-w-2xl h-full flex flex-col overflow-x-hidden xl:overflow-y-auto">
 

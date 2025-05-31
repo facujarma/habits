@@ -8,6 +8,8 @@ import { NegativeHabitsProvider } from "@/context/negativeHabitContext";
 import StopVapingBanner from "@root/sections/StopVapingBanner";
 import NegativeHabitsList from "@root/components/NegativeHabitsList";
 import { Tabs, Tab } from "@heroui/react";
+import RoomsHabitsList from "@root/sections/RoomsHabitsList";
+import { RoomsProvider } from "@root/context/roomsContext";
 export default function Home() {
 
   return (
@@ -18,25 +20,29 @@ export default function Home() {
       <StopVapingBanner />
 
       <h2 className="text-[#C5C5C5] text-2xl mt-4">Habits</h2>
-      <div className="flex w-full flex-col mt-4">
-        <Tabs aria-label="Options" size="lg" defaultValue="personal" placement="center">
-          <Tab key="personal" title="Personal Habits">
+      <HabitsProvider>
+        <NegativeHabitsProvider>
 
+          <div className="flex w-full flex-col mt-4">
+            <Tabs aria-label="Options" size="lg" defaultValue="personal" placement="center"
+              classNames={{
+                tabList: "w-full overflow-hidden",
+                base: "w-full"
+              }}>
+              <Tab key="personal" title="Personal Habits">
+                <HabitsList />
+                <NegativeHabitsList />
+              </Tab>
+              <Tab key="rooms" title="Room's Habits">
+                <RoomsProvider>
+                  <RoomsHabitsList />
+                </RoomsProvider>
+              </Tab>
+            </Tabs>
+          </div>
 
-            <HabitsProvider>
-              <HabitsList />
-            </HabitsProvider>
-            <NegativeHabitsProvider>
-              <NegativeHabitsList />
-            </NegativeHabitsProvider>
-
-
-          </Tab>
-          <Tab key="rooms" title="Room's Habits">
-            Loading
-          </Tab>
-        </Tabs>
-      </div>
+        </NegativeHabitsProvider>
+      </HabitsProvider>
 
     </div>
   );

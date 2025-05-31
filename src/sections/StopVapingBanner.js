@@ -13,9 +13,20 @@ function StopVapingBanner() {
     useEffect(() => {
         const getIsInProgram = async () => {
 
-            const isInProgram = await userIsInProgram();
-            setIsInProgram(isInProgram);
-            setLoading(false);
+            // check local storage first
+            let isInProgram = localStorage.getItem('isInProgram');
+            if (isInProgram) {
+                setIsInProgram(JSON.parse(isInProgram));
+                setLoading(false);
+                console.log('isInProgram loaded from local storage', isInProgram);
+                return;
+            }
+            else {
+                isInProgram = await userIsInProgram();
+                setIsInProgram(isInProgram);
+                localStorage.setItem('isInProgram', JSON.stringify(isInProgram));
+                setLoading(false);
+            }
         }
 
         getIsInProgram();
@@ -25,7 +36,7 @@ function StopVapingBanner() {
         return (
             <Skeleton className='mx-auto mt-2 max-w-96 w-full p-2 flex flex-col items-center rounded-2xl'>
                 <div className='mx-auto mt-2 max-w-96 w-full bg-[#151A31] border-2 border-[#666F9A] p-2 flex flex-col items-center rounded-2xl'>
-                   
+
                 </div>
             </Skeleton>
         )

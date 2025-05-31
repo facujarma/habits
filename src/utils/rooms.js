@@ -1,8 +1,12 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
-import { revalidatePath } from 'next/cache';
-import { addHabit } from './habits';
+
+function getLocalDateString() {
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split('T')[0];
+}
 
 async function getCurrentUser() {
     const supabase = await createClient();
@@ -121,4 +125,126 @@ export async function createNewRoom(roomInfo, habitInfo) {
     }
 
     return insertedRoom;
+}
+
+async function isUserMember(roomID) {
+    const supabase = await createClient();
+
+    const user = await getCurrentUser();
+
+    const { data, error } = supabase.from('room_members').select('id').eq('roomID', roomID).eq('userID', user.id).maybeSingle();
+
+    if (error) {
+        console.error('Error al verificar miembro:', error);
+        throw new Error('No se pudo verificar miembro');
+    }
+
+    if (!data) {
+        return false;
+    }
+    return true;
+}
+
+export async function getHabitsFromRoom(roomID) {
+    const supabase = await createClient();
+
+    if (isUserMember(roomID)) {
+
+        const { data, error } = await supabase.from('room_habits').select('*').eq('roomID', roomID);
+        if (error) throw new Error('No se pudieron obtener los hábitos de la sala');
+        return data;
+    }
+    else {
+        throw new Error('No eres miembro de la sala');
+    }
+}
+
+export async function getAllRoomsMember() {
+    const supabase = await createClient();
+
+    const user = await getCurrentUser();
+
+    const { data, error } = await supabase.from('room_members').select('roomID').eq('userID', user.id);
+
+    if (error) {
+        console.error('Error al obtener las salas:', error);
+        throw new Error('No se pudieron obtener las salas');
+    }
+
+    return data;
+}
+
+export async function getAllInfoRoomsWhereUserIsMember() {
+    const supabase = await createClient();
+
+    const rooms = await getAllRoomsMember();
+
+    const roomsInfo = [];
+
+    for (const room of rooms) {
+        const { data, error } = await supabase.from('rooms').select('*').eq('id', room.roomID).maybeSingle();
+        if (error) throw new Error('No se pudieron obtener las salas');
+
+        const habits = await getHabitsFromRoom(room.roomID);
+
+        roomsInfo.push({
+            room: data,
+            habits: habits
+        });
+    }
+    return roomsInfo;
+}
+
+
+export async function markRoomHabitAsComplete(habitID) {
+    const supabase = await createClient();
+
+    const user = await getCurrentUser();
+    if (!user) throw new Error("Usuario no autenticado");
+
+    const today = getLocalDateString();
+
+    const { error } = await supabase.from("room_habit_progress").upsert(
+        [{ habitID, record_date: today, status: true }],
+        { onConflict: "habitID,record_date" }
+    );
+
+    if (error) {
+        console.error("Error al marcar como completado:", error);
+        throw new Error("No se pudo marcar como completado");
+    }
+    return true;
+}
+
+export async function markRoomHabitAsIncomplete(habitID) {
+    const supabase = await createClient();
+
+    const user = await getCurrentUser();
+    if (!user) throw new Error("Usuario no autenticado");
+
+    const today = getLocalDateString();
+
+    const { error } = await supabase.from("room_habit_progress").upsert(
+        [{ habitID, record_date: today, status: false }],
+        { onConflict: "habitID,record_date" }
+    );
+
+    if (error) throw new Error("No se pudo marcar como incompleto");
+    return true;
+}
+
+export async function gethabitRoomStatus(habitID) {
+    const supabase = await createClient();
+    const today = getLocalDateString();
+
+    const { data, error } = await supabase
+        .from("room_habit_progress")
+        .select("status")
+        .eq("habitID", habitID)
+        .eq("record_date", today)
+        .maybeSingle();
+
+    if (error) throw new Error("No se pudo obtener el estado del hábito");
+    return data?.status ?? null;
+
 }

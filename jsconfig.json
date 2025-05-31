@@ -1,12 +1,21 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "@root/*": ["./src/*"],
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@sections/*": ["./src/sections/*"],
-      "@lib/*": ["src/utils/*"],
-
+      "@lib/*": ["./src/utils/*"]
     }
-  }
+  },
+  "exclude": [
+    "node_modules",
+    ".next",
+    "out",
+    "dist",
+    "cypress",
+    "tests",
+    "scripts"
+  ]
 }
