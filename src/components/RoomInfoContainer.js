@@ -1,9 +1,10 @@
+'use client'
 import React from 'react'
 import RoomHabitContainer from './RoomHabitContainer'
-import { IconInfoCircle } from '@tabler/icons-react'
+import { IconCirclePlus, IconInfoCircle } from '@tabler/icons-react'
 import EditRoomInfoModal from './EditRoomInfoModal'
 import { useDisclosure } from "@heroui/react";
-
+import { motion } from "motion/react"
 
 function RoomInfoContainer({ roomInfo, habits, isAdmin }) {
 
@@ -22,7 +23,7 @@ function RoomInfoContainer({ roomInfo, habits, isAdmin }) {
                     className='w-12 h-12 bg-[#616161] rounded-full flex items-center justify-center'>
                     <IconInfoCircle className='w-10 h-10 text-white' />
                 </button>
-                <EditRoomInfoModal roomID={roomInfo.id} isAdmin={isAdmin} isOpen={isOpen} onOpenChange={onOpenChange} onClose={onOpenChange} defName={roomInfo.name} defDescription={roomInfo.description} habitID={roomInfo.id} />
+                <EditRoomInfoModal roomLink={roomInfo.code} roomID={roomInfo.id} isAdmin={isAdmin} isOpen={isOpen} onOpenChange={onOpenChange} onClose={onOpenChange} defName={roomInfo.name} defDescription={roomInfo.description} habitID={roomInfo.id} />
             </div>
             <ul className='flex flex-col gap-4 mt-4'>
                 {
@@ -35,6 +36,15 @@ function RoomInfoContainer({ roomInfo, habits, isAdmin }) {
                     })
                 }
             </ul>
+            <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => { redirect(`/rooms/addHabit/${roomInfo.id}`) }}
+                className="mt-6 w-full h-10 bg-[#242424] rounded-xl border border-[#616161] flex items-center justify-center gap-2">
+                <span className="text-[#C5C5C5] text-lg">
+                    Add Habit to the room
+                </span>
+            </motion.button>
         </div>
     )
 }

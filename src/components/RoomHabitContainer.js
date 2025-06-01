@@ -5,10 +5,11 @@ import { hexToRgba } from '@root/utils/color';
 import { addToast, Spinner } from "@heroui/react";
 import { gethabitRoomStatus, markRoomHabitAsComplete, markRoomHabitAsIncomplete } from '@root/utils/rooms';
 import { IconCheck } from '@tabler/icons-react';
+import RoomHabitMadeBy from './RoomHabitMadeBy';
 
 function RoomHabitContainer({ habit }) {
 
-    const { name, personToBe, habitIcon, color } = habit;
+    const { name, personToBe, icon: habitIcon, color } = habit;
 
     const [loading, setLoading] = useState(true);
     const [status, setStatus] = useState(false);
@@ -102,12 +103,7 @@ function RoomHabitContainer({ habit }) {
                     </div>
                 </motion.div>
             </div >
-            <div className='w-full flex items-center gap-6'>
-                <span className='w-10'></span>
-                <div className='w-full bg-[#242424] rounded-xl p-1'>
-                    <span className='text-[#C5C5C5] text-sm'>Completed by: FacuJ, VAl34123, Andres</span>
-                </div>
-            </div>
+            <RoomHabitMadeBy habitID={habit.id} />
         </div>
     )
 }

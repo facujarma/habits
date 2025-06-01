@@ -63,7 +63,7 @@ export function RoomsProvider({ children }) {
 
     return (
         <RoomsContext.Provider
-            value={{ rooms, loading, fetchRooms, editRoomInfo }}
+            value={{ rooms, setRooms, loading, fetchRooms, editRoomInfo }}
         >
             {children}
         </RoomsContext.Provider>

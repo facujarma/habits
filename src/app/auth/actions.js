@@ -24,24 +24,37 @@ export async function login(email, password) {
   redirect('/habits')
 }
 
-export async function signup(email, password) {
-  const supabase = await createClient()
+export async function signup(email, password, username) {
+  const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: email,
-    password: password,
+  // Registrar usuario y guardar username en user_metadata
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        username,
+      },
+    },
+  });
+
+  if (error || !data.user) {
+    redirect('/error');
   }
 
-  const { error } = await supabase.auth.signUp(data)
+  // Insertar en la tabla user_data
+  const userId = data.user.id;
 
-  if (error) {
-    redirect('/error')
+  const { error: insertError } = await supabase
+    .from('user_data')
+    .insert([{ userID: userId, username }]);
+
+  if (insertError) {
+    redirect('/error');
   }
 
-  revalidatePath('/habits', 'layout')
-  redirect('/auth/emailsented')
+  revalidatePath('/habits', 'layout');
+  redirect('/auth/emailsented');
 }
 
 export async function loginWithGoogle() {

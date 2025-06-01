@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-    Button,
     Modal,
     ModalContent,
     ModalHeader,
@@ -8,10 +7,13 @@ import {
     ModalFooter,
     useDisclosure,
     addToast,
+    Button
 } from "@heroui/react";
 import Input from './Input';
 import { useRooms } from '@root/context/roomsContext';
-function EditRoomInfoModal({ isOpen, onOpenChange, onClose, defName, defDescription, roomID, isAdmin }) {
+import CustomButton from './Button';
+import { IconClipboard } from '@tabler/icons-react';
+function EditRoomInfoModal({ isOpen, onOpenChange, onClose, defName, defDescription, roomID, isAdmin, roomLink }) {
 
     const [name, setName] = useState(defName);
     const [description, setDescription] = useState(defDescription);
@@ -50,7 +52,20 @@ function EditRoomInfoModal({ isOpen, onOpenChange, onClose, defName, defDescript
                         <ModalBody>
                             <Input disabled={!isAdmin} label="Room Name" placeholder="Ex. Room 1" defaultValue={name} setText={setName} />
                             <Input disabled={!isAdmin} label="Description" placeholder="Ex. Gym Room for workouts" defaultValue={description} setText={setDescription} />
-                        </ModalBody>
+                            <CustomButton
+                                text="Copy invitation link"
+                                icon={<IconClipboard />}
+                                handleClick={() =>
+                                    navigator.clipboard.writeText(window.location.origin + "/api/invite/" + roomLink).then(() => {
+                                        addToast({
+                                            title: "Copied",
+                                            description: "The invitation link has been copied to the clipboard.",
+                                            color: "success",
+                                            timeout: 2000
+                                        })
+                                    })
+                                }
+                            />                        </ModalBody>
                         <ModalFooter>
                             <Button onPress={onClose}>
                                 Cancel

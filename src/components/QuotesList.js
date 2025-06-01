@@ -14,14 +14,6 @@ function QuotesList() {
     const current = quotes[actualQuote];
     const next = quotes[actualQuote + 1];
 
-    if (loading) {
-        return (
-            <div className='z-10 w-full flex justify-center mt-20'>
-                <QuoteCard />
-            </div>
-        )
-    }
-
     const addToFavorites = async () => {
         try {
             const actualQuoteID = quotes[actualQuote].id;
@@ -77,7 +69,7 @@ function QuotesList() {
             )}
             {
                 quotes.length > 0 &&
-                <div className='mt-[90vw] flex gap-6 items-center'>
+                <div className='mt-[27em] flex gap-6 items-center'>
                     <button
                         onClick={() => navigator.clipboard.writeText(quotes[actualQuote].text).then(() => {
                             setIsCopied(true);

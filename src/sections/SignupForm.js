@@ -10,7 +10,7 @@ function SignupForm() {
 
     const createUser = async (e) => {
         e.preventDefault()
-        signup(email, password)
+        signup(email, password, name)
     }
     return (
         <form className="flex flex-col gap-6 mb-6" onSubmit={(e) => createUser(e)}>

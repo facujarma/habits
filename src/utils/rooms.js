@@ -73,6 +73,14 @@ function generateRoomCode(length = 6) {
     return code;
 }
 
+export async function isUserAdmin(roomID) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+    const { data, error } = await supabase.from('rooms').select('created_by').eq('id', roomID).maybeSingle();
+    if (error) throw new Error('No se pudo verificar el rol del usuario');
+    return data.created_by === user.id
+}
+
 export async function createNewRoom(roomInfo, habitInfo) {
     const supabase = await createClient();
     const user = await getCurrentUser();
@@ -159,6 +167,26 @@ export async function getHabitsFromRoom(roomID) {
     }
 }
 
+
+export async function getHabitsForTodayFromRoom(roomID) {
+    const supabase = await createClient();
+
+    if (isUserMember(roomID)) {
+
+        const jsDay = new Date().getDay();
+        const { data: habits, error } = await supabase
+            .from("room_habits")
+            .select("*, room_habit_schedules!inner(weekday)")
+            .eq("roomID", roomID)
+            .eq("room_habit_schedules.weekday", jsDay);
+        return habits;
+    }
+    else {
+        throw new Error('No eres miembro de la sala');
+    }
+}
+
+
 export async function getAllRoomsMember() {
     const supabase = await createClient();
 
@@ -185,7 +213,7 @@ export async function getAllInfoRoomsWhereUserIsMember() {
         const { data, error } = await supabase.from('rooms').select('*').eq('id', room.roomID).maybeSingle();
         if (error) throw new Error('No se pudieron obtener las salas');
 
-        const habits = await getHabitsFromRoom(room.roomID);
+        const habits = await getHabitsForTodayFromRoom(room.roomID);
         roomsInfo.push({
             room: data,
             isAdmin: data.created_by == user.id,
@@ -241,10 +269,14 @@ export async function gethabitRoomStatus(habitID) {
     const supabase = await createClient();
     const today = getLocalDateString();
 
+    const user = await getCurrentUser();
+    if (!user) throw new Error("Usuario no autenticado");
+
     const { data, error } = await supabase
         .from("room_habit_progress")
         .select("status")
         .eq("habitID", habitID)
+        .eq("userID", user.id)
         .eq("record_date", today)
         .maybeSingle();
 
@@ -279,4 +311,48 @@ export async function addUserToRoomByInvitationCode(invitationCode) {
     const { error } = await supabase.from('room_members').insert({ roomID: getRoomID.data.id, userID: user.id });
     if (error) throw new Error('No se pudo agregar el usuario a la sala');
     return true;
+}
+
+
+export async function getUsernamesThatCompletedHabit(habitID) {
+    const supabase = await createClient();
+
+    const { data: userIDs, error } = await supabase
+        .from('room_habit_progress')
+        .select('userID')
+        .eq('habitID', habitID)
+        .eq('status', true);
+
+    if (error) throw new Error('No se pudo obtener los nombres de los usuarios que completaron el hábito');
+
+    if (!userIDs) return [];
+
+    // Usamos Promise.all para esperar todas las consultas
+    const usernames = await Promise.all(
+        userIDs.map(async ({ userID }) => {
+            const { data: userData, error } = await supabase
+                .from('user_data')
+                .select('username')
+                .eq('userID', userID)
+                .maybeSingle();
+
+            if (error || !userData) {
+                console.error(`Error obteniendo username para ${userID}:`, error);
+                return null;
+            }
+
+            return userData.username;
+        })
+    );
+
+    // Filtramos cualquier null (errores o no encontrados)
+    return usernames.filter(Boolean);
+}
+
+export async function getRoomsWhereUserAdmin() {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+    const { data: rooms, error } = await supabase.from('rooms').select('*').eq('created_by', user.id);
+    if (error) throw new Error('No se pudieron obtener las salas');
+    return rooms;
 }
