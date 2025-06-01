@@ -5,8 +5,6 @@ import { addToast } from '@heroui/toast'
 import HabitStats from './HabitStats'
 import HabitCalendar from './HabitCalendar'
 import { Skeleton } from '@heroui/skeleton'
-import { redirect } from 'next/navigation'
-import EditHabitModal from './EditHabitModal'
 import { useDisclosure } from '@heroui/modal'
 import { getNegativeAllData } from '@root/utils/negativeHabit'
 import NegativeInfoTitle from './NegativeInfoTitle'
@@ -31,6 +29,7 @@ export default function NegativeAllInfo({ negativeID }) {
                     message: "An error occurred while getting the information.",
                     type: 'danger',
                 })
+                console.log(err)
             }
         }
 
@@ -48,7 +47,6 @@ export default function NegativeAllInfo({ negativeID }) {
 
         while (current <= today) {
             const weekday = current.getUTCDay();
-            const dateStr = current.toISOString().split("T")[0];
 
             if (scheduledDays.has(weekday)) {
                 totalScheduled++;

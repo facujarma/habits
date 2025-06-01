@@ -38,7 +38,7 @@ export default function NegativeContainerMenu({ negativeID }) {
                 color: "danger",
                 timeout: 2000
             })
-
+            console.log(e)
         }
     };
 
@@ -80,7 +80,7 @@ export default function NegativeContainerMenu({ negativeID }) {
                                 <Button color="primary" variant="light" onPress={onClose}>
                                     Cancel
                                 </Button>
-                                <Button color="danger" onPress={() => { handleConfirmDelete(habitID); onClose(); }}>
+                                <Button color="danger" onPress={() => { handleConfirmDelete(); onClose(); }}>
                                     Delete
                                 </Button>
                             </ModalFooter>

@@ -5,7 +5,6 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
-    useDisclosure,
     addToast,
     Button
 } from "@heroui/react";

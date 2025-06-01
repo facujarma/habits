@@ -1,10 +1,9 @@
 'use client'
 
 import { useState, useEffect } from "react"
-import { getHabitStatus } from "@root/utils/habits"
-import { markHabitAsComplete, markHabitAsIncomplete } from "@root/utils/habits"
+import { markHabitAsComplete, getHabitStatus, markHabitAsIncomplete } from "@root/utils/habits"
 import { addToast, Spinner } from "@heroui/react";
-import { IconCheck, IconMenu2 } from "@tabler/icons-react";
+import { IconCheck } from "@tabler/icons-react";
 import { motion } from "motion/react"
 import HabitContainerMenu from "./HabitContainerMenu";
 import { hexToRgba } from "@root/utils/color";
@@ -28,8 +27,8 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
           description: "An error occurred while getting the habits.",
           color: "danger",
           timeout: 2000
-
         })
+        console.log(error)
       }
       setLoading(false);
     };
@@ -39,7 +38,7 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
   const handleClick = async () => {
     setLoading(true);
 
-    if (status == true) {
+    if (status) {
       try {
         await markHabitAsIncomplete(habitID);
         await updateHabit(habitID, { status: false });
@@ -51,8 +50,8 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
           description: "Ha ocurrido un error al marcar el hábito como incompleto.",
           color: "danger",
           timeout: 2000
-
         })
+        console.log(error)
       }
     }
     else {
@@ -68,8 +67,8 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
           description: "Ha ocurrido un error al marcar el hábito como completo.",
           color: "danger",
           timeout: 2000
-
         })
+        console.log(error)
       }
 
     }
@@ -96,18 +95,18 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
       <motion.div
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`flex items-center  h-full w-full border  rounded-xl cursor-pointer ${status == false && "bg-[#242424] border-[#616161]"}`}
-        style={status == true && { backgroundColor, borderColor: color }}
+        className={`flex items-center  h-full w-full border  rounded-xl cursor-pointer ${!status && "bg-[#242424] border-[#616161]"}`}
+        style={status && { backgroundColor, borderColor: color }}
       >
         <IconRenderer iconName={habitIcon} color={"white"} />
-        <div className="w-full flex flex-col p-3"
+        <button className="w-full flex flex-col p-3"
           onClick={handleClick}
         >
           <h3 className="text-2xl font-bold text-[#C5C5C5]">
             {habitName}
           </h3>
           <span className="text-base text-[#C5C5C5]"> {personToBe} </span>
-        </div>
+        </button>
         <HabitContainerMenu habitID={habitID} />
       </motion.div>
 

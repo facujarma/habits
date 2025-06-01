@@ -7,7 +7,7 @@ function CreateNewHabitThirdStep({ setHabitTimes, habitTimes }) {
 
     const addTime = (time) => {
         if (habitTimes.includes(time)) return
-        if(habitTimes.length == 0) {
+        if (habitTimes.length == 0) {
             setHabitTimes([time])
             return
         }
@@ -31,9 +31,9 @@ function CreateNewHabitThirdStep({ setHabitTimes, habitTimes }) {
                 <AddTimeModal isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} addTime={addTime} />
                 <ul className="flex gap-4">
                     {
-                        habitTimes.map((time, index) => {
+                        habitTimes?.map((time) => {
                             return (
-                                <SelectedTimeCard key={index} time={time} />
+                                <SelectedTimeCard key={time} time={time} />
                             )
                         })
                     }

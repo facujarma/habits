@@ -44,6 +44,7 @@ function EditNegativeModal({ negativeID, isOpen, onOpen, onOpenChange, defBad, d
                 color: "danger",
                 timeout: 2000
             })
+            console.log(e)
         }
     }
 

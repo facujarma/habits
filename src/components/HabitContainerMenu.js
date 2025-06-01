@@ -17,14 +17,14 @@ import { IconMenu2 } from "@tabler/icons-react";
 import { deleteHabit } from "@root/utils/habits";
 import { useHabits } from "@root/context/habitContext";
 
-export default function HabitContainerMenu({habitID}) {
+export default function HabitContainerMenu({ habitID }) {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const {loadHabits} = useHabits();
+    const { loadHabits } = useHabits();
     const handleConfirmDelete = async () => {
         try {
             await deleteHabit(habitID);
-            await loadHabits(force=true);
+            await loadHabits(true);
             addToast({
                 title: "Hábito eliminado",
                 description: "El hábito se ha eliminado correctamente.",
@@ -38,7 +38,7 @@ export default function HabitContainerMenu({habitID}) {
                 color: "danger",
                 timeout: 2000
             })
-
+            console.log(e)
         }
     };
 
@@ -47,7 +47,7 @@ export default function HabitContainerMenu({habitID}) {
         if (option === "delete") {
             onOpen();
         }
-        if(option === "view"){
+        if (option === "view") {
             window.location.href = `/habits/info/positive/${habitID}`
         }
     }
@@ -83,7 +83,7 @@ export default function HabitContainerMenu({habitID}) {
                                 <Button color="primary" variant="light" onPress={onClose}>
                                     Cancel
                                 </Button>
-                                <Button color="danger" onPress={() => { handleConfirmDelete(habitID); onClose(); }}>
+                                <Button color="danger" onPress={() => { handleConfirmDelete(); onClose(); }}>
                                     Delete
                                 </Button>
                             </ModalFooter>

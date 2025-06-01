@@ -1,13 +1,9 @@
 function SelectDay({ day, isSelected = false, setHabitDays }) {
 
     const handleClick = () => {
-        if (isSelected) {
-            setHabitDays(habitDays => ({ ...habitDays, [day]: false }) )
-        }
-        else {
-            setHabitDays(habitDays => ({ ...habitDays, [day]: true }) )
-        }
-    }
+        setHabitDays(habitDays => ({ ...habitDays, [day]: !isSelected }));
+    };
+
 
     return (
         <li

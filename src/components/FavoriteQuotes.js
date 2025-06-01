@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuotes } from '@root/context/quotesContext'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import SimpleQuoteCard from './SimpleQuoteCard'
 
 function FavoriteQuotes() {

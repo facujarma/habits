@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 function RoomHabitMadeBy({ habitID }) {
 
-    const [loading, serLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [usernames, setUsernames] = useState([]);
 
     useEffect(() => {
@@ -12,7 +12,7 @@ function RoomHabitMadeBy({ habitID }) {
         const loadUsernames = async () => {
             const usernames = await getUsernamesThatCompletedHabit(habitID);
             setUsernames(usernames);
-            serLoading(false);
+            setLoading(false);
         };
         loadUsernames();
 

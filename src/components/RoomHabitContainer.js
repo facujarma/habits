@@ -4,8 +4,9 @@ import IconRenderer from './IconRenderer';
 import { hexToRgba } from '@root/utils/color';
 import { addToast, Spinner } from "@heroui/react";
 import { gethabitRoomStatus, markRoomHabitAsComplete, markRoomHabitAsIncomplete } from '@root/utils/rooms';
-import { IconCheck } from '@tabler/icons-react';
+import { IconArrowBadgeRight, IconCheck } from '@tabler/icons-react';
 import RoomHabitMadeBy from './RoomHabitMadeBy';
+import { redirect } from 'next/navigation';
 
 function RoomHabitContainer({ habit }) {
 
@@ -27,6 +28,7 @@ function RoomHabitContainer({ habit }) {
                     color: "danger",
                     timeout: 2000
                 })
+                console.log(error)
             }
             setLoading(false);
         };
@@ -36,7 +38,7 @@ function RoomHabitContainer({ habit }) {
     const handleClick = async () => {
         setLoading(true);
 
-        if (status == true) {
+        if (status) {
             try {
                 await markRoomHabitAsIncomplete(habit.id);
                 setStatus(false);
@@ -47,8 +49,9 @@ function RoomHabitContainer({ habit }) {
                     description: "Ha ocurrido un error al marcar el hábito como incompleto.",
                     color: "danger",
                     timeout: 2000
-
                 })
+                console.log(error)
+
             }
         }
         else {
@@ -62,8 +65,8 @@ function RoomHabitContainer({ habit }) {
                     description: "Ha ocurrido un error al marcar el hábito como completo.",
                     color: "danger",
                     timeout: 2000
-
                 })
+                console.log(error)
             }
 
         }
@@ -89,18 +92,23 @@ function RoomHabitContainer({ habit }) {
                 <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`flex items-center  h-full w-full border  rounded-xl cursor-pointer ${status == false && "bg-[#242424] border-[#616161]"}`}
-                    style={status == true && { backgroundColor, borderColor: color }}
+                    className={`flex items-center  h-full w-full border  rounded-xl cursor-pointer ${!status && "bg-[#242424] border-[#616161]"}`}
+                    style={status && { backgroundColor, borderColor: color }}
                 >
                     <IconRenderer iconName={habitIcon} color={"white"} />
-                    <div className="w-full flex flex-col p-3"
+                    <button className="w-full flex flex-col p-3"
                         onClick={handleClick}
                     >
                         <h3 className="text-2xl font-bold text-[#C5C5C5]">
                             {name}
                         </h3>
                         <span className="text-base text-[#C5C5C5]"> {personToBe} </span>
-                    </div>
+                    </button>
+                    <button
+                        onClick={() => redirect(`rooms/habit/${habit.id}`)}
+                        className='w-14 border-l border-[#616161] h-full rounded-r-xl bg-[#242424]  flex items-center justify-center'>
+                        <IconArrowBadgeRight size={32} />
+                    </button>
                 </motion.div>
             </div >
             <RoomHabitMadeBy habitID={habit.id} />

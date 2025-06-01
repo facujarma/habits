@@ -1,10 +1,11 @@
 'use client'
 import React from 'react'
 import RoomHabitContainer from './RoomHabitContainer'
-import { IconCirclePlus, IconInfoCircle } from '@tabler/icons-react'
+import { IconInfoCircle } from '@tabler/icons-react'
 import EditRoomInfoModal from './EditRoomInfoModal'
 import { useDisclosure } from "@heroui/react";
 import { motion } from "motion/react"
+import { redirect } from 'next/navigation'
 
 function RoomInfoContainer({ roomInfo, habits, isAdmin }) {
 

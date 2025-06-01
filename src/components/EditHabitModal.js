@@ -7,7 +7,7 @@ import {
     ModalFooter,
     addToast
 } from "@heroui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Input from "./Input";
 import CreateNewHabitFourthStep from "./CreateNewHabitFourthStep";
 import { editHabit } from "@root/utils/habits";
@@ -51,6 +51,7 @@ function EditHabitModal({ habitID, isOpen, onOpen, onOpenChange, defName, defWhe
                 color: "danger",
                 timeout: 2000
             })
+            console.log(e)
         }
     }
 

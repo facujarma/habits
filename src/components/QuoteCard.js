@@ -57,7 +57,7 @@ function QuoteCard({ quote, author, index }) {
     }
 
     return (
-        <div
+        <button
             ref={cardRef}
             className='w-full max-w-[25em] absolute flex flex-col justify-between items-center bg-[#666F9A]/40 border border-[#666F9A]  aspect-square rounded-2xl p-4 duration-200'
             style={{
@@ -93,7 +93,7 @@ function QuoteCard({ quote, author, index }) {
             <span className='text-sm'>
                 {author}
             </span>
-        </div>
+        </button>
     )
 }
 

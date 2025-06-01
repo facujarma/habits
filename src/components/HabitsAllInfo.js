@@ -30,6 +30,7 @@ export default function HabitsAllInfo({ habitID }) {
                     message: "No se puso obtener la información del hábito.",
                     type: 'danger',
                 })
+                console.log(err)
                 redirect("/habits")
             }
         }
@@ -48,7 +49,6 @@ export default function HabitsAllInfo({ habitID }) {
 
         while (current <= today) {
             const weekday = current.getUTCDay();
-            const dateStr = current.toISOString().split("T")[0];
 
             if (scheduledDays.has(weekday)) {
                 totalScheduled++;
@@ -77,8 +77,7 @@ export default function HabitsAllInfo({ habitID }) {
         let maxStreak = 0;
         let currentStreak = 0;
 
-        for (let i = 0; i < completedDates.length; i++) {
-            const dateStr = completedDates[i];
+        for (const dateStr of completedDates) {
             const current = new Date(dateStr);
             const prev = new Date(current);
             prev.setUTCDate(prev.getUTCDate() - 1);
@@ -140,7 +139,7 @@ export default function HabitsAllInfo({ habitID }) {
             <div className='mt-12 w-full flex justify-center scale-130 '>
                 <HabitCalendar dates={habitInfo.completedDates} />
             </div>
-            <EditHabitModal defIcon={habitInfo.icon} defName={habitInfo.name} defWhen={habitInfo.when} defPersonToBe={habitInfo.personToBe}  habitID={habitInfo.id} isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} />
+            <EditHabitModal defIcon={habitInfo.icon} defName={habitInfo.name} defWhen={habitInfo.when} defPersonToBe={habitInfo.personToBe} habitID={habitInfo.id} isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} />
         </div>
     )
 }

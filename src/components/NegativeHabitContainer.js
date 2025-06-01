@@ -27,6 +27,7 @@ function NegativeHabitContainer({ negative }) {
                     color: "danger",
                     timeout: 2000
                 })
+                console.log(e)
             }
             setLoading(false);
 
@@ -37,7 +38,7 @@ function NegativeHabitContainer({ negative }) {
     const handleClick = async () => {
         setLoading(true);
 
-        if (status == true) {
+        if (status) {
             try {
                 await markNegativeAsIncomplete(negative.id);
                 await updateNegativeHabit(negative.id, { status: false });
@@ -51,6 +52,8 @@ function NegativeHabitContainer({ negative }) {
                     color: "danger",
                     timeout: 2000
                 })
+                console.log(error)
+
             }
         }
         else {
@@ -67,6 +70,7 @@ function NegativeHabitContainer({ negative }) {
                     color: "danger",
                     timeout: 2000
                 })
+                console.log(error)
             }
 
         }
@@ -94,8 +98,8 @@ function NegativeHabitContainer({ negative }) {
             <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`flex items-center  h-full w-full border  rounded-xl cursor-pointer ${status == false && "bg-[#242424] border-[#616161]"}`}
-                style={status == true && { backgroundColor, borderColor: negative.color }}
+                className={`flex items-center  h-full w-full border  rounded-xl cursor-pointer ${!status && "bg-[#242424] border-[#616161]"}`}
+                style={status && { backgroundColor, borderColor: negative.color }}
 
             >
                 <button className="w-full flex flex-col p-3"

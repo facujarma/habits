@@ -31,7 +31,7 @@ function QuotesFilters() {
                     <span className='text-sm'> Author </span>
                     <Select variant='faded' onSelectionChange={handleAuthorChange} defaultSelectedKeys={['All']}>
                         <SelectItem value='All' key={'All'} >All</SelectItem>
-                        {authors.map((author, index) => (
+                        {authors.map((author) => (
                             <SelectItem key={author} aria-label={author} aria-labelledby={author} value={author}>{author}</SelectItem>
                         ))}
                     </Select>
@@ -40,7 +40,7 @@ function QuotesFilters() {
                     <span className='text-sm'> Feel </span>
                     <Select variant='faded' onSelectionChange={handleFeelingChange} defaultSelectedKeys={['All']}>
                         <SelectItem value='All' key={'All'}>Anyone</SelectItem>
-                        {feelings.map((feeling, index) => (
+                        {feelings.map((feeling) => (
                             <SelectItem key={feeling} aria-label={feeling} aria-labelledby={feeling} value={feeling}>{feeling}</SelectItem>
                         ))}
                     </Select>
@@ -49,7 +49,7 @@ function QuotesFilters() {
                     <span className='text-sm'> Philosophy </span>
                     <Select variant='faded' onSelectionChange={handlePhilosophyChange} defaultSelectedKeys={['All']}>
                         <SelectItem value='All' key={'All'}>All</SelectItem>
-                        {philosophies.map((philosophy, index) => (
+                        {philosophies.map((philosophy) => (
                             <SelectItem key={philosophy} aria-label={philosophy} aria-labelledby={philosophy} value={philosophy}>{philosophy}</SelectItem>
                         ))}
                     </Select>

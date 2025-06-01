@@ -1,6 +1,5 @@
 'use client'
 
-import HabitContainer from "@components/HabitContainer"
 import HabitContainerSkeleton from "@components/Skeletons/HabitContainerSkeleton"
 import { useNegativeHabits } from "@/context/negativeHabitContext";
 import NegativeHabitContainer from "./NegativeHabitContainer";

@@ -75,7 +75,7 @@ function RoomAddHabit({ roomId }) {
                 color: "danger",
                 timeout: 2000
             })
-
+            console.log(e)
         }
     }
 

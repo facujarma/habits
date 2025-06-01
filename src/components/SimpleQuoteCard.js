@@ -1,6 +1,6 @@
 import React from 'react'
 
-function SimpleQuoteCard({ quote, author, index }) {
+function SimpleQuoteCard({ quote, author }) {
 
     return (
         <div

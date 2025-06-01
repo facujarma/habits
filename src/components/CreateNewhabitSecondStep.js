@@ -7,9 +7,9 @@ function CreateNewhabitSecondStep({ setHabitDays, habitDays }) {
             <h2 className="text-[#C5C5C5] text-xl ">Frequency:</h2>
             <ul className="flex justify-between w-full">
                 {
-                    days.map((day, index) => {
+                    days.map((day) => {
                         return (
-                            <SelectDay key={index} day={day} isSelected={habitDays[day]} setHabitDays={setHabitDays} habitDays={habitDays} />
+                            <SelectDay key={day} day={day} isSelected={habitDays[day]} setHabitDays={setHabitDays} habitDays={habitDays} />
                         )
                     })
                 }
