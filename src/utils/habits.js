@@ -3,6 +3,29 @@
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/utils/supabase/server';
 
+
+const WEEKDAY_INITIALS = {
+    Su: false,
+    M: false,
+    Tu: false,
+    W: false,
+    Th: false,
+    F: false,
+    Sa: false,
+};
+
+// 2) Mapa inverso: de número (0–6) a la clave de día
+//    0 → "Su" (domingo), 1 → "M" (lunes), …, 6 → "Sa" (sábado)
+const WEEKDAY_MAP = {
+    0: 'Su',
+    1: 'M',
+    2: 'Tu',
+    3: 'W',
+    4: 'Th',
+    5: 'F',
+    6: 'Sa',
+};
+
 const weekdayMap = {
     Su: 0, M: 1, Tu: 2, W: 3, Th: 4, F: 5, Sa: 6,
 };
