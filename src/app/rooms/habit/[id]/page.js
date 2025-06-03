@@ -9,7 +9,7 @@ async function page({ params }) {
     return (
         <div className="w-full h-full">
             <RoomsProvider>
-                <RoomHabitAllInfo roomId={id} />
+                <RoomHabitAllInfo habitID={id} />
             </RoomsProvider>
         </div>
     )

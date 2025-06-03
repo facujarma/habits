@@ -12,7 +12,10 @@ import Button from '@root/components/Button'
 import { IconCirclePlus } from '@tabler/icons-react'
 import { createNewRoom } from '@root/utils/rooms'
 import { addToast } from '@heroui/toast'
+import { useRooms } from '@root/context/roomsContext'
 function CreateRoomForm() {
+
+    const { fetchRooms } = useRooms()
 
     const [roomName, setName] = useState('')
     const [roomDesc, setDesc] = useState('')
@@ -67,6 +70,7 @@ function CreateRoomForm() {
                 color: "success",
                 timeout: 2000
             })
+            fetchRooms(true);
         } catch (e) {
             addToast({
                 title: "Error",
@@ -74,7 +78,7 @@ function CreateRoomForm() {
                 color: "danger",
                 timeout: 2000
             })
-
+            console.log(e)
         }
     }
 

@@ -96,10 +96,10 @@ function RoomHabitContainer({ habit }) {
                     style={status && { backgroundColor, borderColor: color }}
                 >
                     <IconRenderer iconName={habitIcon} color={"white"} />
-                    <button className="w-full flex flex-col p-3"
+                    <button className="w-full flex flex-col p-3 items-start"
                         onClick={handleClick}
                     >
-                        <h3 className="text-2xl font-bold text-[#C5C5C5]">
+                        <h3 className="text-start text-2xl font-bold text-[#C5C5C5]">
                             {name}
                         </h3>
                         <span className="text-base text-[#C5C5C5]"> {personToBe} </span>

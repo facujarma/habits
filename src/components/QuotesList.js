@@ -9,7 +9,7 @@ import { addToast } from '@heroui/toast'
 
 function QuotesList() {
 
-    const { actualQuote, quotes, loading, isFav, addLocalyToFavorites } = useQuotes();
+    const { actualQuote, quotes, loading, isFav, addLocallyToFavorites } = useQuotes();
 
     const current = quotes[actualQuote];
     const next = quotes[actualQuote + 1];
@@ -18,7 +18,7 @@ function QuotesList() {
         try {
             const actualQuoteID = quotes[actualQuote].id;
             await addQuoteToFavorites(actualQuoteID);
-            await addLocalyToFavorites(quotes[actualQuote])
+            await addLocallyToFavorites(quotes[actualQuote])
 
         }
         catch (error) {

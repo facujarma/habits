@@ -317,10 +317,13 @@ export async function addUserToRoomByInvitationCode(invitationCode) {
 export async function getUsernamesThatCompletedHabit(habitID) {
     const supabase = await createClient();
 
+    const today = getLocalDateString();
+
     const { data: userIDs, error } = await supabase
         .from('room_habit_progress')
         .select('userID')
         .eq('habitID', habitID)
+        .eq('record_date', today)
         .eq('status', true);
 
     if (error) throw new Error('No se pudo obtener los nombres de los usuarios que completaron el hábito');
@@ -355,4 +358,47 @@ export async function getRoomsWhereUserAdmin() {
     const { data: rooms, error } = await supabase.from('rooms').select('*').eq('created_by', user.id);
     if (error) throw new Error('No se pudieron obtener las salas');
     return rooms;
+}
+
+export async function getLeaderBoardInfoOfHabit(habitID, roomID) {
+    const supabase = await createClient();
+
+    // Get all the member of the room
+
+    const { data: members, error } = await supabase.from('room_members').select('userID').eq('roomID', roomID);
+    if (error) throw new Error('No se pudieron obtener los miembros de la sala');
+
+    const userIDs = members.map((member) => member.userID);
+
+    // Get all the progress of the habit
+    const { data: progress, error: progressError } = await supabase.from('room_habit_progress').select('userID, status, record_date').eq('habitID', habitID).in('userID', userIDs);
+    if (progressError) throw new Error('No se pudieron obtener el progreso del hábito');
+
+    // If a member have vnever done it include it with 0 points
+    userIDs.forEach((userID) => {
+        if (!progress.some((item) => item.userID === userID)) {
+            progress.push({ userID, status: true, record_date: null });
+        }
+    });
+
+
+    // Transform the userID into a usernames:
+
+    const usernames = await Promise.all(
+        progress.map(async (item) => {
+            const { data: userData, error } = await supabase.from('user_data').select('username').eq('userID', item.userID).maybeSingle();
+            if (error || !userData) {
+                console.error(`Error obteniendo username para ${item.userID}:`, error);
+                return null;
+            }
+            return userData.username;
+        })
+    );
+
+
+    progress.forEach((item, index) => {
+        item.userID = usernames[index];
+    });
+
+    return progress
 }
