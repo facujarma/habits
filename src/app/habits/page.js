@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
 
-    <div>
+    <div id="a">
       <DayInfo />
       <MainActions />
       <StopVapingBanner />

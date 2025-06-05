@@ -31,11 +31,6 @@ export async function signup(email, password, username) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: {
-      data: {
-        username,
-      },
-    },
   });
 
   if (error || !data.user) {
@@ -44,13 +39,12 @@ export async function signup(email, password, username) {
 
   // Insertar en la tabla user_data
   const userId = data.user.id;
-
   const { error: insertError } = await supabase
     .from('user_data')
     .insert([{ userID: userId, username }]);
 
   if (insertError) {
-    redirect('/error');
+    console.log(insertError);
   }
 
   revalidatePath('/habits', 'layout');

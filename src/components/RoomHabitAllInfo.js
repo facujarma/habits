@@ -48,7 +48,7 @@ function RoomHabitAllInfo({ habitID }) {
         <div>
             <RoomHabitInfoTitle icon={habit.icon} title={habit.name} when={habit.when} personToBe={habit.personToBe} color={habit.color} />
 
-            <RoomHabitInfoIsAdminBanner habitID={habitID} />
+            <RoomHabitInfoIsAdminBanner habit={habit} habitID={habitID} />
             <RoomHabitInfoLeaderBoard roomID={roomID} habitID={habitID} />
         </div>
     )
