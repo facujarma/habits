@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import * as TablerIcons from "@tabler/icons-react";
-import { iconList } from "@root/utils/icons";
+import { iconList } from "@lib/icons";
 
 function CreateNewHabitFifthStep({ onSelect, overflow = false }) {
     const [selected, setSelected] = useState(null);

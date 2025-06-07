@@ -1,5 +1,5 @@
-import CreateRoomForm from '@root/sections/CreateRoomForm'
-import Header from '@root/sections/Header'
+import CreateRoomForm from '@sections/CreateRoomForm'
+import Header from '@sections/Header'
 import React from 'react'
 
 function page() {

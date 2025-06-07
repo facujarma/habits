@@ -1,4 +1,4 @@
-import RoomHabitAllInfo from '@root/components/RoomHabitAllInfo'
+import RoomHabitAllInfo from '@rooms/RoomHabitAllInfo'
 import { RoomsProvider } from '@root/context/roomsContext'
 import React from 'react'
 

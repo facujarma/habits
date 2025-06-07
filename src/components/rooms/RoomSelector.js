@@ -1,6 +1,6 @@
 'use client'
 
-import { getRoomsWhereUserAdmin } from '@root/utils/rooms';
+import { getRoomsWhereUserAdmin } from '@lib/rooms';
 import React, { useEffect, useState } from 'react'
 import { Select, Skeleton } from '@heroui/react'
 import { SelectItem } from '@heroui/select'

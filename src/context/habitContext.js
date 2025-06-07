@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
-import { selectHabitsForToday } from "@root/utils/habits";
+import { selectHabitsForToday } from "@lib/habits";
 
 // Función utilitaria fuera del componente para no recrearla en cada render
 function getLocalDateString() {

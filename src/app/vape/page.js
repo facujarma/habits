@@ -1,11 +1,11 @@
-import PuffButton from '@components/PuffButton'
-import PuffTodayCounting from '@root/components/PuffTodayCounting'
+import PuffButton from '@root/components/vape/PuffButton'
+import PuffTodayCounting from '@root/components/vape/PuffTodayCounting'
 import NewsList from '@sections/NewsList'
 import { PuffProvider } from '@root/context/puffContext'
 import React from 'react'
-import { userIsInProgram } from '@root/utils/vape'
+import { userIsInProgram } from '@lib/vape'
 import { redirect } from 'next/navigation'
-import VapeMessage from '@root/sections/VapeMessage'
+import VapeMessage from '@sections/VapeMessage'
 
 async function getIsInProgram() {
   const isInProgram = await userIsInProgram();

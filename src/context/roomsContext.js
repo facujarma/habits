@@ -1,7 +1,7 @@
 'use client'
 
 import { addToast } from "@heroui/toast";
-import { deleteRoom, getAllInfoRoomsWhereUserIsMember, updateRoomInfo } from "@root/utils/rooms";
+import { deleteRoom, getAllInfoRoomsWhereUserIsMember, updateRoomInfo } from "@lib/rooms";
 import {
     createContext,
     useContext,

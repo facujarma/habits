@@ -1,18 +1,16 @@
 'use client'
 
 import React from 'react'
-import { IconEditCircle } from '@tabler/icons-react';
-import { hexToRgba } from '@root/utils/color';
-function HabitInfoTitle({ title, when, personToBe, color, onOpen }) {
+import { hexToRgba } from '@lib/color';
+import IconRenderer from '@components/IconRenderer';
+function RoomHabitInfoTitle({ title, when, personToBe, color, icon }) {
 
     const backgroundColor = hexToRgba(color, 0.37)
 
     return (
         <div className="w-full rounded-2xl border flex items-center py-4" style={{ backgroundColor, borderColor: color }}>
             <div className='px-4 py-2 h-full flex flex-col gap-4'>
-                <button className='w-full p-2 border rounded-md' onClick={onOpen} style={{ backgroundColor, borderColor: color }}>
-                    <IconEditCircle />
-                </button>
+                <IconRenderer iconName={icon} />
             </div>
             <div className='h-full flex-1'>
                 <h1 className="text-2xl font-bold text-white mb-4">{title}</h1>
@@ -25,4 +23,4 @@ function HabitInfoTitle({ title, when, personToBe, color, onOpen }) {
     )
 }
 
-export default HabitInfoTitle
+export default RoomHabitInfoTitle

@@ -1,5 +1,5 @@
 import { Skeleton } from '@heroui/skeleton';
-import { getUsernamesThatCompletedHabit } from '@root/utils/rooms';
+import { getUsernamesThatCompletedHabit } from '@lib/rooms';
 import React, { useEffect, useState } from 'react'
 
 function RoomHabitMadeBy({ habitID }) {

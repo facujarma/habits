@@ -8,7 +8,7 @@ import {
     addToast,
     Button
 } from "@heroui/react";
-import { deleteHabitFromRoom } from '@root/utils/rooms';
+import { deleteHabitFromRoom } from '@lib/rooms';
 import { useRooms } from '@root/context/roomsContext';
 import { redirect } from 'next/dist/server/api-utils';
 

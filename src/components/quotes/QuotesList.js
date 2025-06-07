@@ -3,7 +3,7 @@
 import React from 'react'
 import QuoteCard from './QuoteCard'
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react'
-import { addQuoteToFavorites } from '@root/utils/quotes'
+import { addQuoteToFavorites } from '@lib/quotes'
 import { useQuotes } from '@root/context/quotesContext'
 import { addToast } from '@heroui/toast'
 

@@ -10,7 +10,7 @@ import CreateNewHabitFourthStep from '@root/components/CreateNewHabitFourthStep'
 import CreateNewHabitFifthStep from '@root/components/CreateNewHabitFifthStep'
 import Button from '@root/components/Button'
 import { IconCirclePlus } from '@tabler/icons-react'
-import { createNewRoom } from '@root/utils/rooms'
+import { createNewRoom } from '@lib/rooms'
 import { addToast } from '@heroui/toast'
 import { useRooms } from '@root/context/roomsContext'
 function CreateRoomForm() {

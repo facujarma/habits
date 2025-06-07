@@ -15,7 +15,7 @@ import {
 } from "@heroui/react";
 import { IconMenu2 } from "@tabler/icons-react";
 import { useNegativeHabits } from "@root/context/negativeHabitContext";
-import { deleteNegativeHabit } from "@root/utils/negativeHabit";
+import { deleteNegativeHabit } from "@lib/negativeHabit";
 
 export default function NegativeContainerMenu({ negativeID }) {
 

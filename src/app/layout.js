@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Lexend } from 'next/font/google'
-import ToastClientLayout from "@root/sections/ToastClientLayout";
+import ToastClientLayout from "@sections/ToastClientLayout";
 
 const lexend = Lexend({
   subsets: ['latin'],

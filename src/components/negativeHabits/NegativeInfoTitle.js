@@ -1,4 +1,4 @@
-import { hexToRgba } from '@root/utils/color'
+import { hexToRgba } from '@lib/color'
 import { IconEditCircle } from '@tabler/icons-react'
 import React from 'react'
 

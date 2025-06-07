@@ -3,7 +3,7 @@
 import { Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, addToast } from '@heroui/react'
 import React from 'react'
 import { motion } from 'motion/react'
-import { startVapeProgram } from '@root/utils/vape'
+import { startVapeProgram } from '@lib/vape'
 import { redirect } from 'next/navigation'
 function StopVapingButton() {
 

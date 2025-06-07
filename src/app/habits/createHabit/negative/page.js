@@ -2,12 +2,12 @@
 
 import React, { useState } from 'react'
 import CreateNewNegativeFirstStep from '@root/components/CreateNewNegativeFirstStep'
-import Header from '@root/sections/Header'
+import Header from '@sections/Header'
 import SeparatorLine from '@root/components/SeparatorLine'
 import CreateNewHabitFourthStep from '@root/components/CreateNewHabitFourthStep'
 import Button from '@root/components/Button'
 import { IconCirclePlus } from '@tabler/icons-react'
-import { addNegativeHabit } from '@root/utils/negativeHabit'
+import { addNegativeHabit } from '@lib/negativeHabit'
 import { addToast } from '@heroui/toast'
 function page() {
 

@@ -7,7 +7,7 @@ import Header from "@/sections/Header"
 import Button from "@/components/Button"
 import { IconCirclePlus } from "@tabler/icons-react"
 import { useState } from "react"
-import { addHabit } from "@root/utils/habits"
+import { addHabit } from "@lib/habits"
 import { addToast } from "@heroui/react";
 import CreateNewHabitFourthStep from "@root/components/CreateNewHabitFourthStep"
 import CreateNewHabitFifthStep from "@root/components/CreateNewHabitFifthStep"

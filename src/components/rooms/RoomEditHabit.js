@@ -7,35 +7,44 @@ import {
     ModalFooter,
     addToast
 } from "@heroui/react";
-import { useEffect, useState } from "react";
-import Input from "./Input";
-import CreateNewHabitFourthStep from "./CreateNewHabitFourthStep";
+import { useState } from "react";
+import Input from "../Input";
+import CreateNewHabitFourthStep from "../CreateNewHabitFourthStep";
 import { redirect } from "next/navigation";
-import { useNegativeHabits } from "@root/context/negativeHabitContext";
-import { editNegative } from "@root/utils/negativeHabit";
+import IconRenderer from "@components/IconRenderer";
+import CreateNewHabitFifthStep from "../CreateNewHabitFifthStep";
+import { editHabit } from "@lib/rooms";
+import { useRooms } from "@root/context/roomsContext";
 
-function EditNegativeModal({ negativeID, isOpen, onOpen, onOpenChange, defBad, defGood }) {
-    const [badHabit, setBadHabit] = useState(defBad);
-    const [goodHabit, setGoodHabit] = useState(defGood);
+function RoomEditHabit({ habitID, roomID, isOpen, onOpen, onOpenChange, defName, defWhen, defPersonToBe, defIcon }) {
+    const [name, setName] = useState(defName);
+    const [when, setWhen] = useState(defWhen);
+    const [personToBe, setPersonToBe] = useState(defPersonToBe);
     const [color, setColor] = useState(new Set(["#668C9A"]));
-    const { loadNegativeHabits } = useNegativeHabits()
+    const [icon, setIcon] = useState(defIcon);
+
+    const { fetchRooms } = useRooms()
+
     const handleEditHabit = async () => {
-        const negative = {
-            bad_habit: badHabit,
-            good_habit: goodHabit,
+        const habit = {
+            name: name,
+            when: when,
+            personToBe: personToBe,
             color: Array.from(color)[0],
+            icon: icon
         }
 
         try {
-            await editNegative(negativeID, negative);
-            await loadNegativeHabits(true);
+            console.log(habit)
+            await editHabit(habitID, habit);
+            await fetchRooms(true);
             addToast({
-                title: "Negative habit edited",
-                description: "The negative habit has been edited successfully.",
+                title: "Habit edited",
+                description: "The habit has been edited successfully.",
                 color: "success",
                 timeout: 2000
             })
-            
+            redirect('/habits');
         }
         catch (e) {
             addToast({
@@ -56,10 +65,12 @@ function EditNegativeModal({ negativeID, isOpen, onOpen, onOpenChange, defBad, d
                         <ModalHeader className="flex flex-col gap-1">Edit Habit.</ModalHeader>
                         <ModalBody>
                             <p>Here you can edit the habit.</p>
-                            <Input label="Bad Habit" placeholder="Example: Smoking" setText={setBadHabit} defaultValue={badHabit} />
-                            <Input label="Good Habit" placeholder="Example: Exercising" setText={setGoodHabit} defaultValue={goodHabit} />
+                            <IconRenderer iconName={icon} color="white" />
+                            <Input label="Habit" placeholder="Example: Go to the gym" setText={setName} defaultValue={name} />
+                            <Input label="When" placeholder="Example: After dinner" setText={setWhen} defaultValue={when} />
+                            <Input label="People to be" placeholder="Example: Myself" setText={setPersonToBe} defaultValue={personToBe} />
                             <CreateNewHabitFourthStep color={color} setColor={setColor} />
-
+                            <CreateNewHabitFifthStep overflow={true} onSelect={setIcon} />
                         </ModalBody>
                         <ModalFooter>
                             <Button variant="light" onPress={onClose}>
@@ -76,4 +87,4 @@ function EditNegativeModal({ negativeID, isOpen, onOpen, onOpenChange, defBad, d
     );
 }
 
-export default EditNegativeModal;
+export default RoomEditHabit;

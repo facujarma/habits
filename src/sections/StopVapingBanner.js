@@ -3,7 +3,7 @@
 import { IconArrowAutofitRight } from '@tabler/icons-react'
 import React, { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
-import { userIsInProgram } from '@root/utils/vape';
+import { userIsInProgram } from '@lib/vape';
 import { Skeleton } from '@heroui/skeleton';
 function StopVapingBanner() {
 

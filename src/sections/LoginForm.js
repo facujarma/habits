@@ -11,6 +11,8 @@ function LoginForm() {
 
     const loginUser = async (e) => {
         e.preventDefault()
+        // Remove every session storage:
+        sessionStorage.clear();
 
         const { error } = await login(email, password)
         if (error) {
@@ -20,7 +22,7 @@ function LoginForm() {
                 color: "danger",
                 timeout: 2000
             })
-            
+
         }
     }
 

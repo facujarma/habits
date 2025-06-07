@@ -1,14 +1,14 @@
 'use client'
 
 import { useState, useEffect } from "react"
-import { markHabitAsComplete, getHabitStatus, markHabitAsIncomplete } from "@root/utils/habits"
+import { markHabitAsComplete, getHabitStatus, markHabitAsIncomplete } from "@lib/habits"
 import { addToast, Spinner } from "@heroui/react";
 import { IconCheck } from "@tabler/icons-react";
 import { motion } from "motion/react"
 import HabitContainerMenu from "./HabitContainerMenu";
-import { hexToRgba } from "@root/utils/color";
+import { hexToRgba } from "@lib/color";
 import { useHabits } from "@root/context/habitContext";
-import IconRenderer from "./IconRenderer";
+import IconRenderer from "@components/IconRenderer";
 function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
 
   const [loading, setLoading] = useState(true);

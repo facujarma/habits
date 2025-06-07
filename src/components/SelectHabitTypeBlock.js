@@ -4,7 +4,7 @@ import { IconArrowBarToRight } from '@tabler/icons-react'
 import React from 'react'
 import { motion } from 'motion/react'
 import { redirect } from 'next/navigation'
-import { hexToRgba } from '@root/utils/color'
+import { hexToRgba } from '@lib/color'
 function SelectHabitTypeBlock({ color, title, text, goTo }) {
 
     const backgroundColor = hexToRgba(color, 0.37)

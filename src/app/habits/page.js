@@ -1,17 +1,17 @@
 'use client'
 
 import DayInfo from "@/components/DayInfo";
-import HabitsList from "@components/HabitsList";
+import HabitsList from "@habits/HabitsList";
 import MainActions from "@components/MainActions";
 import { HabitsProvider } from "@/context/habitContext";
 import { NegativeHabitsProvider } from "@/context/negativeHabitContext";
-import StopVapingBanner from "@root/sections/StopVapingBanner";
-import NegativeHabitsList from "@root/components/NegativeHabitsList";
+import StopVapingBanner from "@sections/StopVapingBanner";
+import NegativeHabitsList from "@negativeHabits/NegativeHabitsList";
 import { Tabs, Tab } from "@heroui/react";
-import RoomsHabitsList from "@root/sections/RoomsHabitsList";
+import RoomsHabitsList from "@sections/RoomsHabitsList";
 import { RoomsProvider } from "@root/context/roomsContext";
-import RoomsPublicList from "@root/components/RoomsPublicList";
-import SeparatorLine from "@root/components/SeparatorLine";
+import RoomsPublicList from "@rooms/RoomsPublicList";
+import SeparatorLine from "@components/SeparatorLine";
 export default function Home() {
 
   return (

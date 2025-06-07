@@ -1,6 +1,6 @@
 'use client'
 
-import HabitContainer from "@components/HabitContainer"
+import HabitContainer from "@habits/HabitContainer"
 import HabitContainerSkeleton from "@components/Skeletons/HabitContainerSkeleton"
 import { useHabits } from "@/context/habitContext";
 

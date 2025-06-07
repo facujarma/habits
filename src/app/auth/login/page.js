@@ -12,6 +12,7 @@ function page() {
   const handleLoginWithGoogle = async () => {
     console.log('login with google')
     await loginWithGoogle()
+    
   }
 
   return (

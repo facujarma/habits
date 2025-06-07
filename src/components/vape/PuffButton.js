@@ -3,7 +3,7 @@
 import { IconSmoking } from '@tabler/icons-react'
 import React, { useState } from 'react'
 import { motion } from 'motion/react'
-import { addAPuff } from '@root/utils/vape'
+import { addAPuff } from '@lib/vape'
 import { addToast } from '@heroui/toast'
 import { usePuff } from '@root/context/puffContext'
 function getInterpolatedColor(rI, gI, bI, counter, max = 20, targetRGB = [128, 128, 128]) {

@@ -8,7 +8,7 @@ import {
   useCallback,
   useMemo,
 } from 'react';
-import { getAllQuotes, getFavoritesQuotes } from '@root/utils/quotes';
+import { getAllQuotes, getFavoritesQuotes } from '@lib/quotes';
 
 const QuotesContext = createContext({
   allQuotes: [],

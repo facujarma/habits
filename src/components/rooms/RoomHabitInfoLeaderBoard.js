@@ -1,6 +1,6 @@
 import { Skeleton } from '@heroui/skeleton';
-import { getLeaderBoardInfoOfHabit } from '@root/utils/rooms';
-import { getUserInformation } from '@root/utils/user';
+import { getLeaderBoardInfoOfHabit } from '@lib/rooms';
+import { getUserInformation } from '@lib/user';
 import { IconFlame, IconMedal } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react'
 

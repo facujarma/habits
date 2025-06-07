@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
-import { getVapeCounterForToday } from "@root/utils/vape";
+import { getVapeCounterForToday } from "@lib/vape";
 
 const PuffContext = createContext({
   puffCounter: 0,

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from "motion/react"
-import IconRenderer from './IconRenderer';
-import { hexToRgba } from '@root/utils/color';
+import IconRenderer from '@components/IconRenderer';
+import { hexToRgba } from '@lib/color';
 import { addToast, Spinner } from "@heroui/react";
-import { gethabitRoomStatus, markRoomHabitAsComplete, markRoomHabitAsIncomplete } from '@root/utils/rooms';
+import { gethabitRoomStatus, markRoomHabitAsComplete, markRoomHabitAsIncomplete } from '@lib/rooms';
 import { IconArrowBadgeRight, IconCheck } from '@tabler/icons-react';
 import RoomHabitMadeBy from './RoomHabitMadeBy';
 import { redirect } from 'next/navigation';

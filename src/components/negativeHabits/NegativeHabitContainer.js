@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { IconCheck } from '@tabler/icons-react'
 import { motion } from 'motion/react'
-import { hexToRgba } from '@root/utils/color';
+import { hexToRgba } from '@lib/color';
 import NegativeContainerMenu from './NegativeContainerMenu';
-import { getNegativeStatus, markNegativeAsComplete, markNegativeAsIncomplete } from '@root/utils/negativeHabit';
+import { getNegativeStatus, markNegativeAsComplete, markNegativeAsIncomplete } from '@lib/negativeHabit';
 import { addToast } from '@heroui/toast';
 import { Spinner } from '@heroui/spinner';
 import { useNegativeHabits } from '@root/context/negativeHabitContext';

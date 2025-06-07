@@ -1,8 +1,8 @@
-import FavoriteQuotes from '@root/components/FavoriteQuotes';
-import QuotesFilters from '@root/components/QuotesFilters'
-import QuotesList from '@root/components/QuotesList'
+import FavoriteQuotes from '@quotes/FavoriteQuotes';
+import QuotesFilters from '@quotes/QuotesFilters'
+import QuotesList from '@quotes/QuotesList'
 import { QuotesProvider } from '@root/context/quotesContext';
-import Header from '@root/sections/Header'
+import Header from '@sections/Header'
 import React from 'react'
 
 function page() {

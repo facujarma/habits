@@ -5,6 +5,11 @@
       "@root/*": ["./src/*"],
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
+      "@habits/*": ["./src/components/habits/*"],
+      "@vape/*": ["./src/components/vape/*"],
+      "@quotes/*": ["./src/components/quotes/*"],
+      "@negativeHabits/*": ["./src/components/negativeHabits/*"],
+      "@rooms/*": ["./src/components/rooms/*"],
       "@sections/*": ["./src/sections/*"],
       "@lib/*": ["./src/utils/*"]
     }

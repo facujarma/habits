@@ -1,6 +1,6 @@
 'use client'
 
-import { hexToRgba } from '@root/utils/color'
+import { hexToRgba } from '@lib/color'
 import { motion } from 'motion/react'
 import { IconCirclePlus } from '@tabler/icons-react'
 import React from 'react'

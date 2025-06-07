@@ -1,7 +1,7 @@
 import { Button, useDisclosure } from '@heroui/react';
 import { Skeleton } from '@heroui/skeleton';
 import { useRooms } from '@root/context/roomsContext';
-import { isUserAdmin } from '@root/utils/rooms';
+import { isUserAdmin } from '@lib/rooms';
 import React, { useEffect, useState } from 'react'
 import RoomRemoveHabitModal from './RoomRemoveHabitModal';
 import RoomEditHabit from './RoomEditHabit';

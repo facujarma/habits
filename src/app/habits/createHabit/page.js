@@ -1,12 +1,11 @@
 'use client'
 
-import { useState } from 'react'
-import HabitTemplateCard from '@root/components/HabitTemplateCard'
-import SelectHabitTypeBlock from '@root/components/SelectHabitTypeBlock'
-import Header from '@root/sections/Header'
-import React from 'react'
-import { positiveTemplates } from '@root/utils/templates'
-import { addHabit } from '@root/utils/habits'
+import React, { useState } from 'react'
+import HabitTemplateCard from '@habits/HabitTemplateCard'
+import SelectHabitTypeBlock from '@habits/SelectHabitTypeBlock'
+import Header from '@sections/Header'
+import { positiveTemplates } from '@lib/templates'
+import { addHabit } from '@lib/habits'
 import { addToast } from '@heroui/toast'
 import {
     Button,
@@ -36,6 +35,7 @@ function Page() {
                 color: "error",
                 timeout: 2000
             })
+            console.log(e)
         }
         onOpenChange();
     }

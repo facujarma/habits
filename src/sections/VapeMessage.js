@@ -1,7 +1,7 @@
 'use client'
 
 import { addToast } from '@heroui/toast'
-import { getVApeCounterForWeek, getVapeCountersForLast10Weeks } from '@root/utils/vape'
+import { getVApeCounterForWeek, getVapeCountersForLast10Weeks } from '@lib/vape'
 import React, { useEffect, useState } from 'react'
 
 function VapeMessage() {

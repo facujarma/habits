@@ -1,4 +1,4 @@
-import NewCard from '@root/components/NewCard'
+import NewCard from '@quotes/NewCard'
 import React from 'react'
 
 function NewsList() {

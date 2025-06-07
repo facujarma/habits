@@ -8,9 +8,9 @@ import {
     addToast,
     Button
 } from "@heroui/react";
-import Input from './Input';
+import Input from '../Input';
 import { useRooms } from '@root/context/roomsContext';
-import CustomButton from './Button';
+import CustomButton from '../Button';
 import { IconClipboard, IconTrash } from '@tabler/icons-react';
 function EditRoomInfoModal({ isOpen, onOpenChange, onClose, defName, defDescription, roomID, isAdmin, roomLink }) {
 

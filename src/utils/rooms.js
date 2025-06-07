@@ -443,6 +443,8 @@ export async function deleteRoom(roomID) {
 export async function getBasicInfoFromPublicRooms(limit) {
     const supabase = await createClient();
     const { data: rooms, error } = await supabase.from('rooms').select('id, name, description').eq('public', true).limit(limit);
+    
+    console.log(rooms)
     if (error) throw new Error('No se pudieron obtener las salas');
     
     // get number of habitrs in room
@@ -451,6 +453,5 @@ export async function getBasicInfoFromPublicRooms(limit) {
         if (error) throw new Error('No se pudieron obtener los hábitos de la sala');
         room.habitsCount = data.length;
     }
-
     return rooms;
 }

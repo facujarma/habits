@@ -10,10 +10,10 @@ import {
 import { useState } from "react";
 import Input from "./Input";
 import CreateNewHabitFourthStep from "./CreateNewHabitFourthStep";
-import { editHabit } from "@root/utils/habits";
+import { editHabit } from "@lib/habits";
 import { redirect } from "next/navigation";
 import { useHabits } from "@root/context/habitContext";
-import IconRenderer from "./IconRenderer";
+import IconRenderer from "@components/IconRenderer";
 import CreateNewHabitFifthStep from "./CreateNewHabitFifthStep";
 
 function EditHabitModal({ habitID, isOpen, onOpen, onOpenChange, defName, defWhen, defPersonToBe, defIcon }) {

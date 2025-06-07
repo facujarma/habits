@@ -1,41 +1,39 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { getHabitFullData } from '@root/utils/habits'
-import HabitInfoTitle from './HabitInfoTitle'
 import { addToast } from '@heroui/toast'
 import HabitStats from './HabitStats'
 import HabitCalendar from './HabitCalendar'
 import { Skeleton } from '@heroui/skeleton'
-import { redirect } from 'next/navigation'
-import EditHabitModal from './EditHabitModal'
 import { useDisclosure } from '@heroui/modal'
+import { getNegativeAllData } from '@lib/negativeHabit'
+import NegativeInfoTitle from '../NegativeInfoTitle'
+import EditNegativeModal from '../EditNegativeModal'
 
-export default function HabitsAllInfo({ habitID }) {
+export default function NegativeAllInfo({ negativeID }) {
     const [habitInfo, setHabitInfo] = useState([])
     const [loading, setLoading] = useState(true)
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     useEffect(() => {
-        async function fetchHabitInfo() {
+        async function fetchNegativeInfo() {
             setLoading(true)
             try {
-                const data = await getHabitFullData(habitID)
+                const data = await getNegativeAllData(negativeID)
 
                 setHabitInfo(data)
                 setLoading(false)
             } catch (err) {
                 addToast({
                     title: 'Error',
-                    message: "No se puso obtener la información del hábito.",
+                    message: "An error occurred while getting the information.",
                     type: 'danger',
                 })
                 console.log(err)
-                redirect("/habits")
             }
         }
 
-        fetchHabitInfo()
+        fetchNegativeInfo()
     }, [])
 
     function getHabitCompletionPercentage(habit, today = new Date()) {
@@ -77,7 +75,8 @@ export default function HabitsAllInfo({ habitID }) {
         let maxStreak = 0;
         let currentStreak = 0;
 
-        for (const dateStr of completedDates) {
+        for (let i = 0; i < completedDates.length; i++) {
+            const dateStr = completedDates[i];
             const current = new Date(dateStr);
             const prev = new Date(current);
             prev.setUTCDate(prev.getUTCDate() - 1);
@@ -134,12 +133,12 @@ export default function HabitsAllInfo({ habitID }) {
     )
     return (
         <div className="flex flex-col gap-8">
-            <HabitInfoTitle onOpen={onOpen} title={habitInfo.name} color={habitInfo.color} when={habitInfo.when} personToBe={habitInfo.personToBe} />
+            <NegativeInfoTitle onOpen={onOpen} badHabit={habitInfo.bad_habit} goodHabit={habitInfo.good_habit} color={habitInfo.color} />
             <HabitStats totalCompletitions={habitInfo.totalCompletions} maxStreak={getMaxStreak(habitInfo)} completionPercentage={getHabitCompletionPercentage(habitInfo)} />
             <div className='mt-12 w-full flex justify-center scale-130 '>
                 <HabitCalendar dates={habitInfo.completedDates} />
             </div>
-            <EditHabitModal defIcon={habitInfo.icon} defName={habitInfo.name} defWhen={habitInfo.when} defPersonToBe={habitInfo.personToBe} habitID={habitInfo.id} isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} />
+            <EditNegativeModal negativeID={habitInfo.id} defBad={habitInfo.bad_habit} defGood={habitInfo.good_habit} isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} />
         </div>
     )
 }

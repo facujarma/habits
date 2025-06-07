@@ -1,4 +1,4 @@
-import RoomInfoContainer from '@root/components/RoomInfoContainer';
+import RoomInfoContainer from '@rooms/RoomInfoContainer';
 import React from 'react'
 import { useRooms } from '@root/context/roomsContext';
 import Button from '@root/components/Button';
@@ -21,7 +21,7 @@ function RoomsHabitsList() {
             {
                 rooms &&
                     rooms.length === 0 ?
-                    <h2 className='font-bold text-[#C5C5C5] text-3xl'> No rooms found </h2> :
+                    <h2 className='text-[#C5C5C5]/50 text-2xl text-center my-6'> No rooms found </h2> :
                     rooms.map((room) => (
                         <div key={room.room.id}>
                             <RoomInfoContainer roomInfo={room.room} habits={room.habits} isAdmin={room.isAdmin} />

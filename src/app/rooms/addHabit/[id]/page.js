@@ -1,9 +1,9 @@
-import RoomAddHabit from '@root/components/RoomAddHabit';
-import RoomSelector from '@root/components/RoomSelector';
+import RoomAddHabit from '@rooms/RoomAddHabit';
+import RoomSelector from '@rooms/RoomSelector';
 import SeparatorLine from '@root/components/SeparatorLine';
 import { RoomsProvider } from '@root/context/roomsContext'
-import Header from '@root/sections/Header';
-import { isUserAdmin } from '@root/utils/rooms';
+import Header from '@sections/Header';
+import { isUserAdmin } from '@lib/rooms';
 import React from 'react'
 
 async function page({ params }) {

@@ -1,6 +1,6 @@
-import NegativeAllInfo from "@root/components/NegativeAllInfo"
+import NegativeAllInfo from "@negativeHabits/NegativeAllInfo"
 import { NegativeHabitsProvider } from "@root/context/negativeHabitContext"
-import AdviceEditHabitPage from "@root/sections/AdviceEditHabitPage"
+import AdviceEditHabitPage from "@sections/AdviceEditHabitPage"
 export default async function Page({ params }) {
     const { id } = await params
 

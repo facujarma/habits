@@ -14,7 +14,7 @@ import {
     addToast
 } from "@heroui/react";
 import { IconMenu2 } from "@tabler/icons-react";
-import { deleteHabit } from "@root/utils/habits";
+import { deleteHabit } from "@lib/habits";
 import { useHabits } from "@root/context/habitContext";
 
 export default function HabitContainerMenu({ habitID }) {

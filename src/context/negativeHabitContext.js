@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { getNegativeHabits } from "@root/utils/negativeHabit";
+import { getNegativeHabits } from "@lib/negativeHabit";
 
 const NegativeHabitsContext = createContext();
 

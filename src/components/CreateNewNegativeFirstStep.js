@@ -1,5 +1,5 @@
 import React from 'react'
-import { hexToRgba } from '@root/utils/color'
+import { hexToRgba } from '@lib/color'
 
 function CreateNewNegativeFirstStep({ habitDescriptiveInfo, setHabitDescriptiveInfo, colorSet }) {
     const handleChange = (field, value) => {

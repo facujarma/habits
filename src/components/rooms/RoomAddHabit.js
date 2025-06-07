@@ -9,7 +9,7 @@ import CreateNewHabitFourthStep from '@root/components/CreateNewHabitFourthStep'
 import CreateNewHabitFifthStep from '@root/components/CreateNewHabitFifthStep'
 import Button from '@root/components/Button'
 import { IconCirclePlus } from '@tabler/icons-react'
-import { addHabitToRoom } from '@root/utils/rooms'
+import { addHabitToRoom } from '@lib/rooms'
 import { addToast } from '@heroui/toast'
 import { useRooms } from '@root/context/roomsContext'
 
