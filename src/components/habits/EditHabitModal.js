@@ -8,13 +8,13 @@ import {
     addToast
 } from "@heroui/react";
 import { useState } from "react";
-import Input from "./Input";
-import CreateNewHabitFourthStep from "./CreateNewHabitFourthStep";
+import Input from "@components/Input";
+import CreateNewHabitFourthStep from "@components/CreateNewHabitFourthStep";
 import { editHabit } from "@lib/habits";
 import { redirect } from "next/navigation";
 import { useHabits } from "@root/context/habitContext";
 import IconRenderer from "@components/IconRenderer";
-import CreateNewHabitFifthStep from "./CreateNewHabitFifthStep";
+import CreateNewHabitFifthStep from "@components/CreateNewHabitFifthStep";
 
 function EditHabitModal({ habitID, isOpen, onOpen, onOpenChange, defName, defWhen, defPersonToBe, defIcon }) {
     const [name, setName] = useState(defName);

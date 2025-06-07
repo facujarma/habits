@@ -1,5 +1,5 @@
-import StopVapingBenefitCard from '@root/components/vape/StopVapingBenefitCard'
-import StopVapingButton from '@root/components/vape/StopVapingButton'
+import StopVapingBenefitCard from '@vape/StopVapingBenefitCard'
+import StopVapingButton from '@vape/StopVapingButton'
 import Header from '@sections/Header'
 import { userIsInProgram } from '@lib/vape'
 import { redirect } from 'next/navigation'

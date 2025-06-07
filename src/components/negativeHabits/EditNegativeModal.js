@@ -7,10 +7,9 @@ import {
     ModalFooter,
     addToast
 } from "@heroui/react";
-import { useEffect, useState } from "react";
-import Input from "../Input";
-import CreateNewHabitFourthStep from "../CreateNewHabitFourthStep";
-import { redirect } from "next/navigation";
+import { useState } from "react";
+import Input from "@components/Input";
+import CreateNewHabitFourthStep from "@components/CreateNewHabitFourthStep";
 import { useNegativeHabits } from "@root/context/negativeHabitContext";
 import { editNegative } from "@lib/negativeHabit";
 
@@ -35,7 +34,7 @@ function EditNegativeModal({ negativeID, isOpen, onOpen, onOpenChange, defBad, d
                 color: "success",
                 timeout: 2000
             })
-            
+
         }
         catch (e) {
             addToast({

@@ -1,6 +1,5 @@
-import HabitInfoTitle from "@/components/HabitInfoTitle"
 import { HabitsProvider } from "@/context/habitContext"
-import HabitsAllInfo from "@root/components/HabitsAllInfo"
+import HabitsAllInfo from "@habits/HabitsAllInfo"
 import AdviceEditHabitPage from "@sections/AdviceEditHabitPage"
 export default async function Page({ params }) {
     const { id } = await params

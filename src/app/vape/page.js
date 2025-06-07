@@ -1,5 +1,5 @@
-import PuffButton from '@root/components/vape/PuffButton'
-import PuffTodayCounting from '@root/components/vape/PuffTodayCounting'
+import PuffButton from '@vape/PuffButton'
+import PuffTodayCounting from '@vape/PuffTodayCounting'
 import NewsList from '@sections/NewsList'
 import { PuffProvider } from '@root/context/puffContext'
 import React from 'react'

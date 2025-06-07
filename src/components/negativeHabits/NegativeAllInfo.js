@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { addToast } from '@heroui/toast'
-import HabitStats from './HabitStats'
-import HabitCalendar from './HabitCalendar'
+import HabitStats from '@habits/HabitStats'
+import HabitCalendar from '@habits/HabitCalendar'
 import { Skeleton } from '@heroui/skeleton'
 import { useDisclosure } from '@heroui/modal'
 import { getNegativeAllData } from '@lib/negativeHabit'
-import NegativeInfoTitle from '../NegativeInfoTitle'
-import EditNegativeModal from '../EditNegativeModal'
+import NegativeInfoTitle from './NegativeInfoTitle'
+import EditNegativeModal from './EditNegativeModal'
 
 export default function NegativeAllInfo({ negativeID }) {
     const [habitInfo, setHabitInfo] = useState([])

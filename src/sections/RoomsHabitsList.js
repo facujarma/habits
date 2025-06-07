@@ -1,7 +1,7 @@
 import RoomInfoContainer from '@rooms/RoomInfoContainer';
 import React from 'react'
 import { useRooms } from '@root/context/roomsContext';
-import Button from '@root/components/Button';
+import Button from '@components/Button';
 import { IconPlus } from '@tabler/icons-react';
 import { redirect } from 'next/navigation';
 

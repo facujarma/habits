@@ -1,6 +1,6 @@
 import RoomAddHabit from '@rooms/RoomAddHabit';
 import RoomSelector from '@rooms/RoomSelector';
-import SeparatorLine from '@root/components/SeparatorLine';
+import SeparatorLine from '@components/SeparatorLine';
 import { RoomsProvider } from '@root/context/roomsContext'
 import Header from '@sections/Header';
 import { isUserAdmin } from '@lib/rooms';

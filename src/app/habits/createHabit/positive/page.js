@@ -9,8 +9,8 @@ import { IconCirclePlus } from "@tabler/icons-react"
 import { useState } from "react"
 import { addHabit } from "@lib/habits"
 import { addToast } from "@heroui/react";
-import CreateNewHabitFourthStep from "@root/components/CreateNewHabitFourthStep"
-import CreateNewHabitFifthStep from "@root/components/CreateNewHabitFifthStep"
+import CreateNewHabitFourthStep from "@components/CreateNewHabitFourthStep"
+import CreateNewHabitFifthStep from "@components/CreateNewHabitFifthStep"
 
 function page() {
 
