@@ -3,6 +3,7 @@ import Button from '@components/Button'
 import Input from '@components/Input'
 import React, { useState } from 'react'
 import { signup } from '@root/app/auth/actions'
+import { addToast } from '@heroui/toast'
 function SignupForm() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -10,7 +11,16 @@ function SignupForm() {
 
     const createUser = async (e) => {
         e.preventDefault()
-        signup(email, password, name)
+        const { error } = await signup(email, password, name)
+        if (error) {
+            addToast({
+                title: "Error",
+                description: error,
+                color: "danger",
+                timeout: 2000
+            })
+
+        }
     }
     return (
         <form className="flex flex-col gap-6 mb-6" onSubmit={(e) => createUser(e)}>

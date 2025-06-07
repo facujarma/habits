@@ -18,7 +18,15 @@ export async function login(email, password) {
   const { error } = await supabase.auth.signInWithPassword(data)
   console.log(error)
   if (error) {
-    redirect('/error')
+    if (error.message.includes('Invalid login credentials')) {
+      return {
+        error: 'Invalid login credentials',
+      }
+    } else {
+      return {
+        error: 'An error occurred while login, try again',
+      }
+    }
   }
   revalidatePath('/habits', 'layout')
   redirect('/habits')
@@ -31,10 +39,31 @@ export async function signup(email, password, username) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
+
   });
 
   if (error || !data.user) {
-    redirect('/error');
+    console.log(error);
+    if (error.message.includes('User already exists')) {
+      return {
+        error: 'User already exists',
+      };
+    } 
+    if(error.message.includes('Email address')) {
+      return {
+        error: 'Email address is invalid.',
+      };
+    }
+    if(error.message.includes('Email not confirmed')) {
+      return {
+        error: 'Email not confirmed.',
+      };
+    }
+    else {
+      return {
+        error: 'An error occurred while registering, try again',
+      };
+    }
   }
 
   // Insertar en la tabla user_data
@@ -48,7 +77,7 @@ export async function signup(email, password, username) {
   }
 
   revalidatePath('/habits', 'layout');
-  redirect('/login');
+  redirect('/auth/login');
 }
 
 export async function loginWithGoogle() {
