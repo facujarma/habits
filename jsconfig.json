@@ -10,6 +10,7 @@
       "@quotes/*": ["./src/components/quotes/*"],
       "@negativeHabits/*": ["./src/components/negativeHabits/*"],
       "@rooms/*": ["./src/components/rooms/*"],
+      "@journaling/*": ["./src/components/journaling/*"],
       "@sections/*": ["./src/sections/*"],
       "@lib/*": ["./src/utils/*"]
     }

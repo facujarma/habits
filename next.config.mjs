@@ -29,6 +29,7 @@ const nextConfig = {
         turbo: true, // importante para habilitar Turbopack
         serverActions: true,
     },
+    reactStrictMode: false,
 };
 
 export default nextConfig;
