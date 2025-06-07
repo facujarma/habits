@@ -76,10 +76,14 @@ function generateRoomCode(length = 6) {
 export async function isUserAdmin(roomID) {
     const supabase = await createClient();
     const user = await getCurrentUser();
-    const { data, error } = await supabase.from('rooms').select('created_by').eq('id', roomID).maybeSingle();
-    console.log(error)
-    if (error) throw new Error('No se pudo verificar el rol del usuario');
-    return data.created_by === user.id
+    const { data, error } = await supabase.from('room_members').select('role').eq('roomID', roomID).eq('userID', user.id).maybeSingle();
+    console.log(data)
+    if (error) {
+        console.error('Error al verificar miembro:', error);
+        throw new Error('No se pudo verificar miembro');
+    }
+
+    return data?.role === 'ADMIN';
 }
 
 export async function createNewRoom(roomInfo, habitInfo) {
@@ -175,7 +179,7 @@ export async function getHabitsForTodayFromRoom(roomID) {
     if (isUserMember(roomID)) {
 
         const jsDay = new Date().getDay();
-        const { data: habits, error } = await supabase
+        const { data: habits } = await supabase
             .from("room_habits")
             .select("*, room_habit_schedules!inner(weekday)")
             .eq("roomID", roomID)
@@ -422,4 +426,31 @@ export async function editHabit(habitID, data) {
 
     const { error } = await supabase.from("room_habits").update(data).eq("id", habitID)
     if (error) throw new Error("No se pudo editar el hábito");
+}
+
+export async function deleteRoom(roomID) {
+    const supabase = await createClient();
+
+    const isAdmin = await isUserAdmin(roomID);
+    if (!isAdmin) throw new Error('No eres admin de la sala');
+
+    const { error } = await supabase.from('rooms').delete().eq('id', roomID);
+    console.log(error)
+    if (error) throw new Error('No se pudo eliminar la sala');
+    return true;
+}
+
+export async function getBasicInfoFromPublicRooms(limit) {
+    const supabase = await createClient();
+    const { data: rooms, error } = await supabase.from('rooms').select('id, name, description').eq('public', true).limit(limit);
+    if (error) throw new Error('No se pudieron obtener las salas');
+    
+    // get number of habitrs in room
+    for (const room of rooms) {
+        const { data, error } = await supabase.from('room_habits').select('id').eq('roomID', room.id);
+        if (error) throw new Error('No se pudieron obtener los hábitos de la sala');
+        room.habitsCount = data.length;
+    }
+
+    return rooms;
 }

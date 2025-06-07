@@ -1,7 +1,7 @@
 'use client'
 
 import { addToast } from "@heroui/toast";
-import { getAllInfoRoomsWhereUserIsMember, updateRoomInfo } from "@root/utils/rooms";
+import { deleteRoom, getAllInfoRoomsWhereUserIsMember, updateRoomInfo } from "@root/utils/rooms";
 import {
     createContext,
     useContext,
@@ -60,6 +60,23 @@ export function RoomsProvider({ children }) {
         [] // fetchRooms se redefine abajo, así que React infiere que está estable
     );
 
+    const deleteRoomFront = useCallback(
+        async (roomId) => {
+            try {
+                await deleteRoom(roomId);
+                await fetchRooms(true);
+            } catch (error) {
+                addToast({
+                    title: "Error",
+                    message: "An error occurred while deleting the room.",
+                    type: "danger",
+                });
+                console.log(error);
+            }
+        },
+        [] // fetchRooms se redefine abajo, así que React infiere que está estable
+    );
+
     // Busca en cache o carga desde DB si force=true o no hay cache
     const fetchRooms = useCallback(
         async (force = false) => {
@@ -96,6 +113,7 @@ export function RoomsProvider({ children }) {
             loading,
             fetchRooms,
             editRoomInfo,
+            deleteRoomFront
         }),
         [rooms, loading, fetchRooms, editRoomInfo]
     );

@@ -11,17 +11,18 @@ import {
 import Input from './Input';
 import { useRooms } from '@root/context/roomsContext';
 import CustomButton from './Button';
-import { IconClipboard } from '@tabler/icons-react';
+import { IconClipboard, IconTrash } from '@tabler/icons-react';
 function EditRoomInfoModal({ isOpen, onOpenChange, onClose, defName, defDescription, roomID, isAdmin, roomLink }) {
 
     const [name, setName] = useState(defName);
     const [description, setDescription] = useState(defDescription);
 
-    const { editRoomInfo } = useRooms()
+    const { editRoomInfo, deleteRoomFront } = useRooms()
 
     const handleChange = async () => {
         try {
             await editRoomInfo(roomID, { name, description });
+
             addToast({
                 title: "Room edited",
                 description: "The room has been edited successfully.",
@@ -40,6 +41,27 @@ function EditRoomInfoModal({ isOpen, onOpenChange, onClose, defName, defDescript
             })
         }
 
+    }
+
+    const handleRemove = async () => {
+        try {
+            await deleteRoomFront(roomID);
+            addToast({
+                title: "Room deleted",
+                description: "The room has been deleted successfully.",
+                color: "success",
+                timeout: 2000
+            })
+        }
+        catch (e) {
+            console.log(e)
+            addToast({
+                title: "Error",
+                description: "An error occurred while deleting the room.",
+                color: "danger",
+                timeout: 2000
+            })
+        }
     }
 
     return (
@@ -64,7 +86,9 @@ function EditRoomInfoModal({ isOpen, onOpenChange, onClose, defName, defDescript
                                         })
                                     })
                                 }
-                            />                        </ModalBody>
+                            />
+                            <CustomButton text="Delete room" icon={<IconTrash />} handleClick={() => { handleRemove() }} />
+                        </ModalBody>
                         <ModalFooter>
                             <Button onPress={onClose}>
                                 Cancel

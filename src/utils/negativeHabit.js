@@ -114,7 +114,7 @@ export async function getNegativeStatus(negativeID) {
         throw new Error("No se pudo obtener el estado del hábito");
     }
     if (!data) {
-        await markNegativeAsComplete()
+        await markNegativeAsComplete(negativeID)
         return true;
     }
 

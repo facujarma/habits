@@ -102,7 +102,7 @@ function RoomHabitContainer({ habit }) {
                         <h3 className="text-start text-2xl font-bold text-[#C5C5C5]">
                             {name}
                         </h3>
-                        <span className="text-base text-[#C5C5C5]"> {personToBe} </span>
+                        <span className="text-base text-[#C5C5C5] text-start"> {personToBe} </span>
                     </button>
                     <button
                         onClick={() => redirect(`rooms/habit/${habit.id}`)}

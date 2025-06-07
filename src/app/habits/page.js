@@ -10,6 +10,8 @@ import NegativeHabitsList from "@root/components/NegativeHabitsList";
 import { Tabs, Tab } from "@heroui/react";
 import RoomsHabitsList from "@root/sections/RoomsHabitsList";
 import { RoomsProvider } from "@root/context/roomsContext";
+import RoomsPublicList from "@root/components/RoomsPublicList";
+import SeparatorLine from "@root/components/SeparatorLine";
 export default function Home() {
 
   return (
@@ -35,7 +37,11 @@ export default function Home() {
               </Tab>
               <Tab key="rooms" title="Room's Habits">
                 <RoomsProvider>
+
                   <RoomsHabitsList />
+                  <SeparatorLine />
+                  <RoomsPublicList />
+                  
                 </RoomsProvider>
               </Tab>
             </Tabs>
