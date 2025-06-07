@@ -48,7 +48,7 @@ export async function signup(email, password, username) {
   }
 
   revalidatePath('/habits', 'layout');
-  redirect('/auth/emailsented');
+  redirect('/login');
 }
 
 export async function loginWithGoogle() {
