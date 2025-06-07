@@ -33,7 +33,7 @@ export async function userIsInProgram() {
     console.error('Error al verificar programa:', error);
     throw new Error('No se pudo verificar estado del programa');
   }
-
+  if(!data) return false
   return data?.is_active ?? false;
 }
 

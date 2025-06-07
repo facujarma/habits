@@ -14,17 +14,16 @@ function StopVapingBanner() {
         const getIsInProgram = async () => {
 
             // check local storage first
-            let isInProgram = localStorage.getItem('isInProgram');
+            let isInProgram = sessionStorage.getItem('isInProgram');
             if (isInProgram) {
                 setIsInProgram(JSON.parse(isInProgram));
                 setLoading(false);
                 console.log('isInProgram loaded from local storage', isInProgram);
-                return;
             }
             else {
                 isInProgram = await userIsInProgram();
                 setIsInProgram(isInProgram);
-                localStorage.setItem('isInProgram', JSON.stringify(isInProgram));
+                sessionStorage.setItem('isInProgram', JSON.stringify(isInProgram));
                 setLoading(false);
             }
         }
