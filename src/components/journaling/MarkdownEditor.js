@@ -15,6 +15,7 @@ export default function Editor() {
   const {
     loaded,
     entry,
+    entryID,
     setEntry,
     setEditorRef
   } = useTodayEntry();
@@ -45,7 +46,7 @@ export default function Editor() {
   const handleSave = async () => {
     try {
       const json = JSON.stringify(editor.document);
-      await saveJournalEntry(json);
+      await saveJournalEntry(json, entryID);
 
       addToast({
         title: "Saved",

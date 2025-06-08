@@ -83,14 +83,14 @@ export async function getTodayEntry() {
 
     const { data, error } = await supabase
         .from('user_diaries')
-        .select('content')
+        .select('id, content')
         .eq('userID', user.id)
         .gte('created_at', start)
         .lte('created_at', end)
         .maybeSingle();
 
     if (error) throw new Error('No se pudo obtener el diario de hoy');
-    return data?.content ?? null;
+    return data;
 }
 
 

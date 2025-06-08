@@ -1,7 +1,7 @@
 'use client'
 
 import ActionBox from "@components/ActionBox"
-import { IconCirclePlus, IconQuote, IconSmoking } from "@tabler/icons-react"
+import { IconBook, IconCirclePlus, IconQuote, IconSmoking } from "@tabler/icons-react"
 import { redirect } from 'next/navigation'
 
 function MainActions() {
@@ -25,6 +25,13 @@ function MainActions() {
                     }}
                     icon={<IconQuote className="w-full h-full text-[#B3B3B3]" />}
                     text={"Get a quote"}
+                />
+                <ActionBox
+                    handleClick={() => {
+                        redirect("/journaling")
+                    }}
+                    icon={<IconBook  className="w-full h-full text-[#B3B3B3]" />}
+                    text={"Journaling"}
                 />
             </div>
         </div>
