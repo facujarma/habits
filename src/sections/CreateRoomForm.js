@@ -13,6 +13,7 @@ import { IconCirclePlus } from '@tabler/icons-react'
 import { createNewRoom } from '@lib/rooms'
 import { addToast } from '@heroui/toast'
 import { useRooms } from '@root/context/roomsContext'
+import { Checkbox } from '@heroui/react'
 function CreateRoomForm() {
 
     const { fetchRooms } = useRooms()
@@ -34,7 +35,7 @@ function CreateRoomForm() {
         Su: false
     })
     const [habitTimes, setHabitTimes] = useState([])
-
+    const [isPublic, setIsPublic] = useState(false)
     const [habitColor, setHabitColor] = useState(new Set(["#668C9A"]))
     const [habitIcon, setHabitIcon] = useState("")
 
@@ -51,7 +52,8 @@ function CreateRoomForm() {
 
         const roomInfo = {
             name: roomName,
-            description: roomDesc
+            description: roomDesc,
+            public: isPublic
         }
         const promise = createNewRoom(roomInfo, habit);
 
@@ -64,13 +66,13 @@ function CreateRoomForm() {
 
         try {
             await promise;
+            await fetchRooms(true);
             addToast({
                 title: "Room created",
                 description: "The room has been created successfully.",
                 color: "success",
                 timeout: 2000
             })
-            fetchRooms(true);
         } catch (e) {
             addToast({
                 title: "Error",
@@ -86,7 +88,9 @@ function CreateRoomForm() {
         <div className='w-full'>
             <Input label="Name" placeholder="Gymbros" setText={setName} />
             <Input label="Description" placeholder="Talk more about the room" setText={setDesc} />
-
+            <Checkbox isSelected={isPublic} onValueChange={setIsPublic}>
+                Is the rooms public?
+            </Checkbox>
             <p className='text-base text-[#C5C5C5] my-10'>
                 Rooms are spaces where habits are shared among people. Complete the information for the habit you want to do as a group (you’ll be able to add more later).
             </p>

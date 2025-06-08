@@ -46,12 +46,6 @@ function EditRoomInfoModal({ isOpen, onOpenChange, onClose, defName, defDescript
     const handleRemove = async () => {
         try {
             await deleteRoomFront(roomID);
-            addToast({
-                title: "Room deleted",
-                description: "The room has been deleted successfully.",
-                color: "success",
-                timeout: 2000
-            })
         }
         catch (e) {
             console.log(e)

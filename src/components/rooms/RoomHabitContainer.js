@@ -92,7 +92,7 @@ function RoomHabitContainer({ habit }) {
                 <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`flex items-center  h-full w-full border  rounded-xl cursor-pointer ${!status && "bg-[#242424] border-[#616161]"}`}
+                    className={`flex items-center min-h-24 h-full w-full border  rounded-xl cursor-pointer ${!status && "bg-[#242424] border-[#616161]"}`}
                     style={status && { backgroundColor, borderColor: color }}
                 >
                     <IconRenderer iconName={habitIcon} color={"white"} />
@@ -106,7 +106,7 @@ function RoomHabitContainer({ habit }) {
                     </button>
                     <button
                         onClick={() => redirect(`rooms/habit/${habit.id}`)}
-                        className='w-14 border-l border-[#616161] h-full rounded-r-xl bg-[#242424]  flex items-center justify-center'>
+                        className='w-14 h-full border-l border-[#616161] rounded-r-xl bg-[#242424]  flex items-center justify-center'>
                         <IconArrowBadgeRight size={32} />
                     </button>
                 </motion.div>

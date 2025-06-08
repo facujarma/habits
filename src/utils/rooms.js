@@ -112,6 +112,7 @@ export async function createNewRoom(roomInfo, habitInfo) {
         .insert([{
             name: roomInfo.name,
             description: roomInfo.description,
+            public: roomInfo.public,
             code: roomCode,
             created_by: user.id  // <-- columna que tu política RLS exige
         }])
@@ -123,19 +124,21 @@ export async function createNewRoom(roomInfo, habitInfo) {
         throw new Error('No se pudo crear la sala');
     }
 
-    // 3) Insertar el hábito
-    const insertedHabit = await addHabitToRoom(habitInfo, insertedRoom.id);
-
-    // 4) Agregar al creador en room_members
+    // 3) Agregar al creador en room_members
     const { error: memberError } = await supabase
         .from('room_members')
         .insert([{
             roomID: insertedRoom.id,
+            role: 'ADMIN',
             userID: user.id
         }]);
     if (memberError) {
         console.error('Error al insertar miembro inicial:', memberError);
     }
+
+    // 4) Insertar el hábito
+    const insertedHabit = await addHabitToRoom(habitInfo, insertedRoom.id);
+
 
     return insertedRoom;
 }
@@ -442,11 +445,11 @@ export async function deleteRoom(roomID) {
 
 export async function getBasicInfoFromPublicRooms(limit) {
     const supabase = await createClient();
-    const { data: rooms, error } = await supabase.from('rooms').select('id, name, description').eq('public', true).limit(limit);
-    
+    const { data: rooms, error } = await supabase.from('rooms').select('id, name, description, code').eq('public', true).limit(limit);
+
     console.log(rooms)
     if (error) throw new Error('No se pudieron obtener las salas');
-    
+
     // get number of habitrs in room
     for (const room of rooms) {
         const { data, error } = await supabase.from('room_habits').select('id').eq('roomID', room.id);
