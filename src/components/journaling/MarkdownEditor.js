@@ -10,13 +10,20 @@ import { addToast, Button, Skeleton } from "@heroui/react";
 import { saveJournalEntry } from "@root/utils/journal";
 import { useEffect } from "react";
 import { useTodayEntry } from "@root/context/todayEntryContext";
+import { useSearchParams } from "next/navigation"
 
 export default function Editor() {
+
+  const searchParams = useSearchParams()
+  const start = searchParams.get("start") || ""
+
+
   const {
     loaded,
     entry,
     entryID,
     setEntry,
+    addQuestionToEntry,
     setEditorRef
   } = useTodayEntry();
 
@@ -40,7 +47,11 @@ export default function Editor() {
   useEffect(() => {
     if (loaded && entry && editor) {
       editor.replaceBlocks(editor.document, entry);
+      if (start) {
+        addQuestionToEntry(start);
+      }
     }
+
   }, [loaded]);
 
   const handleSave = async () => {

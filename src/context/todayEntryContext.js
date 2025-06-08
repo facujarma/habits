@@ -10,12 +10,12 @@ export function TodayEntryProvider({ children }) {
     const [entry, setEntry] = useState([]);
     const [entryID, setEntryID] = useState(null);
     const [loaded, setLoaded] = useState(false);
-    const [editorRef, setEditorRef] = useState(null); 
+    const [editorRef, setEditorRef] = useState(null);
 
     useEffect(() => {
         const loadEntry = async () => {
             try {
-                const {content, id} = await getTodayEntry();
+                const { content, id } = await getTodayEntry();
                 if (content) {
                     const json = JSON.parse(content);
                     setEntry(json);
@@ -63,13 +63,14 @@ export function TodayEntryProvider({ children }) {
         }
     };
 
+
     const contextValue = {
         entry,
         loaded,
         entryID,
         setEntry,
         addQuestionToEntry,
-        setEditorRef 
+        setEditorRef
     };
 
     return (

@@ -6,6 +6,7 @@ import { IconHeart, IconHeartFilled } from '@tabler/icons-react'
 import { addQuoteToFavorites } from '@lib/quotes'
 import { useQuotes } from '@root/context/quotesContext'
 import { addToast } from '@heroui/toast'
+import { redirect } from 'next/navigation'
 
 function QuotesList() {
 
@@ -69,31 +70,38 @@ function QuotesList() {
             )}
             {
                 quotes.length > 0 &&
-                <div className='mt-[27em] flex gap-6 items-center'>
+                <div className='mt-[27em] flex flex-col gap-6 items-center'>
+                    <div className='flex gap-6 items-center'>
+                        <button
+                            onClick={() => navigator.clipboard.writeText(quotes[actualQuote].text).then(() => {
+                                setIsCopied(true);
+                                setTimeout(() => {
+                                    setIsCopied(false);
+                                }, 2000);
+                            })}
+                            className={`w-28 h-9 rounded-full border border-slate-500 duration-300 ${isCopied ? 'bg-green-300/40' : 'bg-slate-500/40'}`}>
+                            Copy
+                        </button >
+                        {
+                            isFav ?
+                                <button
+                                    onClick={addToFavorites}
+                                    className="aspect-square h-9 bg-slate-500/40 rounded-full border border-slate-500 flex justify-center items-center">
+                                    <IconHeartFilled />
+                                </button >
+                                :
+                                <button
+                                    onClick={addToFavorites}
+                                    className="aspect-square h-9 bg-slate-500/40 rounded-full border border-slate-500 flex justify-center items-center">
+                                    <IconHeart />
+                                </button >
+                        }
+                    </div>
                     <button
-                        onClick={() => navigator.clipboard.writeText(quotes[actualQuote].text).then(() => {
-                            setIsCopied(true);
-                            setTimeout(() => {
-                                setIsCopied(false);
-                            }, 2000);
-                        })}
-                        className={`w-28 h-9 rounded-full border border-slate-500 duration-300 ${isCopied ? 'bg-green-300/40' : 'bg-slate-500/40'}`}>
-                        Copy
+                        onClick={() => redirect(`/journaling?start=Reflect about this quote: ${quotes[actualQuote].text}`)}
+                        className={`w-fit px-6 h-9 rounded-full border border-slate-500 duration-300 ${isCopied ? 'bg-green-300/40' : 'bg-slate-500/40'}`}>
+                        Reflect about this
                     </button >
-                    {
-                        isFav ?
-                            <button
-                                onClick={addToFavorites}
-                                className="aspect-square h-9 bg-slate-500/40 rounded-full border border-slate-500 flex justify-center items-center">
-                                <IconHeartFilled />
-                            </button >
-                            :
-                            <button
-                                onClick={addToFavorites}
-                                className="aspect-square h-9 bg-slate-500/40 rounded-full border border-slate-500 flex justify-center items-center">
-                                <IconHeart />
-                            </button >
-                    }
                 </div>
             }
         </div >
