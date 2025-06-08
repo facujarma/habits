@@ -34,8 +34,8 @@ export async function saveJournalEntry(entry) {
     const supabase = await createClient();
 
     const user = await getCurrentUser();
-
-    const { data, error } = await supabase.from('user_diaries').insert({ userID: user.id, content: entry });
+    const today = getLocalDateString();
+    const { error } = await supabase.from('user_diaries').upsert({ userID: user.id, content: entry, created_at: today }, { onConflict: 'userID,created_at' });
     if (error) throw new Error('No se pudo guardar el diario');
 }
 
