@@ -6,7 +6,7 @@ import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 
 import "./styles.css";
-import { addToast, Button } from "@heroui/react";
+import { addToast, Button, Skeleton } from "@heroui/react";
 import { saveJournalEntry } from "@root/utils/journal";
 import { useEffect } from "react";
 import { useTodayEntry } from "@root/context/todayEntryContext";
@@ -84,7 +84,8 @@ export default function Editor() {
           </Button>
         </>
       ) : (
-        <div className="text-muted-foreground">Cargando...</div>
+        <Skeleton className="z-20 w-full h-[30em] rounded-2xl flex items-center justify-betwee"
+          classNames={{ base: " bg-[#666F9A]/40 border border-[#666F9A]" }} />
       )}
     </div>
   );

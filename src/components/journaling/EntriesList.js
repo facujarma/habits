@@ -1,5 +1,9 @@
+'use client'
+
 import { getUserJournalHistory } from '@root/utils/journal';
 import React, { useEffect, useState } from 'react'
+import EntryCard from './EntryCard';
+import { Skeleton } from '@heroui/skeleton';
 
 function EntriesList() {
 
@@ -17,18 +21,23 @@ function EntriesList() {
     }, [])
 
     return (
-        <div>
+        <ul className='flex flex-col gap-4'>
             {
                 !loading ?
                     entries.map((entry) => (
-                        <div key={entry.id}>
-                            <p>{entry.created_at}</p>
-                        </div>
+                        <EntryCard key={entry.id} entryID={entry.id} date={entry.created_at} />
                     ))
                     :
-                    <p>Loading...</p>
+                    (
+                        <>
+                            <Skeleton className="z-20 w-full h-20 rounded-2xl flex items-center justify-between" />
+                            <Skeleton className="z-20 w-full h-20 rounded-2xl flex items-center justify-between" />
+                            <Skeleton className="z-20 w-full h-20 rounded-2xl flex items-center justify-between" />
+                            <Skeleton className="z-20 w-full h-20 rounded-2xl flex items-center justify-between" />
+                        </>
+                    )
             }
-        </div>
+        </ul>
     )
 }
 

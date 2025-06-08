@@ -1,10 +1,10 @@
 
 import { Editor } from "@journaling/DynamicEditor"
-import Button from "@components/Button"
 import Header from '@sections/Header'
 import React from 'react'
 import SuggestedQuestions from "@journaling/SuggestedQuestions"
 import { TodayEntryProvider } from "@root/context/todayEntryContext"
+import FullJournalButton from "@root/components/journaling/FullJournalButton"
 
 function page() {
 
@@ -18,6 +18,7 @@ function page() {
       <TodayEntryProvider>
         <SuggestedQuestions />
         <Editor />
+        <FullJournalButton />
       </TodayEntryProvider>
     </div>
   )
