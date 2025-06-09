@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/utils/supabase/server';
+import { getUTCDateString, getUTCRangeForToday } from './TimesToBack';
 
 
 const WEEKDAY_INITIALS = {
@@ -30,12 +31,6 @@ const weekdayMap = {
     Su: 0, M: 1, Tu: 2, W: 3, Th: 4, F: 5, Sa: 6,
 };
 
-// Genera fecha local YYYY-MM-DD
-function getLocalDateString() {
-    const d = new Date();
-    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-    return d.toISOString().split('T')[0];
-}
 
 export async function addHabit(habit) {
     const supabase = await createClient();
@@ -102,13 +97,14 @@ export async function selectHabits() {
 
 export async function getHabitStatus(habitID) {
     const supabase = await createClient();
-    const today = getLocalDateString();
-
+    const todayRange = getUTCRangeForToday();
+    console.log(todayRange);
     const { data, error } = await supabase
         .from("habit_records")
         .select("status")
         .eq("habitID", habitID)
-        .eq("record_date", today)
+        .gte("created_at", todayRange.start)
+        .lte("created_at", todayRange.end)
         .maybeSingle();
 
     if (error) throw new Error("No se pudo obtener el estado del hábito");
@@ -120,8 +116,8 @@ export async function markHabitAsComplete(habitID) {
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) throw new Error("Usuario no autenticado");
 
-    const today = getLocalDateString();
-
+    const today = getUTCDateString();
+    console.log(today);
     const { error } = await supabase.from("habit_records").upsert(
         [{ habitID, record_date: today, status: true }],
         { onConflict: "habitID,record_date" }
@@ -136,7 +132,7 @@ export async function markHabitAsIncomplete(habitID) {
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) throw new Error("Usuario no autenticado");
 
-    const today = getLocalDateString();
+    const today = getUTCDateString();
 
     const { error } = await supabase.from("habit_records").upsert(
         [{ habitID, record_date: today, status: false }],

@@ -45,7 +45,7 @@ function QuotesList() {
     }
 
     return (
-        <div className='z-10 w-full flex justify-center mt-20'>
+        <div className='z-10 w-full flex justify-center mt-20 overflow-x-hidden'>
             {
                 quotes.length == 0 ? (
                     <h1 className='text-2xl text-[#C5C5C5]'>No quotes found</h1>

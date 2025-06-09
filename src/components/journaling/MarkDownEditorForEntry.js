@@ -9,6 +9,7 @@ import "./styles.css";
 import { addToast, Button } from "@heroui/react";
 import { getEntryContent, saveJournalEntry } from "@root/utils/journal";
 import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
 
 export default function MarkDownEditorForEntry({ entryID }) {
 
@@ -32,6 +33,8 @@ export default function MarkDownEditorForEntry({ entryID }) {
                     const json = JSON.parse(content);
                     setEntry(json);
                     editor.replaceBlocks(editor.document, json);
+                } else {
+                    redirect("/journaling")
                 }
             } catch (err) {
                 console.error(err);
@@ -41,6 +44,7 @@ export default function MarkDownEditorForEntry({ entryID }) {
                     color: "danger",
                     timeout: 2000,
                 });
+                redirect("/journaling")
             } finally {
                 setLoaded(true);
             }

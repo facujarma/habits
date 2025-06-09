@@ -26,7 +26,7 @@ function QuoteCard({ quote, author, index }) {
         const normX = (relativeX / width) * 2 - 1
 
         // Multiplicar por max grados (ej: 45 grados)
-        const maxRotation = 45
+        const maxRotation = 60
 
         // Ángulo de rotación según posición X, invertido si querés
         const angle = normX * maxRotation
