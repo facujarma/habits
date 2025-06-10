@@ -106,3 +106,16 @@ export async function getEntryContent(entryID) {
     if (error) throw new Error('No se pudo obtener el diario de hoy');
     return data?.content ?? null;
 }
+
+export async function getEntryData(entryID) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+    const { data, error } = await supabase
+        .from('user_diaries')
+        .select('id, created_at, updated_at')
+        .eq('id', entryID)
+        .eq('userID', user.id)
+        .maybeSingle();
+    if (error) throw new Error('No se pudo obtener el diario de hoy');
+    return data;
+}

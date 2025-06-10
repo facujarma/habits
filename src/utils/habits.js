@@ -116,30 +116,79 @@ export async function markHabitAsComplete(habitID) {
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) throw new Error("Usuario no autenticado");
 
-    const today = getUTCDateString();
-    console.log(today);
-    const { error } = await supabase.from("habit_records").upsert(
-        [{ habitID, record_date: today, status: true }],
-        { onConflict: "habitID,record_date" }
-    );
+    const today = getUTCDateString(); // 'YYYY-MM-DD'
 
-    if (error) throw new Error("No se pudo marcar como completado");
+    // 1. Buscar si existe un registro hoy
+    const { data: existing, error: fetchError } = await supabase
+        .from("habit_records")
+        .select("*")
+        .eq("habitID", habitID)
+        .eq("record_date", today)
+        .maybeSingle();
+
+    if (fetchError && fetchError.code !== "PGRST116") {
+        throw new Error("Error al verificar estado del hábito");
+    }
+
+    if (existing) {
+        // Ya existe: actualizar status = true
+        const { error: updateError } = await supabase
+            .from("habit_records")
+            .update({ status: true })
+            .eq("habitID", habitID)
+            .eq("record_date", today);
+
+        if (updateError) throw new Error("No se pudo actualizar el estado");
+    } else {
+        // No existe: crear nuevo registro
+        const { error: insertError } = await supabase
+            .from("habit_records")
+            .insert({ habitID, record_date: today, status: true });
+
+        if (insertError) throw new Error("No se pudo crear el registro");
+    }
+
     return true;
 }
+
 
 export async function markHabitAsIncomplete(habitID) {
     const supabase = await createClient();
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) throw new Error("Usuario no autenticado");
 
-    const today = getUTCDateString();
+    const today = getUTCDateString(); // 'YYYY-MM-DD'
 
-    const { error } = await supabase.from("habit_records").upsert(
-        [{ habitID, record_date: today, status: false }],
-        { onConflict: "habitID,record_date" }
-    );
+    // 1. Buscar si existe un registro hoy
+    const { data: existing, error: fetchError } = await supabase
+        .from("habit_records")
+        .select("*")
+        .eq("habitID", habitID)
+        .eq("record_date", today)
+        .maybeSingle();
 
-    if (error) throw new Error("No se pudo marcar como incompleto");
+    if (fetchError && fetchError.code !== "PGRST116") {
+        throw new Error("Error al verificar estado del hábito");
+    }
+
+    if (existing) {
+        // Ya existe: actualizar status = true
+        const { error: updateError } = await supabase
+            .from("habit_records")
+            .update({ status: false })
+            .eq("habitID", habitID)
+            .eq("record_date", today);
+
+        if (updateError) throw new Error("No se pudo actualizar el estado");
+    } else {
+        // No existe: crear nuevo registro
+        const { error: insertError } = await supabase
+            .from("habit_records")
+            .insert({ habitID, record_date: today, status: false });
+
+        if (insertError) throw new Error("No se pudo crear el registro");
+    }
+
     return true;
 }
 

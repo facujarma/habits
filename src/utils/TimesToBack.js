@@ -20,7 +20,11 @@ export function getUTCRangeForDate(date) {
     };
 }
 
+
 export function getUTCDateString() {
     const now = new Date();
-    return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())).toISOString();
+    const year = now.getUTCFullYear();
+    const month = (now.getUTCMonth() + 1).toString().padStart(2, '0'); // Mes: 01-12
+    const day = now.getUTCDate().toString().padStart(2, '0'); // Día: 01-31
+    return `${year}-${month}-${day}`;
 }
