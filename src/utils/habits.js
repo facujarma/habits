@@ -95,10 +95,8 @@ export async function selectHabits() {
     return habits;
 }
 
-export async function getHabitStatus(habitID) {
+export async function getHabitStatus(habitID, todayRange) {
     const supabase = await createClient();
-    const todayRange = getUTCRangeForToday();
-    console.log(todayRange);
     const { data, error } = await supabase
         .from("habit_records")
         .select("status")
@@ -106,24 +104,26 @@ export async function getHabitStatus(habitID) {
         .gte("created_at", todayRange.start)
         .lte("created_at", todayRange.end)
         .maybeSingle();
-
+    console.log(error, habitID, todayRange)
     if (error) throw new Error("No se pudo obtener el estado del hábito");
     return data?.status ?? null;
 }
 
-export async function markHabitAsComplete(habitID) {
+export async function markHabitAsComplete(habitID, todayRange) {
     const supabase = await createClient();
+
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) throw new Error("Usuario no autenticado");
 
-    const today = getUTCDateString(); // 'YYYY-MM-DD'
+    const { start, end } = todayRange; // Usa hora local traducida a UTC
 
-    // 1. Buscar si existe un registro hoy
+    // Buscar si ya hay un registro en el rango de hoy
     const { data: existing, error: fetchError } = await supabase
         .from("habit_records")
         .select("*")
         .eq("habitID", habitID)
-        .eq("record_date", today)
+        .gte("created_at", start)
+        .lte("created_at", end)
         .maybeSingle();
 
     if (fetchError && fetchError.code !== "PGRST116") {
@@ -131,19 +131,19 @@ export async function markHabitAsComplete(habitID) {
     }
 
     if (existing) {
-        // Ya existe: actualizar status = true
+        // Actualizar si ya existe
         const { error: updateError } = await supabase
             .from("habit_records")
             .update({ status: true })
-            .eq("habitID", habitID)
-            .eq("record_date", today);
+            .eq("id", existing.id); // Usamos el ID para mayor precisión
 
         if (updateError) throw new Error("No se pudo actualizar el estado");
     } else {
-        // No existe: crear nuevo registro
+        // Crear nuevo registro
+        const now = new Date().toISOString(); // Fecha actual UTC
         const { error: insertError } = await supabase
             .from("habit_records")
-            .insert({ habitID, record_date: today, status: true });
+            .insert({ habitID, record_date: now, status: true });
 
         if (insertError) throw new Error("No se pudo crear el registro");
     }
@@ -151,20 +151,21 @@ export async function markHabitAsComplete(habitID) {
     return true;
 }
 
-
-export async function markHabitAsIncomplete(habitID) {
+export async function markHabitAsIncomplete(habitID, todayRange) {
     const supabase = await createClient();
+
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) throw new Error("Usuario no autenticado");
 
-    const today = getUTCDateString(); // 'YYYY-MM-DD'
+    const { start, end } = todayRange // Usa hora local traducida a UTC
 
-    // 1. Buscar si existe un registro hoy
+    // Buscar si ya hay un registro dentro del rango del día
     const { data: existing, error: fetchError } = await supabase
         .from("habit_records")
         .select("*")
         .eq("habitID", habitID)
-        .eq("record_date", today)
+        .gte("created_at", start)
+        .lte("created_at", end)
         .maybeSingle();
 
     if (fetchError && fetchError.code !== "PGRST116") {
@@ -172,25 +173,26 @@ export async function markHabitAsIncomplete(habitID) {
     }
 
     if (existing) {
-        // Ya existe: actualizar status = true
+        // Actualizar si ya existe
         const { error: updateError } = await supabase
             .from("habit_records")
             .update({ status: false })
-            .eq("habitID", habitID)
-            .eq("record_date", today);
+            .eq("id", existing.id); // Mejor usar el ID directo
 
         if (updateError) throw new Error("No se pudo actualizar el estado");
     } else {
-        // No existe: crear nuevo registro
+        // Crear nuevo registro
+        const now = new Date().toISOString(); // Fecha actual en UTC
         const { error: insertError } = await supabase
             .from("habit_records")
-            .insert({ habitID, record_date: today, status: false });
+            .insert({ habitID, record_date: now, status: false });
 
         if (insertError) throw new Error("No se pudo crear el registro");
     }
 
     return true;
 }
+
 
 export async function selectHabitsForToday() {
     const supabase = await createClient();

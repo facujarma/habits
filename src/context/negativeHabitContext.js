@@ -12,7 +12,7 @@ export function NegativeHabitsProvider({ children }) {
     async function loadNegativeHabits(force = false) {
         setLoading(true);
         try {
-            const cached = localStorage.getItem("cachedNegativeHabits");
+            const cached = sessionStorage.getItem("cachedNegativeHabits");
             const parsed = cached ? JSON.parse(cached) : null;
             const today = new Date().toISOString().split("T")[0];
 
@@ -22,7 +22,7 @@ export function NegativeHabitsProvider({ children }) {
             } else {
                 const negatives = await getNegativeHabits();
                 setNegativesHabits(negatives);
-                localStorage.setItem(
+                sessionStorage.setItem(
                     "cachedNegativeHabits",
                     JSON.stringify({ date: today, habits: negatives })
                 );
@@ -43,7 +43,7 @@ export function NegativeHabitsProvider({ children }) {
                 )
             );
 
-            const cached = localStorage.getItem("cachedNegativeHabits");
+            const cached = sessionStorage.getItem("cachedNegativeHabits");
             const parsed = cached ? JSON.parse(cached) : null;
             const today = new Date().toISOString().split("T")[0];
 
@@ -52,7 +52,7 @@ export function NegativeHabitsProvider({ children }) {
                     habit.id === id ? { ...habit, ...updatedFields } : habit
                 );
 
-                localStorage.setItem(
+                sessionStorage.setItem(
                     "cachedNegativeHabits",
                     JSON.stringify({ date: today, habits: updatedHabits })
                 );

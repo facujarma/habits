@@ -9,6 +9,7 @@ import HabitContainerMenu from "./HabitContainerMenu";
 import { hexToRgba } from "@lib/color";
 import { useHabits } from "@root/context/habitContext";
 import IconRenderer from "@components/IconRenderer";
+import { getUTCRangeForToday } from "@root/utils/TimesToBack";
 function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
 
   const [loading, setLoading] = useState(true);
@@ -19,7 +20,9 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
       setLoading(true);
 
       try {
-        const status = await getHabitStatus(habitID);
+        const todayRange = getUTCRangeForToday(); // CHANGE
+        console.log(todayRange);
+        const status = await getHabitStatus(habitID, todayRange);
         setStatus(status);
       } catch (error) {
         addToast({
@@ -40,7 +43,8 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
 
     if (status) {
       try {
-        await markHabitAsIncomplete(habitID);
+        const todayRange = getUTCRangeForToday(); // CHANGE
+        await markHabitAsIncomplete(habitID, todayRange);
         await updateHabit(habitID, { status: false });
         setStatus(false);
       }
@@ -57,7 +61,8 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
     else {
       setLoading(true);
       try {
-        await markHabitAsComplete(habitID);
+        const todayRange = getUTCRangeForToday();
+        await markHabitAsComplete(habitID, todayRange);
         await updateHabit(habitID, { status: true });
         setStatus(true);
       }
