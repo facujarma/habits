@@ -7,6 +7,7 @@ import { getNegativeStatus, markNegativeAsComplete, markNegativeAsIncomplete } f
 import { addToast } from '@heroui/toast';
 import { Spinner } from '@heroui/spinner';
 import { useNegativeHabits } from '@root/context/negativeHabitContext';
+import { getUTCRangeForToday } from '@root/utils/TimesToBack';
 
 function NegativeHabitContainer({ negative }) {
 
@@ -17,7 +18,8 @@ function NegativeHabitContainer({ negative }) {
         const getStatus = async () => {
 
             try {
-                const sta = await getNegativeStatus(negative.id);
+                const today = getUTCRangeForToday();
+                const sta = await getNegativeStatus(negative.id, today);
                 setStatus(sta);
             }
             catch (e) {
@@ -40,7 +42,9 @@ function NegativeHabitContainer({ negative }) {
 
         if (status) {
             try {
-                await markNegativeAsIncomplete(negative.id);
+                const today = getUTCRangeForToday();
+
+                await markNegativeAsIncomplete(negative.id, today);
                 await updateNegativeHabit(negative.id, { status: false });
                 setStatus(false);
 
@@ -59,7 +63,9 @@ function NegativeHabitContainer({ negative }) {
         else {
             setLoading(true);
             try {
-                await markNegativeAsComplete(negative.id);
+                const today = getUTCRangeForToday();
+
+                await markNegativeAsComplete(negative.id, today);
                 await updateNegativeHabit(negative.id, { status: true });
                 setStatus(true);
             }

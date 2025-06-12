@@ -59,105 +59,103 @@ export async function getNegativeHabits() {
     return habits;
 
 }
-
-
-export async function markNegativeAsComplete(negativeID) {
+export async function getNegativeStatus(negativeID, todayRange) {
     const supabase = await createClient();
-
-    const {
-        data: { user },
-        error: userError,
-    } = await supabase.auth.getUser();
-
-    if (userError || !user) {
-        console.error("No hay usuario autenticado:", userError);
-        throw new Error("Usuario no autenticado");
-    }
-
-    const today = new Date().toISOString().split("T")[0];
-
-    const { error } = await supabase.from("negative_records").upsert(
-        [
-            {
-                negativeID,
-                record_date: today,
-                status: true,
-            },
-        ],
-        {
-            onConflict: "negativeID, record_date", // para que actualice si ya existe
-        }
-    );
-
-    if (error) {
-        console.error("Error al marcar hábito como completado:", error);
-        throw new Error("No se pudo marcar como completado");
-    }
-
-    return true;
-}
-
-export async function getNegativeStatus(negativeID) {
-    const supabase = await createClient();
-
-    const today = new Date().toISOString().split("T")[0];
-
     const { data, error } = await supabase
         .from("negative_records")
         .select("status")
         .eq("negativeID", negativeID)
-        .eq("record_date", today)
+        .gte("created_at", todayRange.start)
+        .lte("created_at", todayRange.end)
         .maybeSingle();
 
-    if (error) {
-        console.error("Error al obtener estado del hábito:", error);
-        throw new Error("No se pudo obtener el estado del hábito");
-    }
+    if (error) throw new Error("No se pudo obtener el estado del hábito negativo");
+
     if (!data) {
-        await markNegativeAsComplete(negativeID)
+        await markNegativeAsComplete(negativeID, todayRange);
         return true;
     }
+    return data?.status ?? null;
 
-    return data.status;
 }
 
-
-export async function markNegativeAsIncomplete(negativeID) {
+export async function markNegativeAsComplete(negativeID, todayRange) {
     const supabase = await createClient();
 
-    const {
-        data: { user },
-        error: userError,
-    } = await supabase.auth.getUser();
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) throw new Error("Usuario no autenticado");
 
-    if (userError || !user) {
-        console.error("No hay usuario autenticado:", userError);
-        throw new Error("Usuario no autenticado");
+    const { start, end } = todayRange;
+
+    const { data: existing, error: fetchError } = await supabase
+        .from("negative_records")
+        .select("*")
+        .eq("negativeID", negativeID)
+        .gte("created_at", start)
+        .lte("created_at", end)
+        .maybeSingle();
+
+    if (fetchError && fetchError.code !== "PGRST116") {
+        throw new Error("Error al verificar estado del hábito negativo");
     }
 
-    const today = new Date().toISOString().split("T")[0];
+    if (existing) {
+        const { error: updateError } = await supabase
+            .from("negative_records")
+            .update({ status: true })
+            .eq("id", existing.id);
 
-    const { error } = await supabase.from("negative_records").upsert(
-        [
-            {
-                negativeID,
-                record_date: today,
-                status: false,
-            },
-        ],
-        {
-            onConflict: "negativeID, record_date",
-        }
-    );
-
-    if (error) {
-        console.error("Error al marcar hábito como incompleto:", error);
-        throw new Error("No se pudo marcar como incompleto");
+        if (updateError) throw new Error("No se pudo actualizar el estado negativo");
+    } else {
+        const now = new Date().toISOString();
+        const { error: insertError } = await supabase
+            .from("negative_records")
+            .insert({ negativeID, record_date: now, status: true });
+        console.log(insertError);
+        if (insertError) throw new Error("No se pudo crear el registro negativo");
     }
 
     return true;
 }
 
+export async function markNegativeAsIncomplete(negativeID, todayRange) {
+    const supabase = await createClient();
+
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) throw new Error("Usuario no autenticado");
+
+    const { start, end } = todayRange;
+
+    const { data: existing, error: fetchError } = await supabase
+        .from("negative_records")
+        .select("*")
+        .eq("negativeID", negativeID)
+        .gte("created_at", start)
+        .lte("created_at", end)
+        .maybeSingle();
+
+    if (fetchError && fetchError.code !== "PGRST116") {
+        throw new Error("Error al verificar estado del hábito negativo");
+    }
+
+    if (existing) {
+        const { error: updateError } = await supabase
+            .from("negative_records")
+            .update({ status: false })
+            .eq("id", existing.id);
+
+        if (updateError) throw new Error("No se pudo actualizar el estado negativo");
+    } else {
+        const now = new Date().toISOString();
+        const { error: insertError } = await supabase
+            .from("negative_records")
+            .insert({ negativeID, record_date: now, status: false });
+
+        if (insertError) throw new Error("No se pudo crear el registro negativo");
+    }
+
+    return true;
+}
 
 export async function deleteNegativeHabit(negativeID) {
     const supabase = await createClient();
