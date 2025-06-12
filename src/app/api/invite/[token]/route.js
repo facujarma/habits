@@ -12,6 +12,8 @@ export async function GET(req, { params }) {
         const success = await addUserToRoomByInvitationCode(token)
         if (!success) throw new Error('Fallo al unirse')
 
+        sessionStorage.removeItem("cachedRooms")
+
         return NextResponse.redirect(new URL('/habits', req.url))
     } catch (error) {
         console.error(error)

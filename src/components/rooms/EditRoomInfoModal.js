@@ -11,7 +11,8 @@ import {
 import Input from '../Input';
 import { useRooms } from '@root/context/roomsContext';
 import CustomButton from '../Button';
-import { IconClipboard, IconTrash } from '@tabler/icons-react';
+import { IconClipboard, IconTrash, IconUser } from '@tabler/icons-react';
+import { redirect } from 'next/navigation';
 function EditRoomInfoModal({ isOpen, onOpenChange, onClose, defName, defDescription, roomID, isAdmin, roomLink }) {
 
     const [name, setName] = useState(defName);
@@ -81,7 +82,13 @@ function EditRoomInfoModal({ isOpen, onOpenChange, onClose, defName, defDescript
                                     })
                                 }
                             />
-                            <CustomButton text="Delete room" icon={<IconTrash />} handleClick={() => { handleRemove() }} />
+                            {
+                                isAdmin &&
+                                <>
+                                    <CustomButton text="View members" icon={<IconUser />} handleClick={() => { redirect("/rooms/members/" + roomID) }} />
+                                    <CustomButton text="Delete room" icon={<IconTrash />} handleClick={() => { handleRemove() }} />
+                                </>
+                            }
                         </ModalBody>
                         <ModalFooter>
                             <Button onPress={onClose}>
@@ -94,7 +101,7 @@ function EditRoomInfoModal({ isOpen, onOpenChange, onClose, defName, defDescript
                     </>
                 )}
             </ModalContent>
-        </Modal>
+        </Modal >
     )
 }
 

@@ -9,7 +9,7 @@ function PublicRoomContainer({ room }) {
                 <h2 className='text-3xl text-white font-bold'>{room.name}</h2>
                 <p className='text-base text-[#C5C5C5]'>{room.description}</p>
                 <span>Habits: {room.habitsCount}</span>
-                <Button color='primary' onClick={() => redirect(`/api/invite/${room.code}`)}>Join</Button>
+                <Button color='primary' className='w-full' onClick={() => redirect(`/api/invite/${room.code}`)}>Join</Button>
             </div>
         </div>)
 }

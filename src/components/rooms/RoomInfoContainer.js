@@ -24,7 +24,7 @@ function RoomInfoContainer({ roomInfo, habits, isAdmin }) {
                     className='w-12 h-12 bg-[#616161] rounded-full flex items-center justify-center'>
                     <IconInfoCircle className='w-10 h-10 text-white' />
                 </button>
-                <EditRoomInfoModal roomLink={roomInfo.code} roomID={roomInfo.id} isAdmin={isAdmin} isOpen={isOpen} onOpenChange={onOpenChange} onClose={onOpenChange} defName={roomInfo.name} defDescription={roomInfo.description} habitID={roomInfo.id} />
+                <EditRoomInfoModal isAdmin={isAdmin} roomLink={roomInfo.code} roomID={roomInfo.id} isOpen={isOpen} onOpenChange={onOpenChange} onClose={onOpenChange} defName={roomInfo.name} defDescription={roomInfo.description} habitID={roomInfo.id} />
             </div>
             <ul className='flex flex-col gap-4 mt-4'>
                 {

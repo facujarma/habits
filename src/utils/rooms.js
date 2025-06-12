@@ -309,6 +309,7 @@ export async function updateRoomInfo(roomID, roomInfo) {
 
 
 export async function addUserToRoomByInvitationCode(invitationCode) {
+    console.log(invitationCode)
     const supabase = await createClient();
 
     const user = await getCurrentUser();
@@ -316,7 +317,11 @@ export async function addUserToRoomByInvitationCode(invitationCode) {
     const getRoomID = await supabase.from('rooms').select('id').eq('code', invitationCode).maybeSingle();
     if (!getRoomID) throw new Error('No se pudo encontrar la sala');
 
-    const { error } = await supabase.from('room_members').insert({ roomID: getRoomID.data.id, userID: user.id });
+    const { data: isMember, error: errorIsMember } = await supabase.from('room_members').select('id').eq('roomID', getRoomID.data.id).eq('userID', user.id).maybeSingle();
+    if (errorIsMember) throw new Error('No se pudo verificar si eres miembro de la sala');
+    if (isMember) throw new Error('Ya eres miembro de la sala');
+
+    const { error } = await supabase.from('room_members').insert({ roomID: getRoomID.data.id, userID: user.id, role: 'MEMBER' });
     if (error) throw new Error('No se pudo agregar el usuario a la sala');
     return true;
 }
@@ -457,4 +462,43 @@ export async function getBasicInfoFromPublicRooms(limit) {
         room.habitsCount = data.length;
     }
     return rooms;
+}
+
+
+export async function getMembersInfoFromRoom(roomID) {
+    const supabase = await createClient();
+    const { data: members, error } = await supabase.from('room_members').select('userID, role, created_at').eq('roomID', roomID);
+    if (error) throw new Error('No se pudieron obtener los miembros de la sala');
+
+    // Get usernames:
+
+    for (const member of members) {
+        const { data: userData, error } = await supabase.from('user_data').select('username').eq('userID', member.userID).maybeSingle();
+        if (error || !userData) {
+            console.error(`Error obteniendo username para ${member.userID}:`, error);
+            continue;
+        }
+        member.username = userData.username;
+    }
+
+
+    return members;
+}
+
+export async function expulseMemberFromRoom(roomID, userID) {
+    const supabase = await createClient();
+    const isAdmin = await isUserAdmin(roomID);
+    if (!isAdmin) throw new Error('No eres admin de la sala');
+    const { error } = await supabase.from('room_members').delete().eq('roomID', roomID).eq('userID', userID);
+    if (error) throw new Error('No se pudo expulsar al usuario de la sala');
+    return true;
+}
+
+export async function makeMemberAdmin(roomID, userID) {
+    const supabase = await createClient();
+    const isAdmin = await isUserAdmin(roomID);
+    if (!isAdmin) throw new Error('No eres admin de la sala');
+    const { error } = await supabase.from('room_members').update({ role: 'ADMIN' }).eq('roomID', roomID).eq('userID', userID);
+    if (error) throw new Error('No se pudo hacer al usuario admin de la sala');
+    return true;
 }

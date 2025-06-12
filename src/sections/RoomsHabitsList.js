@@ -4,13 +4,25 @@ import { useRooms } from '@root/context/roomsContext';
 import Button from '@components/Button';
 import { IconPlus } from '@tabler/icons-react';
 import { redirect } from 'next/navigation';
+import { Skeleton } from '@heroui/skeleton';
 
 function RoomsHabitsList() {
 
     const { loading, rooms } = useRooms();
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <div className='flex flex-col gap-4 pb-4'>
+                <Skeleton className='rounded-2xl'>
+                    <div className="w-full rounded-2xl h-32 border flex items-center py-4">
+                    </div>
+                </Skeleton>
+                <Skeleton className='rounded-2xl'>
+                    <div className="w-full rounded-2xl h-32 border flex items-center py-4">
+                    </div>
+                </Skeleton>
+            </div>
+        )
     }
 
     return (
