@@ -111,3 +111,41 @@ export async function getTopWordsFromEntries(limit = 3) {
 
     return top;
 }
+
+export async function getTimesOfCompletitions() {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+
+    const { data: habits, error: habitsError } = await supabase
+        .from('habit')
+        .select('id')
+        .eq('userID', user.id);
+
+    if (habitsError || !habits || habits.length === 0) {
+        console.error('Error al obtener los hábitos:', habitsError);
+        return [];
+    }
+
+    const habitIDs = habits.map(h => h.id);
+
+    const { data: completions, error: completionsError } = await supabase
+        .from('habit_records')
+        .select('created_at')
+        .in('habitID', habitIDs);
+
+    if (completionsError) {
+        console.error('Error al obtener las completaciones:', completionsError);
+        return [];
+    }
+
+    //Number of completions per hour
+    const times = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, 20: 0, 21: 0, 22: 0, 23: 0 };
+    completions.forEach(completion => {
+        const date = new Date(completion.created_at);
+        const hour = date.getHours();
+        times[hour] = (times[hour] || 0) + 1;
+    });
+
+    return times;
+}
