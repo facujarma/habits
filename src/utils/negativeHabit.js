@@ -55,9 +55,7 @@ export async function getNegativeHabits() {
         console.error('Error al obtener hábitos negativos:', error);
         throw new Error('No se pudieron obtener los hábitos');
     }
-    console.log(habits);
     return habits;
-
 }
 export async function getNegativeStatus(negativeID, todayRange) {
     const supabase = await createClient();

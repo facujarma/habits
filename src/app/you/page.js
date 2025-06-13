@@ -3,6 +3,7 @@ import GeneralProgress from '@you/GeneralProgress'
 import Header from '@sections/Header'
 import React from 'react'
 import VapeProgress from '@root/components/you/VapeProgress'
+import JournalingWords from '@root/components/you/JournalingWords'
 
 function page() {
     return (
@@ -11,8 +12,9 @@ function page() {
             <Carrousel >
                 <GeneralProgress />
                 <VapeProgress />
-            </Carrousel>
 
+            </Carrousel>
+            <JournalingWords />
         </div>
     )
 }

@@ -35,7 +35,7 @@ function NegativeHabitContainer({ negative }) {
 
         }
         getStatus();
-    }, []);
+    }, [negative.id, getUTCRangeForToday]);
 
     const handleClick = async () => {
         setLoading(true);
@@ -61,7 +61,6 @@ function NegativeHabitContainer({ negative }) {
             }
         }
         else {
-            setLoading(true);
             try {
                 const today = getUTCRangeForToday();
 

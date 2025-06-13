@@ -69,3 +69,45 @@ export async function getTotalCompletitonsInLast10Weeks() {
     console.log(response);
     return response;
 }
+
+export async function getTopWordsFromEntries(limit = 3) {
+    const supabase = await createClient();
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) throw new Error("Usuario no autenticado");
+
+    const { data: entries, error: entryError } = await supabase
+        .from("user_diaries")
+        .select("content")
+        .eq("userID", user.id);
+
+    if (entryError || !entries || entries.length === 0) {
+        console.error("Error al obtener entradas:", entryError);
+        return [];
+    }
+
+    const conteo = {};
+
+    for (const entry of entries) {
+        const palabras = (entry.content || '')
+            .toLowerCase()
+            .replace(/[.,!?¿¡;:"(){}[\]]/g, '') // quitar puntuación
+            .split(/\s+/); // dividir por espacios
+
+        for (const palabra of palabras) {
+            if (
+                palabra &&
+                palabra.length < 30 &&
+                /^[a-záéíóúñü']+$/i.test(palabra) // solo palabras alfabéticas
+            ) {
+                conteo[palabra] = (conteo[palabra] || 0) + 1;
+            }
+        }
+    }
+
+    const top = Object.entries(conteo)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, limit)
+        .map(([palabra, frecuencia]) => ({ palabra, frecuencia }));
+
+    return top;
+}
