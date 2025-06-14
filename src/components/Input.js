@@ -1,8 +1,9 @@
-function Input({ label, placeholder, isPassword = false, setText, defaultValue, disabled = false }) {
+function Input({ label, placeholder, isPassword = false, setText, defaultValue, disabled = false, type = 'text' }) {
     return (
         <div className="flex flex-col gap-1 mb-2">
             <label className='text-[#C5C5C5] text-lg font-bold'>{label}</label>
-            <input name={label} type={isPassword ? 'password' : 'text'} placeholder={placeholder}
+            <input name={label} type={isPassword ? 'password' : type} placeholder={placeholder}
+
                 onChange={(e) => setText(e.target.value)}
                 defaultValue={defaultValue}
                 disabled={disabled}
