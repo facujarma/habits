@@ -10,6 +10,7 @@ import { hexToRgba } from "@lib/color";
 import { useHabits } from "@root/context/habitContext";
 import IconRenderer from "@components/IconRenderer";
 import { getUTCRangeForToday } from "@root/utils/TimesToBack";
+import { changeUserStats } from "@root/utils/achievementsManager";
 function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
 
   const [loading, setLoading] = useState(true);
@@ -77,7 +78,20 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
       }
 
     }
-    setLoading(false);
+    const newAchievements = await changeUserStats(status ? -1 : 1);
+    if (newAchievements.length > 0) {
+      {
+        newAchievements.forEach((a) => {
+          addToast({
+            title: "Congratulations!",
+            description: `You unlocked ${a.name}`,
+            color: "success",
+            timeout: 2000
+          })
+        })
+      }
+      setLoading(false);
+    }
   }
 
 

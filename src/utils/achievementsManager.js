@@ -89,32 +89,19 @@ async function getCurrentUser() {
     return user;
 }
 
-
 export async function getTotalCompletitonsOfUser() {
     const supabase = await createClient();
     const user = await getCurrentUser();
-    // Obtener IDs de hábitos del usuario
-    const { data: habits, error: habitsError } = await supabase
-        .from('habit')
-        .select('id')
-        .eq('userID', user.id);
 
-    if (habitsError || !habits || habits.length === 0) {
-        console.error('Error al obtener los hábitos:', habitsError);
-        return [];
-    }
+    const { data: { total_completitions }, error } = await supabase
+        .from('user_stats')
+        .select('total_completitions')
+        .eq('userID', user.id)
+        .single();
 
-    const habitIDs = habits.map(h => h.id);
+    if (error || !total_completitions) throw new Error('No se pudieron obtener las estadísticas del usuario');
 
-
-    const { count, error: countError } = await supabase
-        .from('habit_records')
-        .select('*', { count: 'exact', head: true })
-        .in('habitID', habitIDs)
-
-    console.log(count);
-
-    return count;
+    return total_completitions ? total_completitions : 0;
 }
 
 export async function checkCompletitionsAchivements() {
@@ -124,71 +111,140 @@ export async function checkCompletitionsAchivements() {
     return achievements.filter((a) => a.condition(completitions)).map((a) => a.name);
 }
 
-
-export async function getAllHabitCompletionDates() {
+async function getMaxStreak() {
     const supabase = await createClient();
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError || !user) throw new Error("Usuario no autenticado");
+    const user = await getCurrentUser();
 
-    // Obtener todos los hábitos del usuario
-    const { data: habits, error: habitsError } = await supabase
-        .from("habit")
-        .select("id")
-        .eq("userID", user.id);
+    const { data: { max_streak }, error } = await supabase
+        .from('user_stats')
+        .select('max_streak')
+        .eq('userID', user.id)
+        .single();
 
-    if (habitsError || !habits) throw new Error("No se pudieron obtener los hábitos");
+    if (error || !max_streak) throw new Error('No se pudieron obtener las estadísticas del usuario');
 
-    const habitIDs = habits.map((h) => h.id);
-
-    // Obtener todos los registros que correspondan a esos hábitos
-    const { data: records, error: recError } = await supabase
-        .from("habit_records")
-        .select("record_date")
-        .in("habitID", habitIDs);
-
-    if (recError || !records) throw new Error("No se pudieron obtener los registros");
-
-    const completedDates = records.map((r) =>
-        typeof r.record_date === "string"
-            ? r.record_date
-            : new Date(r.record_date).toISOString().split("T")[0]
-    );
-
-    return completedDates;
-}
-
-function calculateMaxStreak(dates) {
-    const uniqueDates = [...new Set(dates)];
-    const sortedDates = uniqueDates
-        .map(date => new Date(date))
-        .sort((a, b) => a.getTime() - b.getTime());
-
-    let maxStreak = 0;
-    let currentStreak = 1;
-
-    for (let i = 1; i < sortedDates.length; i++) {
-        const diffDays = Math.floor(
-            (sortedDates[i].getTime() - sortedDates[i - 1].getTime()) / (1000 * 60 * 60 * 24)
-        );
-
-        if (diffDays === 1) {
-            currentStreak++;
-        } else if (diffDays > 1) {
-            maxStreak = Math.max(maxStreak, currentStreak);
-            currentStreak = 1;
-        }
-    }
-
-    return Math.max(maxStreak, currentStreak);
+    return max_streak ? max_streak : 0;
 }
 
 export async function checkStreakAchievements() {
-    const dates = await getAllHabitCompletionDates();
-    const maxStreak = calculateMaxStreak(dates);
-    console.log("Máxima racha:", maxStreak);
-
+    const maxStreak = await getMaxStreak();
+    console.log(maxStreak);
     return streakAchievements
         .filter((a) => a.condition(maxStreak))
         .map((a) => a.name);
 }
+
+export async function updateUserAchievements(total, streak, userID) {
+    const supabase = await createClient();
+
+    const { data: existing, error } = await supabase
+        .from('user_achievements')
+        .select('name')
+        .eq('userID', userID);
+
+    if (error) throw new Error('Error obteniendo logros desbloqueados');
+
+    const unlocked = new Set((existing || []).map(a => a.name));
+
+    const now = new Date().toISOString();
+
+    const newlyUnlocked = [
+        ...achievements.filter(a => a.condition(total)),
+        ...streakAchievements.filter(a => a.condition(streak))
+    ].filter(a => !unlocked.has(a.name));
+
+    if (newlyUnlocked.length > 0) {
+        const insertData = newlyUnlocked.map(a => ({
+            name: a.name,
+            unlocked_at: now,
+            userID: userID
+        }));
+
+        const { error: insertError } = await supabase
+            .from('user_achievements')
+            .insert(insertData);
+
+        if (insertError) {
+            console.error("Error insertando logros:", insertError);
+            throw new Error("No se pudieron guardar los logros nuevos");
+        }
+
+        return insertData; // por si querés mostrarlos
+    }
+
+    return [];
+}
+
+export async function changeUserStats(completed) {
+    const supabase = await createClient();
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) throw new Error('Usuario no autenticado');
+
+    const userID = user.id;
+
+    const prevCompletitions = await getTotalCompletitonsOfUser();
+    const completitions = prevCompletitions + completed;
+
+    // Traer current_streak y last_completed
+    const { data, error: fetchError } = await supabase
+        .from('user_stats')
+        .select('current_streak, last_completed, max_streak')
+        .eq('userID', userID)
+        .single();
+
+    if (fetchError || !data) throw new Error('No se pudo obtener la racha actual');
+
+    let { current_streak, last_completed, max_streak } = data;
+
+    const now = new Date();
+    const last = last_completed ? new Date(last_completed) : null;
+
+    let shouldUpdateStreak = true;
+
+    // Diferencia en días entre now y last_completed
+    if (last) {
+        const diffTime = now.getTime() - last.getTime();
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) {
+            // Ya completó hoy → no cambiar la racha
+            shouldUpdateStreak = false;
+        } else if (diffDays === 1) {
+            // Completó ayer → sumar a la racha
+            current_streak += 1;
+        } else {
+            // Más de 1 día → racha rota
+            current_streak = 1;
+        }
+    } else {
+        // No había ninguna completación previa
+        current_streak = 1;
+    }
+
+    // Actualizar la racha máxima si es necesario
+    if (current_streak > max_streak) {
+        max_streak = current_streak;
+    }
+
+    // Actualizar en la base de datos
+    const { error: updateError } = await supabase
+        .from('user_stats')
+        .upsert({
+            userID,
+            total_completitions: completitions,
+            current_streak,
+            max_streak,
+            last_completed: shouldUpdateStreak ? now.toISOString() : last_completed
+        }, { onConflict: 'userID' });
+
+    if (updateError) {
+        console.error('Error actualizando user_stats:', updateError);
+        throw new Error('No se pudo actualizar las estadísticas del usuario');
+    }
+
+    const unlocked = await updateUserAchievements(completitions, max_streak, userID);
+
+    return unlocked;
+}
+

@@ -19,6 +19,11 @@ export function getUTCRangeForDate(date) {
     };
 }
 
+export function getUTCofNow() {
+    const now = new Date();
+    return now.toISOString();
+}
+
 export function getUTCDateString() {
     const now = new Date();
     const year = now.getFullYear();

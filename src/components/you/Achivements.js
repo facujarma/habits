@@ -1,16 +1,16 @@
 'use client'
 
-import { achievements, checkCompletitionsAchivements, checkStreakAchievements } from '@root/utils/achievementsManager';
-import { IconAxisX, IconCheck, IconX } from '@tabler/icons-react';
+import { checkCompletitionsAchivements, checkStreakAchievements } from '@root/utils/achievementsManager';
 import React, { useEffect, useState } from 'react'
+import CompletitionsAchivementsList from './CompletitionsAchivementsList';
+import { useFormState } from 'react-dom';
 
 function Achivements() {
-
-    const [achivements, setAchivements] = useState([]);
+    const [completedAchivements, setCompletedAchivements] = useState([]);
     const [streakAchivements, setStreakAchivements] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const achievements = [
+    const allAchievements = [
         {
             name: "First Step 👣",
             description: "You completed your very first habit!",
@@ -52,65 +52,74 @@ function Achivements() {
             condition: (completitions) => completitions >= 200,
         }
     ];
+    const streakAchievements = [
+        {
+            name: "Just Started 🔁",
+            description: "2-day streak! Keep it up!",
+            condition: (streak) => streak >= 2,
+        },
+        {
+            name: "On a Roll 🌀",
+            description: "5 days in a row. Impressive!",
+            condition: (streak) => streak >= 5,
+        },
+        {
+            name: "One Week Wonder 🧙",
+            description: "7-day streak. You're a legend!",
+            condition: (streak) => streak >= 7,
+        },
+        {
+            name: "Unstoppable Train 🚂",
+            description: "15 consecutive days. Whoa!",
+            condition: (streak) => streak >= 15,
+        },
+        {
+            name: "Master of Habits 🧘‍♂️",
+            description: "30-day streak. You’ve ascended.",
+            condition: (streak) => streak >= 30,
+        }
+    ];
 
 
     useEffect(() => {
-        const loadCompletitionsAchivements = async () => {
-            const achivements = await checkCompletitionsAchivements();
-            setAchivements(achivements);
-            console.log(achivements);
+        const loadAchievements = async () => {
+            try {
+                const [completed, streaks] = await Promise.all([
+                    checkCompletitionsAchivements(),
+                    checkStreakAchievements()
+                ]);
+                setCompletedAchivements(completed);
+                setStreakAchivements(streaks);
+                console.log("Completed:", completed);
+                console.log("Streaks:", streaks);
+            } catch (err) {
+                console.error("Error loading achievements:", err);
+            } finally {
+                setLoading(false);
+            }
         }
 
-        const loadStreakAchivements = async () => {
-            const streakAchievements = await checkStreakAchievements();
-            setStreakAchivements(streakAchievements);
-            console.log(streakAchievements);
-        }
-
-        loadCompletitionsAchivements();
-        loadStreakAchivements();
-        setLoading(false);
-    }, [])
+        loadAchievements();
+    }, []);
 
     return (
         <div>
             <div className='w-full flex flex-col gap-2 mt-4'>
-                <h2 className='text-xl text-[#C5C5C5]'>Completitions Achivements</h2>
-                <ul className='flex gap-4 overflow-x-auto'>
-                    {
-                        achievements.map((a, i) => {
-
-                            const isCompleted = achivements.some((achivement) => achivement === a.name);
-
-                            return <li key={i} className='relative p-3 min-w-42 overflow-auto  bg-[#242424] rounded-2xl border border-[#616161]'>
-                                <h3 className='font-bold text-white text-base'>{a.name}</h3>
-                                <p className='text-sm'>{a.description}</p>
-                                {
-                                    loading ? (
-                                        <p className='text-sm text-[#C5C5C5]'>Loading...</p>
-                                    )
-                                        :
-                                        (
-                                            <span className={`w-6 flex items-center justify-center aspect-square rounded-full absolute bottom-4 right-4 z-20 
-                                                ${isCompleted ? 'bg-green-600' : 'bg-[#242424] border border-[#616161]'}`}
-
-                                            >
-                                                {
-                                                    isCompleted ?
-                                                        <IconCheck />
-                                                        :
-                                                        <IconX />
-                                                }
-                                            </span>
-                                        )
-                                }
-                            </li>
-                        })
-                    }
-                </ul>
+                <h2 className='text-xl text-[#C5C5C5]'>Completitions Achievements</h2>
+                <CompletitionsAchivementsList
+                    loading={loading}
+                    achievements={allAchievements}
+                    achivements={completedAchivements}
+                />
+                <h2 className='text-xl text-[#C5C5C5]'>Streaks Achievements</h2>
+                <CompletitionsAchivementsList
+                    loading={loading}
+                    achievements={streakAchievements}
+                    achivements={streakAchivements}
+                />
             </div>
         </div>
-    )
+    );
 }
 
-export default Achivements
+export default Achivements;
