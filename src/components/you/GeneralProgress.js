@@ -35,7 +35,7 @@ function GeneralProgress() {
                 !isLoading ?
                 <BarGraphic data={data} />
                 :
-                <Skeleton className="w-full aspect-square rounded-2xl" />
+                <Skeleton className="w-full aspect-video rounded-2xl" />
             }
         </div>
     )

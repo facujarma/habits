@@ -5,6 +5,7 @@ import React from 'react'
 import VapeProgress from '@root/components/you/VapeProgress'
 import JournalingWords from '@root/components/you/JournalingWords'
 import TimeCompleted from '@root/components/you/TimeCompleted'
+import Achivements from '@root/components/you/Achivements'
 
 function page() {
     return (
@@ -16,6 +17,8 @@ function page() {
                 <TimeCompleted />
             </Carrousel>
             <JournalingWords />
+            <h2 className='text-2xl text-[#C5C5C5] mt-10'>Achivements</h2>
+            <Achivements />
         </div>
     )
 }

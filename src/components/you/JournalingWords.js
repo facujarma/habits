@@ -66,34 +66,45 @@ function JournalingWords() {
       </h2>
 
       <div className="relative w-72 h-72 bg-[radial-gradient(ellipse_50%_50%_at_50%_50%,_#668C9A_0%,_rgba(101,_140,_154,_0.42)_100%)] rounded-full overflow-hidden">
-        {!loading &&
-          words.length > 0 &&
-          words.map((word, index) => {
-            const pos = positions[index]
-            const delay = `${Math.random() * 2}s`
-            const parentStyle = {
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: `translate(${pos.x}px, ${pos.y}px)`,
-            }
-            const childStyle = {
-              transform: 'translate(-50%, -50%)',
-              animation: `float 3s ease-in-out infinite`,
-              animationDelay: delay,
-            }
+        {!loading ?
+          words.length > 0 ?
+            words.map((word, index) => {
+              const pos = positions[index]
+              const delay = `${Math.random() * 2}s`
+              const parentStyle = {
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: `translate(${pos.x}px, ${pos.y}px)`,
+              }
+              const childStyle = {
+                transform: 'translate(-50%, -50%)',
+                animation: `float 3s ease-in-out infinite`,
+                animationDelay: delay,
+              }
 
-            return (
-              <div key={index} style={parentStyle}>
-                <span
-                  style={childStyle}
-                  className="text-white text-xl font-semibold pointer-events-none"
-                >
-                  {word.palabra}
-                </span>
-              </div>
-            )
-          })}
+              return (
+                <div key={index} style={parentStyle}>
+                  <span
+                    style={childStyle}
+                    className="text-white text-xl font-semibold pointer-events-none"
+                  >
+                    {word.palabra}
+                  </span>
+                </div>
+              )
+            })
+            :
+            <span className="absolute text-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-xl font-semibold pointer-events-none">
+              No words found
+            </span>
+
+          :
+
+          <span className="absolute text-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-xl font-semibold pointer-events-none">
+            Getting your words...
+          </span>
+        }
       </div>
 
       <style jsx>{`
