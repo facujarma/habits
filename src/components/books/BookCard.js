@@ -27,7 +27,9 @@ function BookCard({ starsNumber, type, title, description, pages, bookID, finish
         if (option === "reflexion") {
             window.location.href = `/books/reflexion/${bookID}`
         }
-
+        if (option === "delete") {
+            
+        }
     }
 
     return (
