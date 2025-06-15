@@ -1,6 +1,6 @@
-function Input({ label, placeholder, isPassword = false, setText, defaultValue, disabled = false, type = 'text' }) {
+function Input({ label, placeholder, isPassword = false, setText, defaultValue, disabled = false, type = 'text', className }) {
     return (
-        <div className="flex flex-col gap-1 mb-2">
+        <div className={`flex flex-col gap-1 mb-2 ${className}`}>
             <label className='text-[#C5C5C5] text-lg font-bold'>{label}</label>
             <input name={label} type={isPassword ? 'password' : type} placeholder={placeholder}
 

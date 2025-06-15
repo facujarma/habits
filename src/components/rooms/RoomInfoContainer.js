@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import RoomHabitContainer from './RoomHabitContainer'
-import { IconInfoCircle } from '@tabler/icons-react'
+import { IconInfoCircle, IconMessage } from '@tabler/icons-react'
 import EditRoomInfoModal from './EditRoomInfoModal'
 import { useDisclosure } from "@heroui/react";
 import { motion } from "motion/react"
@@ -10,7 +10,6 @@ import { redirect } from 'next/navigation'
 function RoomInfoContainer({ roomInfo, habits, isAdmin }) {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    console.log(roomInfo, isAdmin);
     return (
         <div className='w-full my-4'
             key={roomInfo.id}>
@@ -19,11 +18,22 @@ function RoomInfoContainer({ roomInfo, habits, isAdmin }) {
                     <h2 className='text-3xl text-white font-bold'>{roomInfo.name}</h2>
                     <p className='text-base text-[#C5C5C5]'>{roomInfo.description}</p>
                 </div>
-                <button
-                    onClick={onOpen}
-                    className='w-12 h-12 bg-[#616161] rounded-full flex items-center justify-center'>
-                    <IconInfoCircle className='w-10 h-10 text-white' />
-                </button>
+                <div className='flex gap-2'>
+                    <button
+                        onClick={
+                            () => {
+                                redirect("/rooms/chat/" + roomInfo.id)
+                            }
+                        }
+                        className='w-10 h-10 bg-[#616161] rounded-full flex items-center justify-center'>
+                        <IconMessage className='w-8 h-8 text-white' />
+                    </button>
+                    <button
+                        onClick={onOpen}
+                        className='w-10 h-10 bg-[#616161] rounded-full flex items-center justify-center'>
+                        <IconInfoCircle className='w-8 h-8 text-white' />
+                    </button>
+                </div>
                 <EditRoomInfoModal isAdmin={isAdmin} roomLink={roomInfo.code} roomID={roomInfo.id} isOpen={isOpen} onOpenChange={onOpenChange} onClose={onOpenChange} defName={roomInfo.name} defDescription={roomInfo.description} habitID={roomInfo.id} />
             </div>
             <ul className='flex flex-col gap-4 mt-4'>

@@ -26,3 +26,10 @@ export async function getUserInformation() {
     if (error) throw new Error('No se pudo obtener la información del usuario');
     return userData;
 }
+
+export async function getUsernameFromUUID(userID) {
+    const supabase = await createClient();
+    const { data: userData, error } = await supabase.from('user_data').select('username').eq('userID', userID).maybeSingle();
+    if (error) throw new Error('No se pudo obtener el username del usuario');
+    return userData?.username;
+}

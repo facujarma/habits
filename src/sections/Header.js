@@ -5,7 +5,7 @@ import { IconArrowLeft } from "@tabler/icons-react"
 function Header({ title, text, goBack = "/habits" }) {
     return (
         <div className="w-full flex flex-col gap-2 mb-6">
-            <div className="-ml-4 flex items-center gap-1">
+            <div className=" flex items-center gap-1">
                 <button onClick={() => { window.location.href = goBack }}>
                     <IconArrowLeft className="text-white" size={32} />
                 </button>

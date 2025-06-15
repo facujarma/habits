@@ -504,14 +504,14 @@ export async function makeMemberAdmin(roomID, userID) {
 }
 
 export async function sendMessage(roomID, content) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const user = await getCurrentUser();
 
-    const { error } = await supabase.from("messages").insert({
+    const { error } = await supabase.from("room_messages").insert({
         roomID: roomID,
         senderID: user?.id,
         content,
     });
-
+    
     if (error) throw error;
 }
