@@ -54,3 +54,31 @@ export async function uploadBookState(bookID, state) {
     if (error) throw new Error('No se pudo actualizar el libro');
     return true;
 }
+
+export async function saveReflection(bookID, reflection) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const { error } = await supabase.from('books').update({ reflection }).eq('id', bookID).eq('userID', user.id);
+    console.log(error);
+    if (error) throw new Error('No se pudo actualizar el libro');
+    return true;
+}
+
+export async function getReflection(bookID) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const { data: reflection, error } = await supabase.from('books').select('reflection').eq('id', bookID).eq('userID', user.id).maybeSingle();
+    if (error) throw new Error('No se pudo obtener la reflexión');
+    return reflection;
+}
+
+export async function deleteBook(bookID) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const { error } = await supabase.from('books').delete().eq('id', bookID).eq('userID', user.id);
+    if (error) throw new Error('No se pudo eliminar el libro');
+    return true;
+}

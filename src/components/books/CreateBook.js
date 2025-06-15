@@ -5,8 +5,9 @@ import Button from '../Button';
 import { IconPlus } from '@tabler/icons-react';
 import { useBooks } from '@root/context/booksContext';
 import Input from '../Input';
-import { Select } from '@heroui/react';
+import { addToast, Select } from '@heroui/react';
 import { SelectItem } from '@heroui/select';
+import { addBook } from '@root/utils/books';
 
 function CreateBook() {
 
@@ -18,8 +19,11 @@ function CreateBook() {
     const { loadBooks } = useBooks();
 
     const handleCreate = () => {
+
+        const type = Array.from(bookType)[0]
+        console.log(type);
         try {
-            addBook(title, description, pages, bookType).then(async () => {
+            addBook(title, description, pages, type).then(async () => {
                 await loadBooks(true);
 
                 addToast({
@@ -30,7 +34,7 @@ function CreateBook() {
                 })
             })
         }
-        catch {
+        catch (e) {
             addToast({
                 title: "Error",
                 description: "There was an error adding the book to your collection.",
@@ -53,7 +57,7 @@ function CreateBook() {
                 <SelectItem key={"EBook"}>EBook</SelectItem>
                 <SelectItem key={"Printed Book"}>Printed Book</SelectItem>
             </Select>
-             <div className="mt-6">
+            <div className="mt-6">
                 <Button text="Create" handleClick={() => { handleCreate() }} />
             </div>
         </div>

@@ -24,6 +24,9 @@ function BookCard({ starsNumber, type, title, description, pages, bookID, finish
         if (option === "finished" || option === "unfinished") {
             changeState(bookID, !finished)
         }
+        if (option === "reflexion") {
+            window.location.href = `/books/reflexion/${bookID}`
+        }
 
     }
 
@@ -88,6 +91,9 @@ function BookCard({ starsNumber, type, title, description, pages, bookID, finish
                                 finished ? <DropdownItem key="unfinished">Mark as not finished</DropdownItem> :
                                     <DropdownItem key="finished">Mark as finished</DropdownItem>
                             }
+                            <DropdownItem key="reflexion">
+                                Add a reflection
+                            </DropdownItem>
                             <DropdownItem key="delete" className="text-danger" color="danger">
                                 Delete Book
                             </DropdownItem>
