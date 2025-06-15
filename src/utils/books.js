@@ -44,3 +44,13 @@ export async function uploadBookStars(bookID, stars) {
     if (error) throw new Error('No se pudo actualizar el libro');
     return true;
 }
+
+export async function uploadBookState(bookID, state) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const { error } = await supabase.from('books').update({ finished: state }).eq('id', bookID).eq('userID', user.id);
+    console.log(error);
+    if (error) throw new Error('No se pudo actualizar el libro');
+    return true;
+}

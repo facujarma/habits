@@ -1,7 +1,7 @@
 'use client';
 
 import { addToast } from '@heroui/toast';
-import { getBooks, uploadBookStars } from '@root/utils/books';
+import { getBooks, uploadBookStars, uploadBookState } from '@root/utils/books';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const BooksContext = createContext();
@@ -60,6 +60,29 @@ export function BooksProvider({ children }) {
         }
     }
 
+    const changeState = async (id, finished) => {
+        try {
+            await uploadBookState(id, finished)
+            const books = JSON.parse(sessionStorage.getItem('books'))
+            const newBooks = books.map(book => {
+                if (book.id === id) {
+                    book.finished = finished
+                }
+                return book
+            })
+            setBooks(newBooks)
+            sessionStorage.setItem('books', JSON.stringify(newBooks))
+        }
+        catch (e) {
+            addToast({
+                title: 'Error',
+                message: 'An error occurred while getting the information.',
+                color: 'danger'
+            })
+            console.log(e)
+        }
+    }
+
     useEffect(() => {
         loadBooks()
     }, [])
@@ -69,7 +92,8 @@ export function BooksProvider({ children }) {
         books,
         loading,
         loadBooks,
-        changeStars
+        changeStars,
+        changeState
     };
 
     return (

@@ -1,8 +1,14 @@
 import { useBooks } from '@root/context/booksContext'
-import { IconStar, IconStarFilled } from '@tabler/icons-react'
+import { IconCheck, IconMenu3, IconMenu4, IconStar, IconStarFilled } from '@tabler/icons-react'
 import React from 'react'
+import {
+    Dropdown,
+    DropdownTrigger,
+    DropdownMenu,
+    DropdownItem,
+} from "@heroui/react";
 
-function BookCard({ starsNumber, type, title, description, pages, bookID }) {
+function BookCard({ starsNumber, type, title, description, pages, bookID, finished }) {
 
     const stars = []
     for (let i = 0; i < starsNumber; i++) {
@@ -12,10 +18,24 @@ function BookCard({ starsNumber, type, title, description, pages, bookID }) {
         stars.push("empty")
     }
 
-    const { changeStars } = useBooks()
+    const { changeStars, changeState } = useBooks()
+
+    const handleOptionSelected = (option) => {
+        if (option === "finished" || option === "unfinished") {
+            changeState(bookID, !finished)
+        }
+
+    }
 
     return (
-        <div className='w-full p-3 min-h-42 bg-[#666F9A]/40 border border-[#666F9A] rounded-2xl flex gap-6'>
+        <div className='relative w-full p-3 min-h-42 bg-[#666F9A]/40 border border-[#666F9A] rounded-2xl flex gap-6'>
+
+            {
+                finished && <div className='absolute top-2 right-2 w-6 h-6 bg-green-600 rounded-full flex items-center justify-center'>
+                    <IconCheck className='text-white' size={20} />
+                </div>
+            }
+
             <div className='bg-[#666F9A]/40 border border-[#666F9A] min-w-8 rounded-xl flex items-center justify-center'>
                 <span
                     className='text-lg'
@@ -33,6 +53,9 @@ function BookCard({ starsNumber, type, title, description, pages, bookID }) {
                     <p className='text-sm'>
                         {description}
                     </p>
+                    <span className='text-[#B3B3B3] text-sm'>
+                        {pages} pages
+                    </span>
                 </div>
                 <footer className='flex justify-between w-full items-center'>
 
@@ -53,9 +76,24 @@ function BookCard({ starsNumber, type, title, description, pages, bookID }) {
                             ))
                         }
                     </ul>
-                    <span className='text-[#B3B3B3] text-sm'>
-                        {pages} pages
-                    </span>
+                    <Dropdown >
+                        <DropdownTrigger >
+                            <div>
+                                <IconMenu4 className="text-[#C5C5C5]" />
+                            </div>
+                        </DropdownTrigger>
+                        <DropdownMenu aria-label="Dropdown Variants" onAction={(key) => handleOptionSelected(key)}>
+                            <DropdownItem key="view">Edit Book</DropdownItem>
+                            {
+                                finished ? <DropdownItem key="unfinished">Mark as not finished</DropdownItem> :
+                                    <DropdownItem key="finished">Mark as finished</DropdownItem>
+                            }
+                            <DropdownItem key="delete" className="text-danger" color="danger">
+                                Delete Book
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+
                 </footer>
             </div>
         </div>
