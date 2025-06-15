@@ -7,7 +7,7 @@ function page() {
 
     return (
         <div>
-            <Header title="Add book" text="Here you can add a new book to your collection." />
+            <Header title="Add book" text="Here you can add a new book to your collection." goBack="/books" />
             <BooksProvider>
                 <CreateBook />
             </BooksProvider>

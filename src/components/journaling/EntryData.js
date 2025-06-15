@@ -2,6 +2,7 @@
 
 import { Skeleton } from '@heroui/skeleton';
 import { addToast } from '@heroui/toast';
+import Header from '@root/sections/Header';
 import { getEntryData } from '@root/utils/journal';
 import React, { useEffect, useState } from 'react'
 
@@ -68,11 +69,8 @@ function EntryData({ entryID }) {
 
     return (
         <div className='mb-6'>
-            <h2 className='text-2xl font-bold'>
-                Entry of the {transformDate(new Date(entryData.created_at))}
-            </h2>
-            <span>Updated at {transformDateWithTime(entryData.updated_at)}</span>
-        </div>
+            <Header title={`Entry of the ${transformDate(new Date(entryData.created_at))}`} text={`Updated at ${transformDateWithTime(entryData.updated_at)}`} />
+        </div >
     )
 }
 

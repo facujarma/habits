@@ -90,8 +90,8 @@ function HabitContainer({ habitID, habitName, habitIcon, personToBe, color }) {
           })
         })
       }
-      setLoading(false);
     }
+    setLoading(false);
   }
 
 

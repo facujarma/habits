@@ -9,7 +9,7 @@ function BooksList() {
     return (
         <div className="flex flex-col gap-4 mt-4">
 
-            <h2 className='text-2xl font-bold text-[#C5C5C5]'> Reading: </h2>
+            <h2 className='text-2xl text-[#C5C5C5]'> Reading: </h2>
             {
                 loading ? <h2 className="text-2xl text-white">Loading...</h2> :
                     books.map(book => (
@@ -27,7 +27,7 @@ function BooksList() {
                         />
                     ))
             }
-            <h2 className='text-2xl font-bold text-[#C5C5C5]'> Finished: </h2>
+            <h2 className='text-2xl text-[#C5C5C5]'> Finished: </h2>
             {
                 loading ? <h2 className="text-2xl text-white">Loading...</h2> :
                     books.map(book => (

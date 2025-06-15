@@ -21,7 +21,7 @@ function BookInfo({ bookID }) {
     return (
         <div>
             {loading ? <h2 className="text-2xl text-white">Loading...</h2> :
-                <Header title={bookName} text={bookDescription} />
+                <Header title={bookName} text={bookDescription} goBack='/books' />
             }
         </div>
     )

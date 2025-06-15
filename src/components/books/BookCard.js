@@ -6,9 +6,13 @@ import {
     DropdownTrigger,
     DropdownMenu,
     DropdownItem,
+    useDisclosure,
 } from "@heroui/react";
+import RemoveBookModal from './RemoveBookModal';
 
 function BookCard({ starsNumber, type, title, description, pages, bookID, finished }) {
+
+    const { onOpen, isOpen, onOpenChange } = useDisclosure();
 
     const stars = []
     for (let i = 0; i < starsNumber; i++) {
@@ -25,10 +29,10 @@ function BookCard({ starsNumber, type, title, description, pages, bookID, finish
             changeState(bookID, !finished)
         }
         if (option === "reflexion") {
-            window.location.href = `/books/reflexion/${bookID}`
+            window.location.href = `/books/reflection/${bookID}`
         }
         if (option === "delete") {
-            
+            onOpen();
         }
     }
 
@@ -101,7 +105,7 @@ function BookCard({ starsNumber, type, title, description, pages, bookID, finish
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
-
+                    <RemoveBookModal isOpen={isOpen} onOpenChange={onOpenChange} bookID={bookID} />
                 </footer>
             </div>
         </div>
