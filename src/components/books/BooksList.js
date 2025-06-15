@@ -18,6 +18,7 @@ function BooksList() {
                             title={book.title}
                             description={book.description}
                             pages={book.pages}
+                            bookID={book.id}
                         />
                     ))
             }

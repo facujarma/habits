@@ -11,7 +11,6 @@ function page() {
             <BooksProvider>
                 <CreateBook />
             </BooksProvider>
-
         </div>
     )
 }

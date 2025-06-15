@@ -35,3 +35,12 @@ export async function addBook(title, description, pages, type) {
     if (error) throw new Error('No se pudo agregar el libro');
     return true;
 }
+
+export async function uploadBookStars(bookID, stars) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const { error } = await supabase.from('books').update({ stars }).eq('id', bookID).eq('userID', user.id);
+    if (error) throw new Error('No se pudo actualizar el libro');
+    return true;
+}

@@ -1,7 +1,8 @@
+import { useBooks } from '@root/context/booksContext'
 import { IconStar, IconStarFilled } from '@tabler/icons-react'
 import React from 'react'
 
-function BookCard({ starsNumber, type, title, description, pages }) {
+function BookCard({ starsNumber, type, title, description, pages, bookID }) {
 
     const stars = []
     for (let i = 0; i < starsNumber; i++) {
@@ -10,6 +11,8 @@ function BookCard({ starsNumber, type, title, description, pages }) {
     for (let i = starsNumber; i < 5; i++) {
         stars.push("empty")
     }
+
+    const { changeStars } = useBooks()
 
     return (
         <div className='w-full p-3 min-h-42 bg-[#666F9A]/40 border border-[#666F9A] rounded-2xl flex gap-6'>
@@ -38,10 +41,14 @@ function BookCard({ starsNumber, type, title, description, pages }) {
                             stars.map((star, index) => (
 
                                 <li key={index}>
-                                    {
-                                        star == "filled" ? <IconStarFilled className='text-[#999A66]' />
-                                            : <IconStar className='text-[#999A66]' />
-                                    }
+                                    <button className='w-fit aspect-square'
+                                        onClick={async () => { await changeStars(bookID, index + 1) }}>
+                                        {
+                                            star == "filled" ? <IconStarFilled className='text-[#999A66]' />
+                                                : <IconStar className='text-[#999A66]' />
+                                        }
+                                    </button>
+
                                 </li>
                             ))
                         }
