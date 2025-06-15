@@ -34,6 +34,9 @@ function BookCard({ starsNumber, type, title, description, pages, bookID, finish
         if (option === "delete") {
             onOpen();
         }
+        if(option === "edit") {
+            window.location.href = `/books/editBook/${bookID}`
+        }
     }
 
     return (
@@ -92,7 +95,7 @@ function BookCard({ starsNumber, type, title, description, pages, bookID, finish
                             </div>
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Dropdown Variants" onAction={(key) => handleOptionSelected(key)}>
-                            <DropdownItem key="view">Edit Book</DropdownItem>
+                            <DropdownItem key="edit">Edit Book</DropdownItem>
                             {
                                 finished ? <DropdownItem key="unfinished">Mark as not finished</DropdownItem> :
                                     <DropdownItem key="finished">Mark as finished</DropdownItem>

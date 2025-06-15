@@ -1,6 +1,7 @@
 import React from 'react'
 import BookCard from './BookCard'
 import { useBooks } from '@root/context/booksContext';
+import { Skeleton } from '@heroui/skeleton';
 
 function BooksList() {
 
@@ -11,7 +12,7 @@ function BooksList() {
 
             <h2 className='text-2xl text-[#C5C5C5]'> Reading: </h2>
             {
-                loading ? <h2 className="text-2xl text-white">Loading...</h2> :
+                loading ? <Skeleton className="z-20 w-full h-40 rounded-2xl flex items-center justify-between" /> :
                     books.map(book => (
                         !book.finished &&
                         <BookCard
@@ -29,7 +30,7 @@ function BooksList() {
             }
             <h2 className='text-2xl text-[#C5C5C5]'> Finished: </h2>
             {
-                loading ? <h2 className="text-2xl text-white">Loading...</h2> :
+                loading ? <Skeleton className="z-20 w-full h-40 rounded-2xl flex items-center justify-between" /> :
                     books.map(book => (
                         book.finished &&
                         <BookCard

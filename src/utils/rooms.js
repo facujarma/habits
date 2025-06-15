@@ -502,3 +502,16 @@ export async function makeMemberAdmin(roomID, userID) {
     if (error) throw new Error('No se pudo hacer al usuario admin de la sala');
     return true;
 }
+
+export async function sendMessage(roomID, content) {
+    const supabase = createClient();
+    const user = await getCurrentUser();
+
+    const { error } = await supabase.from("messages").insert({
+        roomID: roomID,
+        senderID: user?.id,
+        content,
+    });
+
+    if (error) throw error;
+}

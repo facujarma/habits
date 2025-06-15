@@ -82,3 +82,12 @@ export async function deleteBook(bookID) {
     if (error) throw new Error('No se pudo eliminar el libro');
     return true;
 }
+
+export async function editBook(bookID, title, description, pages, type) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const { error } = await supabase.from('books').update({ title, description, pages, type }).eq('id', bookID).eq('userID', user.id);
+    if (error) throw new Error('No se pudo editar el libro');
+    return true;
+}
