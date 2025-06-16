@@ -12,6 +12,7 @@ import RoomsHabitsList from "@sections/RoomsHabitsList";
 import { RoomsProvider } from "@root/context/roomsContext";
 import RoomsPublicList from "@rooms/RoomsPublicList";
 import SeparatorLine from "@components/SeparatorLine";
+import ChallengesList from "@root/components/challenges/ChallengesList";
 export default function Home() {
 
   return (
@@ -31,18 +32,21 @@ export default function Home() {
                 tabList: "w-full overflow-hidden",
                 base: "w-full"
               }}>
-              <Tab key="personal" title="Personal Habits">
+              <Tab key="personal" title="Habits">
                 <HabitsList />
                 <NegativeHabitsList />
               </Tab>
-              <Tab key="rooms" title="Room's Habits">
+              <Tab key="rooms" title="Rooms">
                 <RoomsProvider>
 
                   <RoomsHabitsList />
                   <SeparatorLine />
                   <RoomsPublicList />
-                  
+
                 </RoomsProvider>
+              </Tab>
+              <Tab key="challenges" title="Challenges">
+                <ChallengesList />
               </Tab>
             </Tabs>
           </div>

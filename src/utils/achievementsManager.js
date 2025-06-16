@@ -29,6 +29,43 @@ const streakAchievements = [
         condition: (streak) => streak >= 30,
     }
 ];
+const challengesAchievements = [
+    {
+        name: "Challenger 🥾",
+        description: "You completed your first challenge. Well done!",
+        condition: (completitions) => completitions >= 1,
+    },
+    {
+        name: "Leveling Up ⚔️",
+        description: "5 challenges completed. You're gaining momentum.",
+        condition: (completitions) => completitions >= 5,
+    },
+    {
+        name: "Challenge Accepted 💪",
+        description: "10 challenges done. Nothing can stop you now.",
+        condition: (completitions) => completitions >= 10,
+    },
+    {
+        name: "No Limits 🚀",
+        description: "25 challenges completed. Incredible determination!",
+        condition: (completitions) => completitions >= 25,
+    },
+    {
+        name: "Challenge Master 🎯",
+        description: "50 challenges done. You’re setting the standard.",
+        condition: (completitions) => completitions >= 50,
+    },
+    {
+        name: "Unstoppable Force 🧨",
+        description: "75 challenges completed. You’re on fire!",
+        condition: (completitions) => completitions >= 75,
+    },
+    {
+        name: "Legendary Challenger 🏆",
+        description: "100 challenges done. This is epic!",
+        condition: (completitions) => completitions >= 100,
+    }
+];
 
 
 const achievements = [
@@ -110,6 +147,30 @@ export async function checkCompletitionsAchivements() {
 
     return achievements.filter((a) => a.condition(completitions)).map((a) => a.name);
 }
+
+export async function getTotalChallengesOfUser() {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const { data: { challenges_completitions }, error } = await supabase
+        .from('user_stats')
+        .select('challenges_completitions')
+        .eq('userID', user.id)
+        .single();
+
+    if (error || !challenges_completitions) throw new Error('No se pudieron obtener las estadísticas del usuario');
+
+    return challenges_completitions ? challenges_completitions : 0;
+}
+
+export async function checkChallengesAchivements() {
+    const completitions = await getTotalChallengesOfUser();
+
+    return challengesAchievements
+        .filter((a) => a.condition(completitions))
+        .map((a) => a.name);
+}
+
 
 async function getMaxStreak() {
     const supabase = await createClient();
@@ -248,3 +309,80 @@ export async function changeUserStats(completed) {
     return unlocked;
 }
 
+
+export async function updateChallengeAchievements(challenges, userID) {
+    const supabase = await createClient();
+
+    const { data: existing, error } = await supabase
+        .from('user_achievements')
+        .select('name')
+        .eq('userID', userID);
+
+    if (error) throw new Error('Error obteniendo logros desbloqueados');
+
+    const unlocked = new Set((existing || []).map(a => a.name));
+
+    const now = new Date().toISOString();
+
+    const newlyUnlocked = challengesAchievements
+        .filter((a) => a.condition(challenges))
+        .filter((a) => !unlocked.has(a.name));
+
+    if (newlyUnlocked.length > 0) {
+        const insertData = newlyUnlocked.map((a) => ({
+            name: a.name,
+            unlocked_at: now,
+            userID: userID
+        }));
+
+        const { error: insertError } = await supabase
+            .from('user_achievements')
+            .insert(insertData);
+
+        if (insertError) {
+            console.error("Error insertando logros de retos:", insertError);
+            throw new Error("No se pudieron guardar los logros de retos");
+        }
+
+        return insertData;
+    }
+
+    return [];
+}
+
+
+export async function changeUserChallengeStats(completed) {
+    const supabase = await createClient();
+
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) throw new Error('Usuario no autenticado');
+
+    const userID = user.id;
+
+    const { data: stats, error: statsError } = await supabase
+        .from('user_stats')
+        .select('challenges_completitions')
+        .eq('userID', userID)
+        .single();
+
+    if (statsError || !stats) throw new Error("No se pudieron obtener las estadísticas de retos");
+
+    const prevChallenges = stats.challenges_completitions || 0;
+    const newTotal = prevChallenges + completed;
+
+    const { error: updateError } = await supabase
+        .from('user_stats')
+        .upsert({
+            userID,
+            challenges_completitions: newTotal,
+        }, { onConflict: 'userID' });
+
+    if (updateError) {
+        console.error("Error actualizando challenges_completitions:", updateError);
+        throw new Error("No se pudo actualizar la cantidad de retos");
+    }
+
+    const unlocked = await updateChallengeAchievements(newTotal, userID);
+
+    return unlocked;
+}
