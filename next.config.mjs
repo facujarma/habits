@@ -1,3 +1,6 @@
+// next.config.js
+import withPWA from "next-pwa";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     // ✅ Desactiva ESLint en compilación para evitar retrasos
@@ -26,10 +29,16 @@ const nextConfig = {
 
     // ✅ Activa experimental optimizations (solo si usás `app/`)
     experimental: {
-        turbo: true, // importante para habilitar Turbopack
+        turbo: true,
         serverActions: true,
     },
+
     reactStrictMode: false,
 };
 
-export default nextConfig;
+// ✅ Envolvés la configuración con PWA
+export default withPWA({
+    dest: "public",
+    register: true,
+    skipWaiting: true,
+})(nextConfig);
