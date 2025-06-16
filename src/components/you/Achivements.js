@@ -1,6 +1,6 @@
 'use client'
 
-import { checkCompletitionsAchivements, checkStreakAchievements } from '@root/utils/achievementsManager';
+import { checkChallengesAchivements, checkCompletitionsAchivements, checkStreakAchievements } from '@root/utils/achievementsManager';
 import React, { useEffect, useState } from 'react'
 import CompletitionsAchivementsList from './CompletitionsAchivementsList';
 import { useFormState } from 'react-dom';
@@ -8,6 +8,8 @@ import { useFormState } from 'react-dom';
 function Achivements() {
     const [completedAchivements, setCompletedAchivements] = useState([]);
     const [streakAchivements, setStreakAchivements] = useState([]);
+    const [challengesAchivements, setChallengesAchivements] = useState([]);
+
     const [loading, setLoading] = useState(true);
 
     const allAchievements = [
@@ -79,19 +81,56 @@ function Achivements() {
             condition: (streak) => streak >= 30,
         }
     ];
-
+    const challengesAchievements = [
+        {
+            name: "Challenger 🥾",
+            description: "You completed your first challenge. Well done!",
+            condition: (completitions) => completitions >= 1,
+        },
+        {
+            name: "Leveling Up ⚔️",
+            description: "5 challenges completed. You're gaining momentum.",
+            condition: (completitions) => completitions >= 5,
+        },
+        {
+            name: "Challenge Accepted 💪",
+            description: "10 challenges done. Nothing can stop you now.",
+            condition: (completitions) => completitions >= 10,
+        },
+        {
+            name: "No Limits 🚀",
+            description: "25 challenges completed. Incredible determination!",
+            condition: (completitions) => completitions >= 25,
+        },
+        {
+            name: "Challenge Master 🎯",
+            description: "50 challenges done. You’re setting the standard.",
+            condition: (completitions) => completitions >= 50,
+        },
+        {
+            name: "Unstoppable Force 🧨",
+            description: "75 challenges completed. You’re on fire!",
+            condition: (completitions) => completitions >= 75,
+        },
+        {
+            name: "Legendary Challenger 🏆",
+            description: "100 challenges done. This is epic!",
+            condition: (completitions) => completitions >= 100,
+        }
+    ];
 
     useEffect(() => {
         const loadAchievements = async () => {
             try {
-                const [completed, streaks] = await Promise.all([
+                const [completed, streaks, challenges] = await Promise.all([
                     checkCompletitionsAchivements(),
-                    checkStreakAchievements()
+                    checkStreakAchievements(),
+                    checkChallengesAchivements(),
                 ]);
                 setCompletedAchivements(completed);
                 setStreakAchivements(streaks);
-                console.log("Completed:", completed);
-                console.log("Streaks:", streaks);
+                setChallengesAchivements(challenges);
+
             } catch (err) {
                 console.error("Error loading achievements:", err);
             } finally {
@@ -116,6 +155,12 @@ function Achivements() {
                     loading={loading}
                     achievements={streakAchievements}
                     achivements={streakAchivements}
+                />
+                <h2 className='text-xl text-[#C5C5C5]'>Challenges Achievements</h2>
+                <CompletitionsAchivementsList
+                    loading={loading}
+                    achievements={challengesAchievements}
+                    achivements={challengesAchivements}
                 />
             </div>
         </div>
