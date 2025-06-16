@@ -1,12 +1,28 @@
 'use client'
 
 import useRealtimeMessages from '@root/hooks/UseRealtimeMessages';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SendRoomMessage from './SendRoomMessage';
+import { getUserInformation } from '@root/utils/user';
+import ExternalMessage from './ExternalMessage';
+import OwnMessage from './OwnMessage';
 
 function RoomChat({ roomID }) {
 
     const messages = useRealtimeMessages(roomID);
+    const [username, setUsername] = useState('');
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const loadUsername = async () => {
+            const userData = await getUserInformation()
+            setUsername(userData.username);
+            setLoading(false);
+        }
+        loadUsername()
+    }, [])
+
+
+    if (loading) return <p>Loading...</p>
 
     return (
         <div className='w-full flex flex-col gap-4 h-full'>
@@ -14,12 +30,8 @@ function RoomChat({ roomID }) {
                 {
                     messages.length == 0 ? <p className='text-center'>Be the first to send a message</p> :
                         messages.map((message) => (
-                            <li className='flex flex-col'>
-                                <span className='text-[#C5C5C5] text-sm'>{message.username}</span>
-                                <div key={message.id} className='w-fit bg-[#242424] rounded-2xl p-2'>
-                                    <p>{message.content}</p>
-                                </div>
-                            </li>
+                            message.username == username ? <OwnMessage key={message.id} message={message} /> :
+                                <ExternalMessage key={message.id} message={message} />
                         ))
                 }
             </ul>
