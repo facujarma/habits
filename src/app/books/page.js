@@ -1,6 +1,7 @@
 'use client'
 
 import BooksList from '@root/components/books/BooksList'
+import Recommendations from '@root/components/books/Recommendations'
 import Button from '@root/components/Button'
 import { BooksProvider } from '@root/context/booksContext'
 import Header from '@sections/Header'
@@ -14,6 +15,7 @@ function page() {
             <Button text="Add book" icon={<IconPlus />} handleClick={() => { redirect('/books/createBook') }} />
             <BooksProvider>
                 <BooksList />
+                <Recommendations />
             </BooksProvider>
         </div>
     )
