@@ -308,8 +308,7 @@ export async function updateRoomInfo(roomID, roomInfo) {
 }
 
 
-export async function addUserToRoomByInvitationCode(invitationCode) {
-    console.log(invitationCode)
+export async function addUserToRoomByInvitationCode(invitationCode, experience) {
     const supabase = await createClient();
 
     const user = await getCurrentUser();
@@ -321,7 +320,7 @@ export async function addUserToRoomByInvitationCode(invitationCode) {
     if (errorIsMember) throw new Error('No se pudo verificar si eres miembro de la sala');
     if (isMember) throw new Error('Ya eres miembro de la sala');
 
-    const { error } = await supabase.from('room_members').insert({ roomID: getRoomID.data.id, userID: user.id, role: 'MEMBER' });
+    const { error } = await supabase.from('room_members').insert({ roomID: getRoomID.data.id, userID: user.id, role: 'MEMBER', experience });
     if (error) throw new Error('No se pudo agregar el usuario a la sala');
     return true;
 }
