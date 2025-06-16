@@ -512,6 +512,16 @@ export async function sendMessage(roomID, content) {
         senderID: user?.id,
         content,
     });
-    
+
     if (error) throw error;
+}
+
+
+export async function deleteMessage(roomID, messageID) {
+    const supabase = await createClient();
+    const isAdmin = await isUserAdmin(roomID);
+    if (!isAdmin) throw new Error('No eres admin de la sala');
+    const { error } = await supabase.from('room_messages').delete().eq('id', messageID);
+    if (error) throw new Error('No se pudo eliminar el mensaje');
+    return true;
 }
