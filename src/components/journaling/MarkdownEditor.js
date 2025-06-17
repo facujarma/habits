@@ -11,7 +11,7 @@ import { saveJournalEntry } from "@root/utils/journal";
 import { useEffect } from "react";
 import { useTodayEntry } from "@root/context/todayEntryContext";
 import { useSearchParams } from "next/navigation"
-
+import { motion } from "motion/react"
 export default function Editor() {
 
   const searchParams = useSearchParams()
@@ -77,7 +77,14 @@ export default function Editor() {
   };
 
   return (
-    <div className="z-20 flex flex-col">
+    <motion.div
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.4,
+        scale: { type: "spring", bounce: 0.5 },
+      }}
+      className="z-20 flex flex-col">
       {loaded ? (
         <>
           <BlockNoteView
@@ -99,6 +106,6 @@ export default function Editor() {
         <Skeleton className="z-20 w-full h-[30em] rounded-2xl flex items-center justify-betwee"
           classNames={{ base: " bg-[#666F9A]/40 border border-[#666F9A]" }} />
       )}
-    </div>
+    </motion.div>
   );
 }

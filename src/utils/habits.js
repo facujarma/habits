@@ -143,8 +143,8 @@ export async function markHabitAsComplete(habitID, todayRange) {
         const now = new Date().toISOString(); // Fecha actual UTC
         const { error: insertError } = await supabase
             .from("habit_records")
-            .insert({ habitID, record_date: now, status: true });
-
+            .insert({ habitID, status: true });
+        console.log(insertError)
         if (insertError) throw new Error("No se pudo crear el registro");
     }
 

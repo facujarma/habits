@@ -92,6 +92,12 @@ function RoomHabitContainer({ habit }) {
                 <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                        duration: 0.4,
+                        scale: { type: "spring", bounce: 0.5 },
+                    }}
                     className={`flex items-center min-h-24 h-full w-full border  rounded-xl cursor-pointer ${!status && "bg-[#242424] border-[#616161]"}`}
                     style={status && { backgroundColor, borderColor: color }}
                 >

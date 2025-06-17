@@ -9,7 +9,7 @@ import {
     useDisclosure,
 } from "@heroui/react";
 import RemoveBookModal from './RemoveBookModal';
-
+import { motion } from 'motion/react'
 function BookCard({ starsNumber, type, title, description, pages, bookID, finished }) {
 
     const { onOpen, isOpen, onOpenChange } = useDisclosure();
@@ -34,13 +34,20 @@ function BookCard({ starsNumber, type, title, description, pages, bookID, finish
         if (option === "delete") {
             onOpen();
         }
-        if(option === "edit") {
+        if (option === "edit") {
             window.location.href = `/books/editBook/${bookID}`
         }
     }
 
     return (
-        <div className='relative w-full p-3 min-h-42 bg-[#666F9A]/40 border border-[#666F9A] rounded-2xl flex gap-6'>
+        <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+                duration: 0.4,
+                scale: { type: "spring", bounce: 0.5 },
+            }}
+            className='relative w-full p-3 min-h-42 bg-[#666F9A]/40 border border-[#666F9A] rounded-2xl flex gap-6'>
 
             {
                 finished && <div className='absolute top-2 right-2 w-6 h-6 bg-green-600 rounded-full flex items-center justify-center'>
@@ -111,7 +118,7 @@ function BookCard({ starsNumber, type, title, description, pages, bookID, finish
                     <RemoveBookModal isOpen={isOpen} onOpenChange={onOpenChange} bookID={bookID} />
                 </footer>
             </div>
-        </div>
+        </motion.div>
     )
 }
 

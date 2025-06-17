@@ -8,7 +8,7 @@ function MainActions() {
     return (
         <div className="flex flex-col gap-2">
             <h2 className="text-[#C5C5C5] text-lg">What are you looking for?</h2>
-            <div className="flex gap-6 overflow-x-auto max-w-full xl:justify-center py-2">
+            <div className="flex gap-6 overflow-x-auto max-w-full  py-2">
                 <ActionBox
                     handleClick={() => {
                         redirect("/habits/createHabit")

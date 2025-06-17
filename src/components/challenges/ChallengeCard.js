@@ -75,10 +75,10 @@ function ChallengeCard({ challenge }) {
     return (
         <li>
             <motion.button
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => handleClick()}
-                className='relative bg-[#242424] border border-[#616161] rounded-2xl p-4 text-left'>
+                className='w-full relative bg-[#242424] border border-[#616161] rounded-2xl p-4 text-left'>
                 <div className='flex items-center gap-4'>
                     <IconTrophyFilled className='text-[#C7B63B]' size={32} />
                     <h4 className='font-bold text-white text-xl w-3/4'>

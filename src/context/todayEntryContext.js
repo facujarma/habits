@@ -15,7 +15,9 @@ export function TodayEntryProvider({ children }) {
     useEffect(() => {
         const loadEntry = async () => {
             try {
-                const { content, id } = await getTodayEntry();
+                const data = await getTodayEntry();
+                if (!data) return;
+                const { id, content } = data;
                 if (content) {
                     const json = JSON.parse(content);
                     setEntry(json);
