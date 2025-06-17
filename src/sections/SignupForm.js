@@ -25,13 +25,13 @@ function SignupForm() {
     return (
         <form className="flex flex-col gap-6 mb-6" onSubmit={(e) => createUser(e)}>
             <div className='flex flex-col gap-2'>
-                <Input label="Nombre" placeholder="Escribe tu nombre" setText={setName} />
-                <Input label="Email" placeholder="Escribe tu email" setText={setEmail} />
-                <Input label="Contraseña" placeholder="Escribe tu contraseña" isPassword setText={setPassword} />
+                <Input label="Username" placeholder="Type your username" setText={setName} />
+                <Input label="Email" placeholder="Type your email" setText={setEmail} />
+                <Input label="Password" placeholder="Type your password" isPassword setText={setPassword} />
             </div>
             <Button text={"Crear Cuenta"} />
             <span className='text-[#C5C5C5] text-lg'>
-                ¿Ya tienes una cuenta de Habits.? <a href="/auth/login" className='underline'>Inicia sesion</a>
+                Do you have an account? <a href="/auth/login" className='underline'>Log in</a>
             </span>
         </form>
 

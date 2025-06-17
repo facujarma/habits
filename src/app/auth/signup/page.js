@@ -14,10 +14,10 @@ function page() {
 
   return (
     <div>
-      <Header title={"Crear una cuenta"} text={"Con Habits. podrás mejorar tu calidad de vida rápidamente."} />
+      <Header title={"Create an account"} text={"Welcome to Habits. We hope you have a great day."} />
       <SignupForm />
       <SeparatorLine />
-      <h2 className="text-[#C5C5C5] text-lg my-6">O inicia sesion con:</h2>
+      <h2 className="text-[#C5C5C5] text-lg my-6">Or sign up with (no apps yet):</h2>
       {/* <Button icon={<IconBrandGoogleFilled />} text={"Google"} handleClick={() => handleLoginWithGoogle()} /> */}
     </div>
   )

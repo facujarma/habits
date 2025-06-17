@@ -29,12 +29,12 @@ function LoginForm() {
     return (
         <form className="flex flex-col gap-6 mb-6" onSubmit={(e) => loginUser(e)}>
             <div className='flex flex-col gap-2'>
-                <Input label="Email" placeholder="Escribe tu email" setText={setEmail} />
-                <Input label="Contraseña" placeholder="Escribe tu contraseña" isPassword setText={setPassword} />
+                <Input label="Email" placeholder="Type your email" setText={setEmail} />
+                <Input label="Password" placeholder="Type your password" isPassword setText={setPassword} />
             </div>
             <Button text={"Iniciar Sesion"} />
             <span className='text-[#C5C5C5] text-lg'>
-                ¿No tienes una cuenta de Habits.? <a href="/auth/signup" className='underline'>Crea una</a>
+                You don&apos;t have an account of Habits.? <a href="/auth/signup" className='underline'>Sign Up</a>
             </span>
         </form>
 

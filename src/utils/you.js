@@ -149,3 +149,37 @@ export async function getTimesOfCompletitions() {
 
     return times;
 }
+
+export async function getTotalChallengesCompletitonsInLast10Weeks() {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const response = [];
+
+    for (let i = 0; i < 10; i++) {
+        const end = new Date();
+        end.setDate(end.getDate() - i * 7);
+        const start = new Date(end);
+        start.setDate(end.getDate() - 6); // semana de 7 días
+
+        const { start: startUTC, end: endUTC } = getRangeUTC(start, end);
+
+        const { count, error: countError } = await supabase
+            .from('user_challenges')
+            .select('*', { count: 'exact', head: true })
+            .eq('userID', user.id)
+            .eq('status', true)
+            .gte('created_at', startUTC)
+            .lte('created_at', endUTC);
+
+        if (countError) {
+            console.error(`Error al contar completaciones en la semana ${i}:`, countError);
+            response.push({ week: i, count: 0 });
+            continue;
+        }
+
+        response.push({ week: i, count: count ?? 0 });
+    }
+    console.log(response);
+    return response;
+}
