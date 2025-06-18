@@ -10,29 +10,23 @@ const lexend = Lexend({
 export const metadata = {
   title: "Habits.",
   description: "The ultimate habit app and goal tracker",
+  manifest: "/manifest.json",
+  themeColor: "#060606",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Habits",
+  },
+  icons: {
+    apple: "/icons/icon-192x192.png",
+  },
 };
+
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark">
-      <Head>
-        <link rel="manifest" href="/manifest.json" />
-        <meta
-          name="viewport"
-          content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=0"
-        />
-        <meta name="display" content="standalone" />
-        <meta name="theme-color" content="#3630ba" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-title" content="Mi Argentina" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
-        />
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-      </Head>
+
       <body
         className={`${lexend.className} -z-20 xl:py-4 relative antialiased bg-[#060606] h-screen xl:min-h-screen w-full flex flex-col items-center`}
       >

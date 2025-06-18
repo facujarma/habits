@@ -33,7 +33,11 @@ function RoomsHabitsList() {
             {
                 rooms &&
                     rooms.length === 0 ?
-                    <h2 className='text-[#C5C5C5]/50 text-2xl text-center my-6'> No rooms found </h2> :
+                    <div>
+                        <h2 className='text-[#C5C5C5]/50 text-2xl text-center my-6'> No rooms found </h2>
+                        <p className='text-[#C5C5C5]/50 text-sm text-center'> A room is a space where people who share the same habit can come together — for example, a group of friends or individuals who want to start a new activity.. </p>
+                    </div>
+                    :
                     rooms.map((room) => (
                         <div key={room.room.id}>
                             <RoomInfoContainer roomInfo={room.room} habits={room.habits} isAdmin={room.isAdmin} />
