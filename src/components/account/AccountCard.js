@@ -1,6 +1,23 @@
-import React from 'react'
+import { Skeleton } from '@heroui/skeleton';
+import { getUserInformation, getUserMail } from '@root/utils/user';
+import React, { useEffect, useState } from 'react'
 
 function AccountCard() {
+
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState("")
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const lodUserInfo = async () => {
+            const userInfo = await getUserInformation();
+            setUsername(userInfo.username);
+            const email = await getUserMail();
+            setEmail(email);
+            setLoading(false);
+        }
+        lodUserInfo();
+    })
+
     return (
         <div className='mt-6 w-full h-40 bg-[#242424] flex rounded-2xl relative'>
             <div className='w-full h-[2px] bg-[#484848] absolute top-1/2 -translate-y-1/2 '>
@@ -12,14 +29,23 @@ function AccountCard() {
                 </div>
             </div>
             <div className='w-2/3 flex flex-col justify-center h-full gap-6'>
-                <h2 className='text-2xl text-white'>
-                    Facundo Jarma
-                </h2>
+                {
+                    loading ?
+                        <p>loading...</p>
+                        :
+                        <h2 className='text-2xl text-white'>
+                            {username}
+                        </h2>
+
+                }
                 <div className='w-full flex flex-col gap-1'>
                     <span className='text-[#C5C5C5]'>Email</span>
-                    <span>
-                        facundojarma@gmail.com
-                    </span>
+                    {
+                        loading ?
+                            <p>loading...</p>
+                            :
+                            <span className='text-white'>{email}</span>
+                    }
                 </div>
             </div>
         </div>

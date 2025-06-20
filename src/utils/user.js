@@ -33,3 +33,34 @@ export async function getUsernameFromUUID(userID) {
     if (error) throw new Error('No se pudo obtener el username del usuario');
     return userData?.username;
 }
+
+export async function getUserMail() {
+    const supabase = await createClient();
+    const authUser = await getCurrentUser()
+
+    const mail = authUser.email
+
+    return mail
+}
+
+export async function getNumberOfHabits() {
+    const supabase = await createClient();
+    const authUser = await getCurrentUser();
+    const userUUID = authUser.id;
+
+    // Realiza una consulta para contar los hábitos del usuario
+    const { count, error } = await supabase
+        .from('habit')
+        .select('*', { count: 'exact', head: true }) // no trae datos, solo cuenta
+        .eq('userID', userUUID);
+
+    if (error) throw new Error('No se pudo obtener la cantidad de hábitos del usuario');
+
+    return count;
+}
+
+
+export async function logOut() {
+    const supabase = await createClient();
+    await supabase.auth.signOut();
+}

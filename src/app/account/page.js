@@ -1,3 +1,4 @@
+import DangerZone from '@root/components/account/DangerZone'
 import ShareStats from '@root/components/account/ShareStats'
 import Thanks from '@root/components/account/Thanks'
 import SeparatorLine from '@root/components/SeparatorLine'
@@ -16,6 +17,8 @@ function page() {
                 Go to general settings <IconArrowRight />
             </a>
             <Thanks />
+            <SeparatorLine />
+            <DangerZone />
         </div>
     )
 }
