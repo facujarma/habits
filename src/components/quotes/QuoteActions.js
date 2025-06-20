@@ -25,7 +25,6 @@ function QuoteActions() {
                 timeout: 2000
             })
         }
-
     }
 
     const [isCopied, setIsCopied] = useState(false)
