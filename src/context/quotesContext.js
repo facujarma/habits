@@ -19,11 +19,11 @@ const QuotesContext = createContext({
   isFav: false,
   maxIndex: 0,
   loading: true,
-  setFilters: () => {},
-  goToNextQuote: () => {},
-  addLocallyToFavorites: () => {},
-  setActualQuote: () => {},
-  setActualQuoteRotation: () => {},
+  setFilters: () => { },
+  goToNextQuote: () => { },
+  addLocallyToFavorites: () => { },
+  setActualQuote: () => { },
+  setActualQuoteRotation: () => { },
 });
 
 export function QuotesProvider({ children }) {
@@ -33,6 +33,9 @@ export function QuotesProvider({ children }) {
   const [actualQuote, setActualQuote] = useState(0);
   const [actualQuoteRotation, setActualQuoteRotation] = useState(0);
   const [isFav, setIsFav] = useState(false);
+
+  const [listMode, setListMode] = useState("Swipe")
+
   const [loading, setLoading] = useState(true);
 
   // Carga inicial de todas las citas
@@ -126,6 +129,12 @@ export function QuotesProvider({ children }) {
     setActualQuoteRotation(prev => prev + 1);
   }, [quotes.length]);
 
+  // Actualizar cita manualmente (en sesión, sin llamar a DB)
+  const setActualQuoteFromIndex = useCallback((index) => {
+    setActualQuote(index);
+
+  }, []);
+
   // Agregar manualmente a favoritas (en sesión, sin llamar a DB)
   const addLocallyToFavorites = useCallback(
     quote => {
@@ -138,6 +147,7 @@ export function QuotesProvider({ children }) {
 
   // Valor máximo de índice para recorrido
   const maxIndex = useMemo(() => quotes.length, [quotes]);
+
 
   // Objeto de contexto memoizado para evitar renders innecesarios
   const contextValue = useMemo(
@@ -155,6 +165,9 @@ export function QuotesProvider({ children }) {
       addLocallyToFavorites,
       setActualQuote,
       setActualQuoteRotation,
+      listMode,
+      setListMode,
+      setActualQuoteFromIndex
     }),
     [
       allQuotes,
@@ -168,6 +181,9 @@ export function QuotesProvider({ children }) {
       setFilters,
       goToNextQuote,
       addLocallyToFavorites,
+      listMode,
+      setListMode,
+      setActualQuoteFromIndex
     ]
   );
 

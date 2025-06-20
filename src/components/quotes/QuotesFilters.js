@@ -4,9 +4,10 @@ import { Select } from '@heroui/react'
 import { SelectItem } from '@heroui/select'
 import React, { useState, useEffect } from 'react'
 import { useQuotes } from '@root/context/quotesContext'
+import ListModeSwitch from './ListModeSwitch'
 
 function QuotesFilters() {
-    const { setQuotes, allQuotes, setFilters } = useQuotes()
+    const { setQuotes, allQuotes, setFilters, listMode, setListMode } = useQuotes()
 
     const authors = [...new Set(allQuotes.map(quote => quote.author))]
     const feelings = [...new Set(allQuotes.map(quote => quote.feeling))]
@@ -15,6 +16,7 @@ function QuotesFilters() {
     const [author, setAuthor] = useState('All')
     const [feeling, setFeeling] = useState('All')
     const [philosophy, setPhilosophy] = useState('All')
+
 
     useEffect(() => {
         setFilters({ author, feeling, philosophy })
@@ -27,14 +29,18 @@ function QuotesFilters() {
     return (
         <div className='z-10 w-full'>
             <ul className='flex flex-wrap gap-4 items-center'>
-                <li className='flex flex-col gap-2 w-full'>
-                    <span className='text-sm'> Author </span>
-                    <Select variant='faded' onSelectionChange={handleAuthorChange} defaultSelectedKeys={['All']}>
-                        <SelectItem value='All' key={'All'} >All</SelectItem>
-                        {authors.map((author) => (
-                            <SelectItem key={author} aria-label={author} aria-labelledby={author} value={author}>{author}</SelectItem>
-                        ))}
-                    </Select>
+                <li className='flex flex-col gap-2 w-full '>
+                    <span className='text-sm text-start'> Author </span>
+                    <div className=' w-full flex gap-2'>
+                        <Select variant='faded' onSelectionChange={handleAuthorChange} defaultSelectedKeys={['All']}>
+                            <SelectItem value='All' key={'All'} >All</SelectItem>
+                            {authors.map((author) => (
+                                <SelectItem key={author} aria-label={author} aria-labelledby={author} value={author}>{author}</SelectItem>
+                            ))}
+                        </Select>
+                        <ListModeSwitch listMode={listMode} setListMode={setListMode} />
+                    </div>
+
                 </li>
                 <li className='flex flex-col gap-2 w-[47%]'>
                     <span className='text-sm'> Feel </span>
@@ -54,6 +60,7 @@ function QuotesFilters() {
                         ))}
                     </Select>
                 </li>
+
             </ul>
         </div>
     )
