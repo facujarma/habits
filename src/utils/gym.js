@@ -1,6 +1,7 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
+import { user } from '@heroui/theme';
 
 async function getCurrentUser() {
     const supabase = await createClient();
@@ -34,4 +35,94 @@ export async function createExercice(exercice) {
     console.log(error)
     if (error) throw new Error('No se pudo crear el ejercicios');
     return data;
+}
+
+export async function createWorkout(workout) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+    const { data, error } = await supabase.from('gym_workouts').insert([{ ...workout, userID: user.id }]);
+
+    console.log(error)
+    if (error) throw new Error('No se pudo crear la sesioon');
+    return data;
+}
+
+export async function addExerciceToWorkout(exerciceID, workoutID) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+    const { data, error } = await supabase.from('gym_exercices_workouts').insert([{ exerciceID, workoutID, userID: user.id }]);
+    if (error) throw new Error('No se pudo agregar el ejercicios a la sesion');
+    return data;
+}
+
+export async function createWorkoutWithExercices(workoutName, exercicesIDs) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    // 1. Crear el workout
+    const { data: workoutData, error: workoutError } = await supabase
+        .from('gym_workouts')
+        .insert([{ name: workoutName, userID: user.id }])
+        .select()
+        .single(); // obtenemos el ID recién creado
+
+    if (workoutError) {
+        console.error(workoutError);
+        throw new Error('No se pudo crear la sesión');
+    }
+
+    const workoutID = workoutData.id;
+
+    // 2. Filtrar ejercicios válidos
+    const validExercices = exercicesIDs.filter(e => !!e);
+
+    if (validExercices.length === 0) {
+        throw new Error('No hay ejercicios válidos para asociar a la sesión.');
+    }
+
+    // 3. Crear los vínculos con cada ejercicio
+    const insertData = validExercices.map(e => ({
+        exerciceID: e,
+        workoutID,
+        userID: user.id
+    }));
+
+    const { error: linkError } = await supabase
+        .from('gym_exercices_workouts')
+        .insert(insertData);
+
+    if (linkError) {
+        console.error(linkError);
+        throw new Error('No se pudieron vincular los ejercicios a la sesión');
+    }
+
+    return workoutID;
+}
+
+export async function getWorkoutsFullData() {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const { data: workouts, error: workoutsError } = await supabase
+        .from('gym_workouts')
+        .select('*')
+        .eq('userID', user.id);
+
+    if (workoutsError) throw new Error('No se pudieron obtener las sesiones');
+
+    let workoutsWithExercices = [];
+
+    for (const workout of workouts) {
+        const { data: exercices, error: exercicesError } = await supabase
+            .from('gym_exercices_workouts')
+            .select('exerciceID')
+            .eq('workoutID', workout.id);
+
+        if (exercicesError) throw new Error('No se pudieron obtener los ejercicios de la sesión');
+
+        const exercicesIds = exercices.map(exercice => exercice.exerciceID);
+        workoutsWithExercices.push({ ...workout, exercicesIDs: exercicesIds });
+    }
+
+    return workoutsWithExercices;
 }

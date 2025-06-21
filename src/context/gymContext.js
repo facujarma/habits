@@ -1,7 +1,7 @@
 'use client';
 
 import { addToast } from '@heroui/toast';
-import { getUserExercices } from '@root/utils/gym';
+import { getUserExercices, getWorkoutsFullData } from '@root/utils/gym';
 import React, {
     createContext,
     useContext,
@@ -19,6 +19,7 @@ const GymContext = createContext({
 
 export function GymProvider({ children }) {
     const [exercices, setExercices] = useState([]);
+    const [workouts, setWorkouts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const loadExercices = useCallback(async (force = false) => {
@@ -48,13 +49,42 @@ export function GymProvider({ children }) {
         }
     }, []);
 
+    const loadWorkouts = useCallback(async (force = false) => {
+        setLoading(true);
+        try {
+            const cachedRaw = sessionStorage.getItem('workouts');
+            const parsed = cachedRaw ? JSON.parse(cachedRaw) : null;
+
+            if (!force && parsed) {
+                setWorkouts(parsed);
+                console.log('Workouts loaded from cache');
+            } else {
+                const fresh = await getWorkoutsFullData();
+                setWorkouts(fresh);
+                sessionStorage.setItem('workouts', JSON.stringify(fresh));
+                console.log('Workouts loaded from database');
+            }
+        } catch (e) {
+            addToast({
+                title: 'Error',
+                message: 'An error occurred while getting the exercices.',
+                color: 'danger',
+            });
+            console.error('Error loading exercices:', e);
+        }
+        finally {
+            setLoading(false);
+        }
+    }, []);
+
     useEffect(() => {
         loadExercices();
-    }, [loadExercices]);
+        loadWorkouts();
+    }, [loadExercices, loadWorkouts]);
 
     const contextValue = useMemo(
-        () => ({ exercices, loading, loadExercices }),
-        [exercices, loading, loadExercices]
+        () => ({ exercices, loading, loadExercices, workouts, loadWorkouts }),
+        [exercices, loading, loadExercices, workouts, loadWorkouts]
     );
 
     return (

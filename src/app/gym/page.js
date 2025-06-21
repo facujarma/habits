@@ -4,6 +4,7 @@ import { useDisclosure } from '@heroui/modal'
 import Button from '@root/components/Button'
 import AddExerciceModal from '@root/components/gym/AddExerciceModal'
 import GymExercicesList from '@root/components/gym/GymExercicesList'
+import GymSessionsList from '@root/components/gym/GymSessionsList'
 import { GymProvider } from '@root/context/gymContext'
 import Header from '@root/sections/Header'
 import React from 'react'
@@ -24,7 +25,7 @@ function page() {
 
                 </div>
                 <h2 className='text-2xl text-[#C5C5C5] mt-4'>Your workouts</h2>
-
+                <GymSessionsList />
                 <h2 className='text-2xl text-[#C5C5C5] mt-4'>Your exercices</h2>
                 <GymExercicesList />
 
