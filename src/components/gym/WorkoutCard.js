@@ -1,7 +1,7 @@
 'use client'
 
 import { useGym } from '@root/context/gymContext'
-import { IconArrowDown, IconArrowUp } from '@tabler/icons-react'
+import { IconArrowDown, IconArrowUp, IconJumpRope } from '@tabler/icons-react'
 import React, { useEffect, useRef, useState } from 'react'
 
 function WorkoutCard({ workout }) {
@@ -18,7 +18,11 @@ function WorkoutCard({ workout }) {
     }, [exercices, workout.exercicesIDs])
 
     return (
-        <div className='w-full p-3 bg-[#666F9A]/40 border border-[#666F9A] rounded-2xl transition-all'>
+        <div className='relative w-full p-3 bg-[#666F9A]/40 border border-[#666F9A] rounded-2xl transition-all'>
+            <div className='absolute top-3 right-3'>
+                <IconJumpRope className='text-[#666F9A]' size={36} />
+            </div>
+
             <h2 className='text-2xl'>
                 {workout.name}
             </h2>

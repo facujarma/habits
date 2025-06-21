@@ -7,6 +7,7 @@ import GymExercicesList from '@root/components/gym/GymExercicesList'
 import GymSessionsList from '@root/components/gym/GymSessionsList'
 import { GymProvider } from '@root/context/gymContext'
 import Header from '@root/sections/Header'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 function page() {
@@ -18,7 +19,9 @@ function page() {
             <Header title="Gym" text="This section is exclusively for managing your workouts. Here, you'll be able to see your progress more clearly." />
             <GymProvider>
                 <div className='w-full flex flex-col gap-4'>
-                    <Button text="Create new workout" />
+                    <Button text="Create new workout" handleClick={() => {
+                        redirect('/gym/createSession')
+                    }} />
                     <Button text="Add new exercice" handleClick={onOpen} />
 
                     <AddExerciceModal isOpen={isOpen} onOpenChange={onOpenChange} onOpen={onOpen} />
