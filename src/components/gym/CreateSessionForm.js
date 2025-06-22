@@ -7,9 +7,11 @@ import Button from '../Button'
 import ExerciceSelector from './ExerciceSelector'
 import { createWorkoutWithExercices } from '@root/utils/gym'
 import { addToast } from '@heroui/toast'
+import { useGym } from '@root/context/gymContext'
 
 function CreateSessionForm() {
     const [selectors, setSelectors] = useState([{ id: Date.now(), exerciceID: null }])
+    const { loadWorkouts } = useGym()
     const [name, setName] = useState('')
     const addSelector = () => {
         setSelectors(prev => [...prev, { id: Date.now(), exerciceID: null }])
@@ -45,7 +47,8 @@ function CreateSessionForm() {
         }
 
         try {
-            createWorkoutWithExercices(name, selectors.map(sel => sel.exerciceID)).then(() => {
+            createWorkoutWithExercices(name, selectors.map(sel => sel.exerciceID)).then(async () => {
+                await loadWorkouts(true)
                 addToast({ title: "Session created", description: "The session has been created successfully.", color: "success", timeout: 2000 })
             })
 

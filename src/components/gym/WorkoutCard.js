@@ -2,6 +2,7 @@
 
 import { useGym } from '@root/context/gymContext'
 import { IconArrowDown, IconArrowUp, IconJumpRope } from '@tabler/icons-react'
+import { redirect } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
 
 function WorkoutCard({ workout }) {
@@ -56,7 +57,7 @@ function WorkoutCard({ workout }) {
             <button className='w-full mt-4 h-8 bg-[#666F9A]/20 rounded-2xl'>
                 Edit
             </button>
-            <button className='w-full mt-2 h-8 bg-[#666F9A]/50 rounded-2xl'>
+            <button className='w-full mt-2 h-8 bg-[#666F9A]/50 rounded-2xl' onClick={() => { redirect("/gym/onSession/" + workout.id) }}>
                 Use now
             </button>
         </div>

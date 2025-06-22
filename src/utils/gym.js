@@ -126,3 +126,39 @@ export async function getWorkoutsFullData() {
 
     return workoutsWithExercices;
 }
+
+
+export async function isOnSession() {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const { data: session, error } = await supabase.from('gym_sessions').select('*').eq('userID', user.id).is('ended_at', null).maybeSingle();
+    console.log(session, error)
+    if (error) throw new Error('No se pudo obtener la sesión');
+    return session;
+}
+
+export async function startSession(workoutID) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const actualSession = await isOnSession();
+    if (actualSession) {
+        console.log(actualSession.workoutID, workoutID)
+        if (actualSession.workoutID == workoutID) return
+        else {
+            throw new Error('Ya tienes una sesión iniciada');
+        }
+    }
+
+    const { error } = await supabase.from('gym_sessions').insert([{ userID: user.id, workoutID }]);
+    if (error) throw new Error('No se pudo iniciar la sesión');
+}
+
+export async function endSession(workoutID) {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const { error } = await supabase.from('gym_sessions').update({ ended_at: new Date() }).eq('userID', user.id).eq('ended_at', null).eq('workoutID', workoutID);
+    if (error) throw new Error('No se pudo finalizar la sesión');
+}
