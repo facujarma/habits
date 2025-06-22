@@ -38,6 +38,12 @@ function CreateSessionForm() {
     }
 
     const handleSave = () => {
+
+        if (!name) {
+            addToast({ title: "Error", description: "Please provide a name for the session.", color: "danger", timeout: 2000 })
+            return
+        }
+
         try {
             createWorkoutWithExercices(name, selectors.map(sel => sel.exerciceID)).then(() => {
                 addToast({ title: "Session created", description: "The session has been created successfully.", color: "success", timeout: 2000 })

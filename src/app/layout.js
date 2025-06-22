@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Lexend } from 'next/font/google'
 import ToastClientLayout from "@sections/ToastClientLayout";
-import Head from "next/head";
 
 const lexend = Lexend({
   subsets: ['latin'],
@@ -11,7 +10,6 @@ export const metadata = {
   title: "Habits.",
   description: "The ultimate habit app and goal tracker",
   manifest: "/manifest.json",
-  themeColor: "#060606",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
