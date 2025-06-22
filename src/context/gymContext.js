@@ -1,7 +1,7 @@
 'use client';
 
 import { addToast } from '@heroui/toast';
-import { getUserExercices, getWorkoutsFullData } from '@root/utils/gym';
+import { getUserExercices, getWorkoutsFullData, isOnSession } from '@root/utils/gym';
 import React, {
     createContext,
     useContext,
@@ -21,7 +21,7 @@ export function GymProvider({ children }) {
     const [exercices, setExercices] = useState([]);
     const [workouts, setWorkouts] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const [session, setSession] = useState(null);
     const loadExercices = useCallback(async (force = false) => {
         setLoading(true);
         try {
@@ -77,14 +77,35 @@ export function GymProvider({ children }) {
         }
     }, []);
 
+    const isASessionActive = useCallback(async () => {
+        setLoading(true);
+        try {
+            const session = await isOnSession()
+            setSession(session);
+        }
+        catch (e) {
+            addToast({
+                title: 'Error',
+                message: 'An error occurred while checking the session.',
+                color: 'danger',
+            });
+            console.error('Error loading session:', e);
+        }
+        finally {
+            setLoading(false);
+        }
+    }, []); 
+
+
     useEffect(() => {
         loadExercices();
         loadWorkouts();
-    }, [loadExercices, loadWorkouts]);
+        isASessionActive();
+    }, [loadExercices, loadWorkouts, isASessionActive]);
 
     const contextValue = useMemo(
-        () => ({ exercices, loading, loadExercices, workouts, loadWorkouts }),
-        [exercices, loading, loadExercices, workouts, loadWorkouts]
+        () => ({ exercices, loading, loadExercices, workouts, loadWorkouts, session }),
+        [exercices, loading, loadExercices, workouts, loadWorkouts, session]
     );
 
     return (

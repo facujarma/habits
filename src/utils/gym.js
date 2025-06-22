@@ -162,3 +162,24 @@ export async function endSession(workoutID) {
     const { error } = await supabase.from('gym_sessions').update({ ended_at: new Date() }).eq('userID', user.id).eq('ended_at', null).eq('workoutID', workoutID);
     if (error) throw new Error('No se pudo finalizar la sesión');
 }
+
+
+export async function saveSeriesProgress(sessionID, exerciceID, seriesData) {
+    const supabase = await createClient()
+    const user = await getCurrentUser()
+
+    const rows = seriesData.map((serie, index) => ({
+        sessionID,
+        exerciceID,
+        set_number: index + 1,
+        weight: Number(serie.weight),
+        reps: Number(serie.reps),
+        rir: Number(serie.rir)
+    }))
+
+    const { error } = await supabase
+        .from('gym_session_exercice_progress')
+        .upsert(rows, { onConflict: ['sessionID', 'exerciceID', 'set_number'] }) // clave única compuesta
+
+    if (error) throw new Error('Error al guardar el progreso')
+}

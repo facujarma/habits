@@ -1,7 +1,7 @@
 import React from 'react'
 import SessionExerciceCard from './SessionExerciceCard'
 
-function SessionExerciceList({ exercices }) {
+function SessionExerciceList({ exercices, sessionID }) {
     return (
         <div className='flex flex-col gap-4 my-6'>
             {

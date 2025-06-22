@@ -3,7 +3,9 @@
 import { IconBarbell } from '@tabler/icons-react'
 import React, { useState, useEffect } from 'react'
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@heroui/table";
-import { Button, Input } from '@heroui/react';
+import { addToast, Button, Input } from '@heroui/react';
+import { saveSeriesProgress } from '@root/utils/gym';
+import { useGym } from '@root/context/gymContext';
 
 function SessionExerciceCard({ exercice }) {
   const seriesCount = exercice.sets || 1;
@@ -30,6 +32,26 @@ function SessionExerciceCard({ exercice }) {
     updated[index][field] = value;
     setSeriesData(updated);
   };
+
+  const { session } = useGym()
+
+  const handleSave = async () => {
+    try {
+      await saveSeriesProgress(session.id, exercice.id, seriesData)
+      addToast({
+        title: 'Saved',
+        description: 'Progress saved successfully',
+        color: 'success',
+      })
+    } catch (e) {
+      console.error(e)
+      addToast({
+        title: 'Error',
+        description: 'There was an error saving the progress',
+        color: 'danger',
+      })
+    }
+  }
 
   return (
     <div className='relative w-full p-3 bg-[#242424] border border-[#616161] rounded-2xl flex flex-col gap-2'>
@@ -79,7 +101,7 @@ function SessionExerciceCard({ exercice }) {
         </TableBody>
       </Table>
 
-      <Button onClick={() => console.log(seriesData)}>Save</Button>
+      <Button onClick={handleSave}>Save</Button>
 
     </div>
   )
