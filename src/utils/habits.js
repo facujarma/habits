@@ -2,86 +2,42 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/utils/supabase/server';
-import { getUTCDateString, getUTCRangeForToday } from './TimesToBack';
+import {
+    getUTCDateString,
+    getUTCRangeForToday,
+    getUTCofNow
+} from './TimesToBack';
 
-
-const WEEKDAY_INITIALS = {
-    Su: false,
-    M: false,
-    Tu: false,
-    W: false,
-    Th: false,
-    F: false,
-    Sa: false,
-};
-
-// 2) Mapa inverso: de número (0–6) a la clave de día
-//    0 → "Su" (domingo), 1 → "M" (lunes), …, 6 → "Sa" (sábado)
-const WEEKDAY_MAP = {
-    0: 'Su',
-    1: 'M',
-    2: 'Tu',
-    3: 'W',
-    4: 'Th',
-    5: 'F',
-    6: 'Sa',
-};
-
-const weekdayMap = {
-    Su: 0, M: 1, Tu: 2, W: 3, Th: 4, F: 5, Sa: 6,
-};
-
+const WEEKDAY_INITIALS = { Su: false, M: false, Tu: false, W: false, Th: false, F: false, Sa: false };
+const WEEKDAY_MAP = { 0: 'Su', 1: 'M', 2: 'Tu', 3: 'W', 4: 'Th', 5: 'F', 6: 'Sa' };
+const weekdayMap = { Su: 0, M: 1, Tu: 2, W: 3, Th: 4, F: 5, Sa: 6 };
 
 export async function addHabit(habit) {
     const supabase = await createClient();
+    // --- auth
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) throw new Error('Usuario no autenticado');
 
-    // 1) Obtener usuario autenticado
-    const {
-        data: { user },
-        error: userError,
-    } = await supabase.auth.getUser();
-    if (userError || !user) {
-        console.error('No hay usuario autenticado:', userError);
-        throw new Error('Usuario no autenticado');
-    }
-
-    // 2) Separar weekdays del resto
+    // --- insertar hábito
     const { weekdays, ...habitData } = habit;
-    // 3) Insertar en tabla "habit" solo los campos válidos
     const { data: insertedHabit, error: insertError } = await supabase
         .from('habit')
         .insert([{ userID: user.id, ...habitData }])
         .select()
         .single();
-    if (insertError) {
-        console.error('Error al insertar hábito:', insertError);
-        throw new Error('No se pudo crear el hábito');
-    }
+    if (insertError) throw new Error('No se pudo crear el hábito');
 
-    // 4) Insertar días activos en "habit_schedules"
+    // --- insertar schedules
     const activeDays = Object.entries(weekdays)
         .filter(([, isActive]) => isActive)
-        .map(([dayInitial]) => weekdayMap[dayInitial]);
-
-    if (activeDays.length > 0) {
-        const scheduleInserts = activeDays.map((weekday) => ({
-            habitID: insertedHabit.id,
-            weekday,
-        }));
-        const { error: scheduleError } = await supabase
-            .from('habit_schedules')
-            .insert(scheduleInserts);
-        if (scheduleError) {
-            console.error('Error al insertar schedules:', scheduleError);
-            throw new Error('No se pudieron asignar los días al hábito');
-        }
+        .map(([key]) => weekdayMap[key]);
+    if (activeDays.length) {
+        const scheduleInserts = activeDays.map(wd => ({ habitID: insertedHabit.id, weekday: wd }));
+        const { error: schedError } = await supabase.from('habit_schedules').insert(scheduleInserts);
+        if (schedError) throw new Error('No se pudieron asignar los días al hábito');
     }
 
-    // 5) Si tienes tabla para "times", podrías insertarlos aquí de forma similar
-
-    // 6) Revalidar la cache de la página de hábitos
     revalidatePath('/habits');
-
     return insertedHabit;
 }
 
@@ -89,126 +45,102 @@ export async function selectHabits() {
     const supabase = await createClient();
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) throw new Error('Usuario no autenticado');
-
-    const { data: habits, error } = await supabase.from('habit').select('*').eq('userID', user.id);
+    const { data, error } = await supabase.from('habit').select('*').eq('userID', user.id);
     if (error) throw new Error('No se pudieron obtener los hábitos');
-    return habits;
+    return data;
 }
 
-export async function getHabitStatus(habitID, todayRange) {
+export async function getHabitStatus(habitID) {
     const supabase = await createClient();
+    const { start, end } = getUTCRangeForToday();
     const { data, error } = await supabase
-        .from("habit_records")
-        .select("status")
-        .eq("habitID", habitID)
-        .gte("created_at", todayRange.start)
-        .lte("created_at", todayRange.end)
+        .from('habit_records')
+        .select('status')
+        .eq('habitID', habitID)
+        .gte('created_at', start)
+        .lte('created_at', end)
         .maybeSingle();
-    console.log(error, habitID, todayRange)
-    if (error) throw new Error("No se pudo obtener el estado del hábito");
+    if (error) throw new Error('No se pudo obtener el estado del hábito');
     return data?.status ?? null;
 }
 
-export async function markHabitAsComplete(habitID, todayRange) {
+export async function markHabitAsComplete(habitID) {
     const supabase = await createClient();
+    const { start, end } = getUTCRangeForToday();
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError || !user) throw new Error("Usuario no autenticado");
-
-    const { start, end } = todayRange; // Usa hora local traducida a UTC
-
-    // Buscar si ya hay un registro en el rango de hoy
+    // 1) Verificar si ya hay registro hoy
     const { data: existing, error: fetchError } = await supabase
-        .from("habit_records")
-        .select("*")
-        .eq("habitID", habitID)
-        .gte("created_at", start)
-        .lte("created_at", end)
+        .from('habit_records')
+        .select('*')
+        .eq('habitID', habitID)
+        .gte('created_at', start)
+        .lte('created_at', end)
         .maybeSingle();
-
-    if (fetchError && fetchError.code !== "PGRST116") {
-        throw new Error("Error al verificar estado del hábito");
-    }
+    if (fetchError && fetchError.code !== 'PGRST116') throw new Error('Error al verificar estado');
 
     if (existing) {
-        // Actualizar si ya existe
-        const { error: updateError } = await supabase
-            .from("habit_records")
+        // 2) actualizar
+        const { error: upd } = await supabase
+            .from('habit_records')
             .update({ status: true })
-            .eq("id", existing.id); // Usamos el ID para mayor precisión
-
-        if (updateError) throw new Error("No se pudo actualizar el estado");
+            .eq('id', existing.id);
+        if (upd) throw new Error('No se pudo actualizar el estado');
     } else {
-        // Crear nuevo registro
-        const now = new Date().toISOString(); // Fecha actual UTC
-        const { error: insertError } = await supabase
-            .from("habit_records")
-            .insert({ habitID, status: true });
-        console.log(insertError)
-        if (insertError) throw new Error("No se pudo crear el registro");
+        // 3) crear nuevo registro con record_date explícito
+        const now = getUTCofNow();
+        const { error: ins } = await supabase
+            .from('habit_records')
+            .insert({ habitID, status: true, record_date: now });
+        if (ins) throw new Error('No se pudo crear el registro');
     }
 
     return true;
 }
 
-export async function markHabitAsIncomplete(habitID, todayRange) {
+export async function markHabitAsIncomplete(habitID) {
     const supabase = await createClient();
+    const { start, end } = getUTCRangeForToday();
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError || !user) throw new Error("Usuario no autenticado");
-
-    const { start, end } = todayRange // Usa hora local traducida a UTC
-
-    // Buscar si ya hay un registro dentro del rango del día
     const { data: existing, error: fetchError } = await supabase
-        .from("habit_records")
-        .select("*")
-        .eq("habitID", habitID)
-        .gte("created_at", start)
-        .lte("created_at", end)
+        .from('habit_records')
+        .select('*')
+        .eq('habitID', habitID)
+        .gte('created_at', start)
+        .lte('created_at', end)
         .maybeSingle();
-
-    if (fetchError && fetchError.code !== "PGRST116") {
-        throw new Error("Error al verificar estado del hábito");
-    }
+    if (fetchError && fetchError.code !== 'PGRST116') throw new Error('Error al verificar estado');
 
     if (existing) {
-        // Actualizar si ya existe
-        const { error: updateError } = await supabase
-            .from("habit_records")
+        const { error: upd } = await supabase
+            .from('habit_records')
             .update({ status: false })
-            .eq("id", existing.id); // Mejor usar el ID directo
-
-        if (updateError) throw new Error("No se pudo actualizar el estado");
+            .eq('id', existing.id);
+        if (upd) throw new Error('No se pudo actualizar el estado');
     } else {
-        // Crear nuevo registro
-        const now = new Date().toISOString(); // Fecha actual en UTC
-        const { error: insertError } = await supabase
-            .from("habit_records")
-            .insert({ habitID, record_date: now, status: false });
-
-        if (insertError) throw new Error("No se pudo crear el registro");
+        const now = getUTCofNow();
+        const { error: ins } = await supabase
+            .from('habit_records')
+            .insert({ habitID, status: false, record_date: now });
+        if (ins) throw new Error('No se pudo crear el registro');
     }
 
     return true;
 }
-
 
 export async function selectHabitsForToday() {
     const supabase = await createClient();
     const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError || !user) throw new Error("Usuario no autenticado");
+    if (userError || !user) throw new Error('Usuario no autenticado');
 
+    // jsDay igual sin cambio
     const jsDay = new Date().getDay();
-
-    const { data: habits, error } = await supabase
-        .from("habit")
-        .select("*, habit_schedules!inner(weekday)")
-        .eq("userID", user.id)
-        .eq("habit_schedules.weekday", jsDay);
-
-    if (error) throw new Error("No se pudieron obtener los hábitos de hoy");
-    return habits;
+    const { data, error } = await supabase
+        .from('habit')
+        .select('*, habit_schedules!inner(weekday)')
+        .eq('userID', user.id)
+        .eq('habit_schedules.weekday', jsDay);
+    if (error) throw new Error('No se pudieron obtener los hábitos de hoy');
+    return data;
 }
 
 export async function selectHabitsNotForToday() {

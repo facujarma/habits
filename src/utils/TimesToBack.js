@@ -1,3 +1,5 @@
+// utils/TimesToBack.ts
+
 /**
  * Devuelve el rango UTC (en ISO string) que representa el día "local" actual.
  * Útil para buscar registros de hoy desde Supabase.
@@ -5,8 +7,22 @@
 export function getUTCRangeForToday() {
     const now = new Date();
 
-    const startLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
-    const endLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+    const startLocal = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        0,
+        0,
+        0
+    );
+    const endLocal = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        23,
+        59,
+        59
+    );
 
     return {
         start: startLocal.toISOString(), // UTC equivalente de 00:00 local
@@ -18,8 +34,22 @@ export function getUTCRangeForToday() {
  * Devuelve el rango UTC (en ISO string) que representa el día "local" de una fecha dada.
  */
 export function getUTCRangeForDate(date) {
-    const startLocal = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
-    const endLocal = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59);
+    const startLocal = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        0,
+        0,
+        0
+    );
+    const endLocal = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        23,
+        59,
+        59
+    );
 
     return {
         start: startLocal.toISOString(),
@@ -29,7 +59,7 @@ export function getUTCRangeForDate(date) {
 
 /**
  * Devuelve el timestamp actual en formato UTC ISO string.
- * Usar para guardar fechas exactas.
+ * Útil para guardarlo como created_at o record_date.
  */
 export function getUTCofNow() {
     return new Date().toISOString();
@@ -37,7 +67,7 @@ export function getUTCofNow() {
 
 /**
  * Devuelve la fecha local (del usuario) en formato YYYY-MM-DD.
- * Útil para comparar sin horas.
+ * Útil para comparar sin horas (e.g. cache por día).
  */
 export function getUTCDateString() {
     const now = new Date();
