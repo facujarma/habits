@@ -1,29 +1,44 @@
+/**
+ * Devuelve el rango UTC (en ISO string) que representa el día "local" actual.
+ * Útil para buscar registros de hoy desde Supabase.
+ */
 export function getUTCRangeForToday() {
     const now = new Date();
-    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
-    const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+
+    const startLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+    const endLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
 
     return {
-        start: start.toISOString(), // UTC equivalente de 00:00 hora local
-        end: end.toISOString(),     // UTC equivalente de 23:59 hora local
+        start: startLocal.toISOString(), // UTC equivalente de 00:00 local
+        end: endLocal.toISOString(),     // UTC equivalente de 23:59 local
     };
 }
 
+/**
+ * Devuelve el rango UTC (en ISO string) que representa el día "local" de una fecha dada.
+ */
 export function getUTCRangeForDate(date) {
-    const start = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
-    const end = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59);
+    const startLocal = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
+    const endLocal = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59);
 
     return {
-        start: start.toISOString(),
-        end: end.toISOString(),
+        start: startLocal.toISOString(),
+        end: endLocal.toISOString(),
     };
 }
 
+/**
+ * Devuelve el timestamp actual en formato UTC ISO string.
+ * Usar para guardar fechas exactas.
+ */
 export function getUTCofNow() {
-    const now = new Date();
-    return now.toISOString();
+    return new Date().toISOString();
 }
 
+/**
+ * Devuelve la fecha local (del usuario) en formato YYYY-MM-DD.
+ * Útil para comparar sin horas.
+ */
 export function getUTCDateString() {
     const now = new Date();
     const year = now.getFullYear();

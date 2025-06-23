@@ -16,13 +16,15 @@ import {
     ModalFooter,
     useDisclosure
 } from "@heroui/react";
+import { useHabits } from '@root/context/habitContext'
 function Page() {
-
+    const { loadHabits } = useHabits();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const useTemplate = async (habitTemplate) => {
         try {
             const { text, ...templateWithoutText } = habitTemplate;
             await addHabit(templateWithoutText);
+            await loadHabits(true);
             addToast({
                 title: "Habit created",
                 description: "The habit has been created successfully.",
