@@ -21,7 +21,6 @@ export default function HabitsAllInfo({ habitID }) {
             setLoading(true)
             try {
                 const data = await getHabitFullData(habitID)
-
                 setHabitInfo(data)
                 setLoading(false)
             } catch (err) {

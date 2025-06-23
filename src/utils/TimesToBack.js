@@ -2,31 +2,20 @@
 
 /**
  * Devuelve el rango UTC (en ISO string) que representa el día "local" actual.
- * Útil para buscar registros de hoy desde Supabase.
+ * Asegura que se respete la zona horaria del usuario.
  */
 export function getUTCRangeForToday() {
-    const now = new Date();
+    const nowLocal = new Date();
 
-    const startLocal = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        0,
-        0,
-        0
-    );
-    const endLocal = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        23,
-        59,
-        59
-    );
+    const startLocal = new Date(nowLocal.getFullYear(), nowLocal.getMonth(), nowLocal.getDate(), 0, 0, 0);
+    const endLocal = new Date(nowLocal.getFullYear(), nowLocal.getMonth(), nowLocal.getDate(), 23, 59, 59, 999);
+
+    const startUTC = new Date(startLocal.getTime() - startLocal.getTimezoneOffset() * 60000).toISOString();
+    const endUTC = new Date(endLocal.getTime() - endLocal.getTimezoneOffset() * 60000).toISOString();
 
     return {
-        start: startLocal.toISOString(), // UTC equivalente de 00:00 local
-        end: endLocal.toISOString(),     // UTC equivalente de 23:59 local
+        start: startUTC,
+        end: endUTC,
     };
 }
 
@@ -34,26 +23,15 @@ export function getUTCRangeForToday() {
  * Devuelve el rango UTC (en ISO string) que representa el día "local" de una fecha dada.
  */
 export function getUTCRangeForDate(date) {
-    const startLocal = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        0,
-        0,
-        0
-    );
-    const endLocal = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        23,
-        59,
-        59
-    );
+    const startLocal = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
+    const endLocal = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+
+    const startUTC = new Date(startLocal.getTime() - startLocal.getTimezoneOffset() * 60000).toISOString();
+    const endUTC = new Date(endLocal.getTime() - endLocal.getTimezoneOffset() * 60000).toISOString();
 
     return {
-        start: startLocal.toISOString(),
-        end: endLocal.toISOString(),
+        start: startUTC,
+        end: endUTC,
     };
 }
 
@@ -71,8 +49,13 @@ export function getUTCofNow() {
  */
 export function getUTCDateString() {
     const now = new Date();
-    const year = now.getFullYear();
-    const month = `${now.getMonth() + 1}`.padStart(2, '0');
-    const day = `${now.getDate()}`.padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+    return localDate.toISOString().split('T')[0]; // YYYY-MM-DD
+}
+
+
+export function formatDateToLocalYYYYMMDD(dateString) {
+    const utcDate = new Date(dateString);
+    const localDate = new Date(utcDate.getTime() - utcDate.getTimezoneOffset() * 60000);
+    return localDate.toISOString().split('T')[0]; // "YYYY-MM-DD"
 }

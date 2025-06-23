@@ -21,7 +21,7 @@ function getLocalDateString() {
 }
 
 
-const HabitsContext = createContext ({
+const HabitsContext = createContext({
   habits: [],
   loading: true,
   loadHabits: async () => { },

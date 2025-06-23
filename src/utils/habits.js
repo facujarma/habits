@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/utils/supabase/server';
 import {
+    formatDateToLocalYYYYMMDD,
     getUTCDateString,
     getUTCRangeForToday,
     getUTCofNow
@@ -190,7 +191,7 @@ export async function getHabitFullData(habitID) {
 
     const { data: records, error: recError } = await supabase
         .from("habit_records")
-        .select("record_date")
+        .select("created_at")
         .eq("habitID", habitID);
     if (recError) throw new Error("No se pudieron obtener los registros");
 
@@ -201,12 +202,8 @@ export async function getHabitFullData(habitID) {
         if (key) scheduledDays[key] = true;
     });
 
-    const completedDates = records.map((r) =>
-        typeof r.record_date === "string"
-            ? r.record_date
-            : new Date(r.record_date).toISOString().split("T")[0]
-    );
-
+    const completedDates = records.map((r) => formatDateToLocalYYYYMMDD(r.created_at));
+    
     return {
         ...habit,
         scheduledWeekdays,
