@@ -7,7 +7,7 @@ function ExpansibleMenu() {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-        <div>
+        <div className='hidden lg:block'>
             {/* Botón menú flotante */}
             <button onClick={() => setIsOpen(true)} className=" z-50">
                 <IconMenu className="text-white" size={40} />

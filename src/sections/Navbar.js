@@ -9,7 +9,7 @@ function Navbar() {
   const isActive = (path) => pathname === path
 
   return (
-    <nav className="xl:hidden z-50 relative w-screen max-w-2xl h-16 border-t border-[#3F3F3F] bottom-0 bg-[#111111]">
+    <nav className="lg:hidden z-50 relative w-screen max-w-2xl h-16 border-t border-[#3F3F3F] bottom-0 bg-[#111111]">
       <ul className="relative flex items-center justify-around h-full w-full px-6">
 
         <li className="w-20 aspect-2/1">
