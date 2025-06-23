@@ -45,7 +45,7 @@ function SessionExercices({ workoutID }) {
                 workout ?
                     <>
                         <SessionWorkoutCard workout={workout} />
-                        <SessionExerciceList exercices={workoutExercices}  />
+                        <SessionExerciceList exercices={workoutExercices} />
                     </>
                     :
                     <div className='flex flex-col gap-4 my-6'>

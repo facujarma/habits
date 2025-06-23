@@ -4,11 +4,12 @@ import { IconBarbell } from '@tabler/icons-react'
 import React, { useState, useEffect } from 'react'
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@heroui/table";
 import { addToast, Button, Input } from '@heroui/react';
-import { saveSeriesProgress } from '@root/utils/gym';
+import { getSessionExerciceProgress, saveSeriesProgress } from '@root/utils/gym';
 import { useGym } from '@root/context/gymContext';
 
 function SessionExerciceCard({ exercice }) {
   const seriesCount = exercice.sets || 1;
+  const { loading, session } = useGym()
 
   const [seriesData, setSeriesData] = useState(
     Array.from({ length: seriesCount }, () => ({
@@ -27,13 +28,31 @@ function SessionExerciceCard({ exercice }) {
     );
   }, [seriesCount]);
 
+  useEffect(() => {
+    const loadProgress = async () => {
+      if (loading || !session?.id || !exercice?.id) return;
+
+      try {
+        const progress = await getSessionExerciceProgress(session.id, exercice.id);
+        const filled = Array.from({ length: seriesCount }, (_, i) => {
+          const found = progress.find(p => p.set_number === i + 1);
+          return found || { weight: '', reps: '', rir: '' };
+        });
+        setSeriesData(filled);
+      } catch (e) {
+        console.error('Error loading progress:', e);
+      }
+    };
+
+    loadProgress();
+  }, [loading, session, exercice?.id, seriesCount]);
+
   const handleChange = (index, field, value) => {
     const updated = [...seriesData]
     updated[index][field] = value;
     setSeriesData(updated);
   };
 
-  const { session } = useGym()
 
   const handleSave = async () => {
     try {
@@ -74,6 +93,7 @@ function SessionExerciceCard({ exercice }) {
               <TableCell>{i + 1}</TableCell>
               <TableCell>
                 <Input
+                  disabled={loading}
                   type="number"
                   placeholder="kg"
                   value={serie.weight}
@@ -82,6 +102,7 @@ function SessionExerciceCard({ exercice }) {
               </TableCell>
               <TableCell>
                 <Input
+                  disabled={loading}
                   type="number"
                   placeholder="reps"
                   value={serie.reps}
@@ -90,6 +111,7 @@ function SessionExerciceCard({ exercice }) {
               </TableCell>
               <TableCell>
                 <Input
+                  disabled={loading}
                   type="number"
                   placeholder="RIR"
                   value={serie.rir}
