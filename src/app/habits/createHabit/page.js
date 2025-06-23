@@ -21,7 +21,8 @@ function Page() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const useTemplate = async (habitTemplate) => {
         try {
-            await addHabit(habitTemplate);
+            const { text, ...templateWithoutText } = habitTemplate;
+            await addHabit(templateWithoutText);
             addToast({
                 title: "Habit created",
                 description: "The habit has been created successfully.",
@@ -32,7 +33,7 @@ function Page() {
             addToast({
                 title: "Error",
                 description: "There was an error while creating the habit.",
-                color: "error",
+                color: "danger",
                 timeout: 2000
             })
             console.log(e)
