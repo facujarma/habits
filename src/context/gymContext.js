@@ -104,8 +104,8 @@ export function GymProvider({ children }) {
     }, [loadExercices, loadWorkouts, isASessionActive]);
 
     const contextValue = useMemo(
-        () => ({ exercices, loading, loadExercices, workouts, loadWorkouts, session, setSession }),
-        [exercices, loading, loadExercices, workouts, loadWorkouts, session, setSession]
+        () => ({ exercices, loading, loadExercices, workouts, loadWorkouts, session, setSession, isASessionActive }),
+        [exercices, loading, loadExercices, workouts, loadWorkouts, session, setSession, isASessionActive]
     );
 
     return (

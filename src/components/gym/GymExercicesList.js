@@ -8,7 +8,7 @@ function GymExercicesList() {
     const { exercices, loading } = useGym()
 
     return (
-        <div className='flex flex-col gap-4 mt-6'>
+        <div className='flex flex-col gap-4 mt-6 py-2'>
             {
                 loading ?
                     <div className='flex flex-col gap-4'>

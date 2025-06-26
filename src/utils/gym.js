@@ -151,8 +151,10 @@ export async function startSession(workoutID) {
         }
     }
 
-    const { error } = await supabase.from('gym_sessions').insert([{ userID: user.id, workoutID }]);
+    const { data, error } = await supabase.from('gym_sessions').insert({ userID: user.id, workoutID, started_at: new Date() });
     if (error) throw new Error('No se pudo iniciar la sesión');
+
+    return data
 }
 
 export async function endSession(workoutID) {
@@ -196,4 +198,47 @@ export async function getSessionExerciceProgress(sessionID, exerciceID) {
         .order('set_number', { ascending: true })
     if (error) throw new Error('No se pudo obtener el progreso')
     return data
+}
+
+export async function editExerciceInfo(exerciceID, data) {
+    const supabase = await createClient();
+    const { error } = await supabase.from("gym_exercices").update(data).eq("id", exerciceID);
+    if (error) throw new Error("No se pudo editar el ejercicios");
+}
+
+export async function getExerciceProgressData(exerciceID) {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+        .from('gym_session_exercice_progress')
+        .select('*')
+        .eq('exerciceID', exerciceID)
+        .order('created_at', { ascending: true }) // para ordenar sesiones
+        .order('set_number', { ascending: true }); // para ordenar sets dentro de cada sesión
+
+    if (error) throw new Error('No se pudo obtener el progreso');
+
+    // Agrupar por sessionID
+    const grouped = new Map();
+
+    for (const row of data) {
+        const sessionID = row.sessionID;
+        if (!grouped.has(sessionID)) {
+            grouped.set(sessionID, {
+                sessionID,
+                date: row.created_at,
+                sets: [],
+            });
+        }
+
+        grouped.get(sessionID).sets.push({
+            set_number: row.set_number,
+            weight: row.weight,
+            reps: row.reps,
+            rir: row.rir,
+            created_at: row.created_at,
+        });
+    }
+
+    return Array.from(grouped.values());
 }

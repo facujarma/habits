@@ -2,13 +2,15 @@
 
 import { IconBarbell } from '@tabler/icons-react'
 import React, { useState, useEffect } from 'react'
-import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@heroui/table";
-import { addToast, Button, Input } from '@heroui/react';
-import { getSessionExerciceProgress, saveSeriesProgress } from '@root/utils/gym';
-import { useGym } from '@root/context/gymContext';
+import {
+  Table, TableHeader, TableBody, TableColumn, TableRow, TableCell
+} from "@heroui/table"
+import { addToast, Button, Input } from '@heroui/react'
+import { getSessionExerciceProgress, saveSeriesProgress } from '@root/utils/gym'
+import { useGym } from '@root/context/gymContext'
 
 function SessionExerciceCard({ exercice }) {
-  const seriesCount = exercice.sets || 1;
+  const seriesCount = exercice.sets || 1
   const { loading, session } = useGym()
 
   const [seriesData, setSeriesData] = useState(
@@ -17,7 +19,8 @@ function SessionExerciceCard({ exercice }) {
       reps: '',
       rir: ''
     }))
-  );
+  )
+
   useEffect(() => {
     setSeriesData(
       Array.from({ length: seriesCount }, (_, i) => seriesData[i] || {
@@ -25,36 +28,44 @@ function SessionExerciceCard({ exercice }) {
         reps: '',
         rir: ''
       })
-    );
-  }, [seriesCount]);
+    )
+  }, [seriesCount])
 
   useEffect(() => {
     const loadProgress = async () => {
-      if (loading || !session?.id || !exercice?.id) return;
+      if (loading || !session?.id || !exercice?.id) return
 
       try {
-        const progress = await getSessionExerciceProgress(session.id, exercice.id);
+        const progress = await getSessionExerciceProgress(session.id, exercice.id)
         const filled = Array.from({ length: seriesCount }, (_, i) => {
-          const found = progress.find(p => p.set_number === i + 1);
-          return found || { weight: '', reps: '', rir: '' };
-        });
-        setSeriesData(filled);
+          const found = progress.find(p => p.set_number === i + 1)
+          return found || { weight: '', reps: '', rir: '' }
+        })
+        setSeriesData(filled)
       } catch (e) {
-        console.error('Error loading progress:', e);
+        console.error('Error loading progress:', e)
       }
-    };
+    }
 
-    loadProgress();
-  }, [loading, session, exercice?.id, seriesCount]);
+    loadProgress()
+  }, [loading, session, exercice?.id, seriesCount])
 
   const handleChange = (index, field, value) => {
     const updated = [...seriesData]
-    updated[index][field] = value;
-    setSeriesData(updated);
-  };
-
+    updated[index][field] = value
+    setSeriesData(updated)
+  }
 
   const handleSave = async () => {
+    if (!session?.id || !exercice?.id) {
+      addToast({
+        title: 'Error',
+        description: 'Sesión o ejercicio no disponible',
+        color: 'danger',
+      })
+      return
+    }
+
     try {
       await saveSeriesProgress(session.id, exercice.id, seriesData)
       addToast({
@@ -72,13 +83,12 @@ function SessionExerciceCard({ exercice }) {
     }
   }
 
+  if (loading || !session) return null
+
   return (
     <div className='relative w-full p-3 bg-[#242424] border border-[#616161] rounded-2xl flex flex-col gap-2'>
       <IconBarbell size={36} className='text-[#616161] absolute top-3 right-3' />
-
-      <h2 className='text-2xl font-bold w-[90%]'>
-        {exercice.name}
-      </h2>
+      <h2 className='text-2xl font-bold w-[90%]'>{exercice.name}</h2>
 
       <Table>
         <TableHeader>
@@ -123,8 +133,9 @@ function SessionExerciceCard({ exercice }) {
         </TableBody>
       </Table>
 
-      <Button onClick={handleSave}>Save</Button>
-
+      <Button onClick={handleSave} disabled={loading || !session?.id}>
+        Save
+      </Button>
     </div>
   )
 }

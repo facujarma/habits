@@ -10,7 +10,7 @@ import { redirect } from 'next/navigation'
 
 function SessionExercices({ workoutID }) {
 
-    const { workouts, exercices } = useGym()
+    const { workouts, exercices, isASessionActive } = useGym()
 
     const [workout, setWorkout] = useState(null)
     const [workoutExercices, setWorkoutExercices] = useState([])
@@ -18,6 +18,7 @@ function SessionExercices({ workoutID }) {
     const start = async () => {
         try {
             await startSession(workoutID)
+            await isASessionActive()
             addToast({ title: "Success", description: "Session started", color: "success", timeout: 2000 })
         } catch (e) {
             addToast({ title: "Error", description: "Error starting session", color: "danger", timeout: 2000 })
@@ -34,6 +35,7 @@ function SessionExercices({ workoutID }) {
         else {
             setWorkout(workout)
             const workoutExercices = exercices.filter(exercice => workout.exercicesIDs.includes(exercice.id))
+            console.log(workoutExercices, exercices, workout.exercicesIDs)
             setWorkoutExercices(workoutExercices)
             start()
         }
