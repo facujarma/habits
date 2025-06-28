@@ -12,7 +12,8 @@ function QuotesList() {
 
     const current = quotes[actualQuote];
     const next = quotes[actualQuote + 1];
-;
+
+    const lan = localStorage.getItem('language');
 
     if (loading) {
         return (
@@ -34,7 +35,7 @@ function QuotesList() {
                             <QuoteCard
                                 key={current.id}
                                 author={current.author}
-                                quote={current.text}
+                                quote={lan == 'es' ? current.text_es : current.text}
                                 index={actualQuote}
                             />
                         )
@@ -45,7 +46,7 @@ function QuotesList() {
                 <QuoteCard
                     key={next.id}
                     author={next.author}
-                    quote={next.text}
+                    quote={lan == 'es' ? next.text_es : next.text}
                     index={actualQuote + 1}
                 />
             )}

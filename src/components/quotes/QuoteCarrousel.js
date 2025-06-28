@@ -8,7 +8,7 @@ import QuoteListCard from "./QuoteListCard"
 export default function QuoteCarousel() {
     const containerRef = useRef(null)
     const { quotes, setActualQuoteFromIndex } = useQuotes()
-
+    const lan = localStorage.getItem('language')
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -48,7 +48,7 @@ export default function QuoteCarousel() {
                 >
                     <QuoteListCard
                         author={quote.author}
-                        quote={quote.text}
+                        quote={lan == 'es' ? quote.text_es : quote.text}
                         index={index}
                     />
                 </div>
