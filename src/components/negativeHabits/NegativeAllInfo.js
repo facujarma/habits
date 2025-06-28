@@ -9,6 +9,7 @@ import { useDisclosure } from '@heroui/modal'
 import { getNegativeAllData } from '@lib/negativeHabit'
 import NegativeInfoTitle from './NegativeInfoTitle'
 import EditNegativeModal from './EditNegativeModal'
+import { redirect } from 'next/navigation'
 
 export default function NegativeAllInfo({ negativeID }) {
     const [habitInfo, setHabitInfo] = useState([])
@@ -26,10 +27,11 @@ export default function NegativeAllInfo({ negativeID }) {
             } catch (err) {
                 addToast({
                     title: 'Error',
-                    message: "An error occurred while getting the information.",
-                    type: 'danger',
+                    description: "There was an error getting the negative habit information.",
+                    color: 'danger',
                 })
                 console.log(err)
+                redirect("/habits")
             }
         }
 

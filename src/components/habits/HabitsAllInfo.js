@@ -26,8 +26,8 @@ export default function HabitsAllInfo({ habitID }) {
             } catch (err) {
                 addToast({
                     title: 'Error',
-                    message: "No se puso obtener la información del hábito.",
-                    type: 'danger',
+                    description: "There was an error getting the habit information.",
+                    color: 'danger',
                 })
                 console.log(err)
                 redirect("/habits")
