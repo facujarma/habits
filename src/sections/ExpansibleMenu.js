@@ -33,13 +33,13 @@ function ExpansibleMenu() {
 
                 {/* Contenido del menú */}
                 <ul className="mt-16 px-6 text-white flex flex-col gap-4">
-                    <li className="cursor-pointer hover:underline">
+                    <li className="cursor-pointer hover:underline text-xl">
                         <a href="/habits">Home</a>
                     </li>
-                    <li className="cursor-pointer hover:underline">
+                    <li className="cursor-pointer hover:underline text-xl">
                         <a href="/you">Progress</a>
                     </li>
-                    <li className="cursor-pointer hover:underline">
+                    <li className="cursor-pointer hover:underline text-xl">
                         <a href="/account">Account</a>
                     </li>
                 </ul>

@@ -13,7 +13,9 @@ function page() {
             <h2 className="text-[#C5C5C5] text-2xl mt-4">Your information</h2>
             <ShareStats />
             <SeparatorLine />
-            <a className="mt-6 w-full h-12 bg-[#242424] rounded-2xl flex items-center justify-center gap-2">
+            <a
+                href='/account/settings'
+                className="mt-6 w-full h-12 bg-[#242424] rounded-2xl flex items-center justify-center gap-2">
                 Go to general settings <IconArrowRight />
             </a>
             <Thanks />
