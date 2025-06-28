@@ -2,7 +2,7 @@
 import Button from '@components/Button'
 import Input from '@components/Input'
 import React, { useState } from 'react'
-import { signup } from '@root/app/auth/actions'
+import { signup } from '@root/app/(main)/auth/actions'
 import { addToast } from '@heroui/toast'
 function SignupForm() {
     const [name, setName] = useState('')

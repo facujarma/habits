@@ -6,6 +6,7 @@ import BarGraphic from '../you/BarGraphic'
 import { addToast } from '@heroui/toast'
 import { redirect } from 'next/navigation'
 import GraphicTypeSelector from './GraphicTypeSelector'
+import ExerciceStats from './ExerciceStats'
 
 function ExerciceInfo({ exerciceID }) {
 
@@ -105,6 +106,7 @@ function ExerciceInfo({ exerciceID }) {
                             renderMaxOne() :
                             renderVolume()
             } />
+            <ExerciceStats exerciceData={exerciceData} />
         </div>
     )
 }
