@@ -7,20 +7,23 @@ import { useGym } from '@root/context/gymContext'
 import { Skeleton } from '@heroui/skeleton'
 import ExerciceSelector from './ExerciceSelector'
 import Button from '../Button'
+import { IconEdit } from '@tabler/icons-react'
+import { redirect } from 'next/navigation'
+import { editWorkoutInfo } from '@root/utils/gym'
 
 function EditWorkoutForm({ workoutID }) {
   const [workout, setWorkout] = useState(null)
   const [exerciceOrder, setExerciceOrder] = useState([])
 
-  const { loading, workouts } = useGym()
+  const { loading, workouts, loadWorkouts } = useGym()
 
   useEffect(() => {
-    if (!workouts) return
+    if (loading || !workoutID) return
 
     const foundWorkout = workouts.find(workout => workout.id.toString() === workoutID)
     if (!foundWorkout) {
       addToast({ title: "Error", description: "Workout not found", color: "danger", timeout: 2000 })
-      return
+      redirect('/gym')
     }
 
     setWorkout(foundWorkout)
@@ -29,7 +32,7 @@ function EditWorkoutForm({ workoutID }) {
       id: index,
       selectedID: e.toString()
     })))
-  }, [workouts])
+  }, [workouts, loading])
 
   const handleSelect = (internalId, newSelectedID) => {
     setExerciceOrder(prev =>
@@ -73,15 +76,31 @@ function EditWorkoutForm({ workoutID }) {
   }
 
 
+  const handleSave = async () => {
+    try {
+      await editWorkoutInfo(workoutID, workout.name, exerciceOrder)
+      await loadWorkouts(true)
+      addToast({ title: "Saved", description: "Workout saved successfully.", color: "success", timeout: 2000 })
+    } catch (e) {
+      console.error(e)
+      addToast({ title: "Error", description: "There was an error saving the workout.", color: "danger", timeout: 2000 })
+    }
+  }
+
   if (loading || !workout) {
     return (
       <div className='flex flex-col gap-4 my-6'>
-        <Skeleton className="z-20 w-full h-32 rounded-2xl" />
+        <Skeleton className="z-20 w-full h-20 rounded-2xl" />
+        <h2 className='text-[#C5C5C5] text-2xl'>
+          Exercises order
+        </h2>
+        <div className='flex flex-col gap-4'>
+          <Skeleton className="z-20 w-full h-32 rounded-2xl" />
+          <Skeleton className="z-20 w-full h-32 rounded-2xl" />
+        </div>
       </div>
     )
   }
-
-
 
   return (
     <div className='flex flex-col gap-6'>
@@ -113,7 +132,11 @@ function EditWorkoutForm({ workoutID }) {
         className='max-h-10'
         handleClick={addSelector}
       />
-
+      <Button
+        text="Save"
+        icon={<IconEdit />}
+        handleClick={() => handleSave()}
+      />
     </div>
   )
 }

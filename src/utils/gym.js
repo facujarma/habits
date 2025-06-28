@@ -242,3 +242,34 @@ export async function getExerciceProgressData(exerciceID) {
 
     return Array.from(grouped.values());
 }
+
+export async function editWorkoutInfo(workoutID, name, exerciceOrder) {
+    const supabase = await createClient();
+    const { error: updateError } = await supabase.from("gym_workouts").update({ name }).eq("id", workoutID);
+    if (updateError) throw new Error("No se pudo editar la sesion");
+
+    // 2. Borrar relaciones anteriores
+    const { error: deleteError } = await supabase
+        .from("gym_exercices_workouts")
+        .delete()
+        .eq("workoutID", workoutID)
+
+    if (deleteError) throw new Error("No se pudieron eliminar los ejercicios anteriores.")
+
+    const user = await getCurrentUser();
+    const userID = user.id
+
+    const insertData = exerciceOrder
+        .filter(e => !!e.selectedID)
+        .map(e => ({
+            workoutID,
+            exerciceID: Number(e.selectedID),
+            userID,
+        }))
+
+    const { error: insertError } = await supabase
+        .from("gym_exercices_workouts")
+        .insert(insertData)
+
+    if (insertError) throw new Error("No se pudieron insertar los nuevos ejercicios.")
+}
