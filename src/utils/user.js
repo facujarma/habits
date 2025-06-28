@@ -64,3 +64,18 @@ export async function logOut() {
     const supabase = await createClient();
     await supabase.auth.signOut();
 }
+
+export async function deleteAccount() {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const { error } = await supabase.from('user_data').delete().eq('userID', user.id);
+    if (error) throw new Error('No se pudo eliminar el usuario');
+
+    const { data, error: adminError } = await supabase.auth.admin.deleteUser(
+        user.id
+    )
+    if (adminError) throw new Error('No se pudo eliminar el usuario');
+
+    if (!data) throw new Error('No se pudo eliminar el usuario');
+}

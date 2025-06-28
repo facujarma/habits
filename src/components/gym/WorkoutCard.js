@@ -54,7 +54,7 @@ function WorkoutCard({ workout }) {
                 </div>
             </div>
 
-            <button className='w-full mt-4 h-8 bg-[#666F9A]/20 rounded-2xl'>
+            <button className='w-full mt-4 h-8 bg-[#666F9A]/20 rounded-2xl' onClick={() => { redirect("/gym/editWorkout/" + workout.id) }}>
                 Edit
             </button>
             <button className='w-full mt-2 h-8 bg-[#666F9A]/50 rounded-2xl' onClick={() => { redirect("/gym/onSession/" + workout.id) }}>

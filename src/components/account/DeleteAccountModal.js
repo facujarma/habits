@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react'
 import {
     Button,
@@ -8,11 +9,12 @@ import {
     ModalFooter,
     addToast
 } from "@heroui/react";
+import { useRouter } from 'next/navigation';
 function DeleteAccountModal({ isOpen, onOpenChange }) {
 
     const [text, setText] = useState('');
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         if (text != 'DELETE MY ACCOUNT') {
             addToast({
                 title: "Wrong input.",
@@ -20,6 +22,17 @@ function DeleteAccountModal({ isOpen, onOpenChange }) {
                 color: "danger",
                 timeout: 2000
             })
+        }
+        else {
+            await deleteAccount()
+
+            addToast({
+                title: "Account deleted.",
+                description: "Your account has been deleted successfully.",
+                color: "success",
+                timeout: 2000
+            })
+            redirect('/')
         }
     }
 
