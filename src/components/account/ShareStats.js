@@ -32,12 +32,9 @@ function ShareStats() {
     return (
         <>
             <AccountCard />
-            <p className='text-[#C5C5C5] text-sm text-center mt-4'>
+            <p className='text-[#C5C5C5] text-sm text-center my-4'>
                 {loading ? 'loading...' : habits} habits built and strengthened with Habits.
             </p>
-            <div className='w-full my-6'>
-                <Button text="Share" />
-            </div>
         </>
     )
 }
