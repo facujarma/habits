@@ -3,7 +3,7 @@
 import { createClient } from '@/utils/supabase/server';
 
 
-async function getCurrentUser() {
+export async function getCurrentUser() {
     const supabase = await createClient();
     const {
         data: { user },

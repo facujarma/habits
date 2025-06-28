@@ -6,7 +6,7 @@ import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 
 import "./styles.css";
-import { addToast, Button } from "@heroui/react";
+import { addToast, Button, Skeleton } from "@heroui/react";
 import { getEntryContent, saveJournalEntry } from "@root/utils/journal";
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
@@ -92,7 +92,9 @@ export default function MarkDownEditorForEntry({ entryID }) {
                     </Button>
                 </>
             ) : (
-                <div className="text-muted-foreground">Cargando...</div>
+                <Skeleton className="mt-12 z-20 w-full h-32 rounded-2xl">
+
+                </Skeleton>
             )}
         </div>
     );

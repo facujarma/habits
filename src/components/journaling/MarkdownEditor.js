@@ -8,11 +8,14 @@ import "@blocknote/mantine/style.css";
 import "./styles.css";
 import { addToast, Button, Skeleton } from "@heroui/react";
 import { saveJournalEntry } from "@root/utils/journal";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTodayEntry } from "@root/context/todayEntryContext";
 import { useSearchParams } from "next/navigation"
 import { motion } from "motion/react"
+import { Tooltip } from "@heroui/react";
 export default function Editor() {
+
+  const [isSaved, setIsSaved] = useState(true);
 
   const searchParams = useSearchParams()
   const start = searchParams.get("start") || ""
@@ -58,7 +61,7 @@ export default function Editor() {
     try {
       const json = JSON.stringify(editor.document);
       await saveJournalEntry(json, entryID);
-
+      setIsSaved(true);
       addToast({
         title: "Saved",
         description: "Journal entry saved successfully.",
@@ -76,6 +79,18 @@ export default function Editor() {
     }
   };
 
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (!isSaved) {
+        event.preventDefault();
+        event.returnValue = ""; // necesario para mostrar la advertencia
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isSaved]);
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0 }}
@@ -84,7 +99,14 @@ export default function Editor() {
         duration: 0.4,
         scale: { type: "spring", bounce: 0.5 },
       }}
-      className="z-20 flex flex-col">
+      className="z-20 flex flex-col relative">
+
+      <Tooltip content={isSaved ? "Saved" : "Not saved"} showArrow={true}>
+        <div className="absolute top-4 right-4 z-50 w-4 h-4 rounded-full" style={{ backgroundColor: isSaved ? "#168680" : "#783840" }}>
+
+        </div>
+      </Tooltip>
+
       {loaded ? (
         <>
           <BlockNoteView
@@ -92,6 +114,7 @@ export default function Editor() {
             theme={defaultTheme}
             onChange={() => {
               setEntry(editor.document); // 👉 sincroniza al editar
+              setIsSaved(false);
             }}
           />
           <Button
