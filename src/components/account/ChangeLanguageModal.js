@@ -10,13 +10,16 @@ import {
     Select
 } from "@heroui/react";
 import { SelectItem } from '@heroui/select';
-function ChangeLanguageModal({ isOpen, onOpenChange }) {
+import i18n from '@i18n/client'; // importa tu instancia i18n
 
+function ChangeLanguageModal({ isOpen, onOpenChange }) {
     const [language, setLanguage] = useState('en');
 
     const handleSave = async () => {
-        const lan = Array.from(language)[0]
+        // language es un Set de keys seleccionadas, convertimos a array y tomamos la primera
+        const lan = Array.from(language)[0];
         localStorage.setItem('language', lan);
+        await i18n.changeLanguage(lan); // cambia idioma en i18next
         addToast({ title: "Saved", description: "Language saved successfully.", color: "success", timeout: 2000 });
     }
 

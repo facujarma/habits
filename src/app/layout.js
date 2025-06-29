@@ -1,3 +1,4 @@
+import I18nInitializer from "@root/components/I18NInInitializer"
 import "./globals.css"
 import { Lexend } from "next/font/google"
 
@@ -25,7 +26,10 @@ export default function RootLayout({ children }) {
             <body
                 className={`${lexend.className} -z-20 lg:py-4 relative antialiased bg-[#060606] h-screen lg:min-h-screen w-full flex flex-col items-center`}
             >
-                {children}
+                <I18nInitializer>
+                    {children}
+                </I18nInitializer>
+
             </body>
         </html>
     )
