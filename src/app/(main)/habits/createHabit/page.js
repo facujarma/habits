@@ -18,13 +18,11 @@ import {
 } from "@heroui/react"
 import { useHabits } from '@root/context/habitContext'
 import { useTranslation } from 'react-i18next'
-s
 function Page() {
     const { t } = useTranslation('common')
     const { loadHabits } = useHabits()
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [selectedTemplate, setSelectedTemplate] = useState(null)
-
 
     const useTemplate = async (habitTemplate) => {
         try {
