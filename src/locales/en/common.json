@@ -202,5 +202,21 @@
   "editHabitModal_toast_success_title": "Habit edited",
   "editHabitModal_toast_success_description": "The habit has been edited successfully.",
   "editHabitModal_toast_error_title": "Error",
-  "editHabitModal_toast_error_description": "An error has occurred while editing the habit."
+  "editHabitModal_toast_error_description": "An error has occurred while editing the habit.",
+  "journaling_title": "Journaling",
+  "journaling_description": "Journaling is a way to record your thoughts and feelings, and to reflect on your life and the people around you. In this section, you’ll be able to write down whatever you're thinking at any time.",
+  "suggestedQuestions_title": "Not sure what to write? Try answering one of these questions.",
+  "suggestedQuestion_1": "What am I grateful for today?",
+  "suggestedQuestion_2": "What emotions am I feeling right now?",
+  "suggestedQuestion_3": "What’s something I’m proud of recently?",
+  "suggestedQuestion_4": "What’s been challenging me lately?",
+  "suggestedQuestion_5": "What’s one small goal I can set for today?",
+  "suggestedQuestion_6": "Who made a positive impact on me this week?",
+  "fullJournalButton_text": "Your full journal",
+  "journal_title": "Your Journal",
+  "journal_text": "In this section, you will find all your journal entries.",
+  "entryData_error_title": "Error",
+  "entryData_error_description": "There was an error getting the entry.",
+  "entryData_title_prefix": "Entry of the",
+  "entryData_updated_text": "Updated at"
 }

@@ -1,22 +1,24 @@
 'use client'
 
 import React from 'react'
-import SuggestedQuestionCard from './SuggestedQuestionCard';
+import SuggestedQuestionCard from './SuggestedQuestionCard'
+import { useTranslation } from 'react-i18next'
 
 function SuggestedQuestions() {
+    const { t } = useTranslation('common')
 
     const questions = [
-        "What am I grateful for today?",
-        "What emotions am I feeling right now?",
-        "What’s something I’m proud of recently?",
-        "What’s been challenging me lately?",
-        "What’s one small goal I can set for today?",
-        "Who made a positive impact on me this week?"
-    ];
+        t("suggestedQuestion_1"),
+        t("suggestedQuestion_2"),
+        t("suggestedQuestion_3"),
+        t("suggestedQuestion_4"),
+        t("suggestedQuestion_5"),
+        t("suggestedQuestion_6"),
+    ]
 
     return (
         <div className='mb-4'>
-            <h2 className='text-xl text-[#C5C5C5]'>Not sure what to write? Try answering one of these questions.</h2>
+            <h2 className='text-xl text-[#C5C5C5]'>{t("suggestedQuestions_title")}</h2>
             <ul className='flex gap-2 w-full mt-2 overflow-x-auto py-5'>
                 {
                     questions.map((question) => {
