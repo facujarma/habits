@@ -218,5 +218,17 @@
   "entryData_error_title": "Error",
   "entryData_error_description": "There was an error getting the entry.",
   "entryData_title_prefix": "Entry of the",
-  "entryData_updated_text": "Updated at"
+  "entryData_updated_text": "Updated at",
+  "quotes_title": "Quotes",
+  "quotes_description": "In this section, you will find inspiring quotes from famous thinkers, leaders, philosophers, captains, and soldiers who inspired thousands of people",
+  "quotes_saved_header": "You saved this quotes:",
+  "quotes_filters_author": "Author",
+  "quotes_filters_all": "All",
+  "quotes_filters_feel": "Feel",
+  "quotes_filters_anyone": "Anyone",
+  "quotes_filters_philosophy": "Philosophy",
+  "no_quotes_found": "No quotes found",
+  "copy": "Copy",
+  "reflect_about_this": "Reflect about this",
+  "error_adding_favorite": "An error occurred while adding the quote to favorites."
 }

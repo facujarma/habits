@@ -1,11 +1,16 @@
-import FavoriteQuotes from '@quotes/FavoriteQuotes';
-import QuotesFilters from '@quotes/QuotesFilters'
-import QuotesList from '@quotes/QuotesList'
-import { QuotesProvider } from '@root/context/quotesContext';
-import Header from '@sections/Header'
-import React from 'react'
+'use client'
 
-function page() {
+import FavoriteQuotes from '@quotes/FavoriteQuotes';
+import QuotesFilters from '@quotes/QuotesFilters';
+import QuotesList from '@quotes/QuotesList';
+import { QuotesProvider } from '@root/context/quotesContext';
+import Header from '@sections/Header';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+function Page() {
+    const { t } = useTranslation('common');
+
     return (
         <div className='flex flex-col relative'>
             <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -13,13 +18,13 @@ function page() {
             </div>
 
             <Header
-                title="Quotes"
-                text="In this section, you will find inspiring quotes from famous thinkers, leaders, philosophers, captains, and soldiers who inspired thousands of people"
+                title={t('quotes_title')}
+                text={t('quotes_description')}
             />
             <QuotesProvider>
                 <QuotesFilters />
                 <QuotesList />
-                <h2 className='text-xl text-[#C5C5C5] my-4 z-10'>You saved this quotes:</h2>
+                <h2 className='text-xl text-[#C5C5C5] my-4 z-10'>{t('quotes_saved_header')}</h2>
                 <FavoriteQuotes />
             </QuotesProvider>
 
@@ -27,4 +32,4 @@ function page() {
     );
 }
 
-export default page
+export default Page;

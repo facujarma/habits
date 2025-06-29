@@ -108,13 +108,13 @@ export function QuotesProvider({ children }) {
   const setFilters = useCallback(
     filters => {
       let filtered = allQuotes;
-      if (filters.author && filters.author !== 'All') {
+      if (filters.author && filters.author !== 'All' && filters.author !== 'Todos') {
         filtered = filtered.filter(q => q.author === filters.author);
       }
-      if (filters.feeling && filters.feeling !== 'All') {
+      if (filters.feeling && filters.feeling !== 'All' && filters.feeling !== 'Cualquiera') {
         filtered = filtered.filter(q => q.feeling === filters.feeling);
       }
-      if (filters.philosophy && filters.philosophy !== 'All') {
+      if (filters.philosophy && filters.philosophy !== 'All' && filters.philosophy !== 'Todos') {
         filtered = filtered.filter(q => q.philosophy === filters.philosophy);
       }
       setQuotes(filtered);
