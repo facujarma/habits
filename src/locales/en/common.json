@@ -1,0 +1,11 @@
+{
+  "mainActionQuestion": "What are you looking for?",
+  "mainActionHabit": "Create a new habit",
+  "mainActionVape": "Stop vaping",
+  "mainActionQuote": "Get a quote",
+  "mainActionJournal": "Journaling",
+  "mainActionGym": "Gym",
+  "mainActionBooks": "Books",
+  "stopVapingBannerTitle": "Stop vaping program",
+  "stopVapingBannerDescription": "Track your puffs so we can help you stop vaping."
+}

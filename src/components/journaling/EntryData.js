@@ -4,6 +4,7 @@ import { Skeleton } from '@heroui/skeleton';
 import { addToast } from '@heroui/toast';
 import Header from '@root/sections/Header';
 import { getEntryData } from '@root/utils/journal';
+import { redirect } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
 function EntryData({ entryID }) {
@@ -21,6 +22,7 @@ function EntryData({ entryID }) {
                     color: "danger",
                     timeout: 2000
                 })
+                redirect("/journaling/entries")
             }
             setEntryData(data);
             console.log(data);

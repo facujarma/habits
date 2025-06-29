@@ -4,6 +4,7 @@
     "paths": {
       "@root/*": ["./src/*"],
       "@/*": ["./src/*"],
+      "@i18n/*": ["./i18n/*"],
       "@components/*": ["./src/components/*"],
       "@habits/*": ["./src/components/habits/*"],
       "@vape/*": ["./src/components/vape/*"],
@@ -13,7 +14,8 @@
       "@journaling/*": ["./src/components/journaling/*"],
       "@you/*": ["./src/components/you/*"],
       "@sections/*": ["./src/sections/*"],
-      "@lib/*": ["./src/utils/*"]
+      "@lib/*": ["./src/utils/*"],
+      "@hooks/*": ["./src/hooks/*"]
     }
   },
   "exclude": [

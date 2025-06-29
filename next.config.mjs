@@ -1,9 +1,10 @@
-// next.config.mjs
 import withPWA from "next-pwa";
+import { i18n } from './next-i18next.config.mjs';
 
 /** @type {import('next').NextConfig} */
 const baseConfig = {
     reactStrictMode: false,
+    i18n, // ✅ Soporte multilenguaje
     experimental: {
         turbo: true,
         serverActions: true,
