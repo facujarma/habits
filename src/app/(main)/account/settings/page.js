@@ -4,23 +4,23 @@ import { useDisclosure } from '@heroui/modal'
 import ChangeLanguageModal from '@root/components/account/ChangeLanguageModal'
 import SettingItem from '@root/components/account/SettingItem'
 import Header from '@root/sections/Header'
-import { IconCirclePlus, IconLanguage, IconMailExclamation, IconMailUp, IconShare2, IconSun, IconVersions } from '@tabler/icons-react'
+import { IconCirclePlus, IconLanguage, IconMailExclamation, IconMailUp, IconRefresh, IconShare2, IconSun, IconVersions } from '@tabler/icons-react'
 import React from 'react'
 
 
 function page() {
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
     return (
         <div>
             <Header title="Settings" text="Manage your account settings." />
-            <ul className='flex flex-col gap-2'>
+            <ul className='flex flex-col gap-4'>
                 <li className='text-[#C5C5C5] text-xl'>
                     General settings
                 </li>
                 <SettingItem text="Change app language (quotes only)" icon={<IconLanguage />} handleClick={() => { onOpen() }} />
-                <ChangeLanguageModal isOpen={isOpen} onOpenChange={onOpen} />
+                <ChangeLanguageModal isOpen={isOpen} onOpenChange={onOpenChange} />
 
                 <SettingItem text="Change app theme" icon={<IconSun />} handleClick={() => { }} />
                 <SettingItem text="Found a bug?" description={"It helps us a lot if you send me an email."} icon={<IconMailUp />}
@@ -36,6 +36,13 @@ function page() {
                 <SettingItem text="Share with your friends" icon={<IconShare2 />} handleClick={() => { }} />
                 <SettingItem text="Request a feature" description={"Send me an email."} icon={<IconCirclePlus />}
                     handleClick={() => { window.location.href = "mailto:facundojarma@gmail.com?subject=Requesting%20a%20Feature%20In%20Habits" }} />
+                <SettingItem text="Clear cache" description={"This only reset local data, not the server."} icon={<IconRefresh />} handleClick={
+                    () => {
+                        localStorage.clear()
+                        sessionStorage.clear()
+                    }
+                } />
+
                 <SettingItem text="App version" description={"1.0.0"} icon={<IconVersions />} />
             </ul>
         </div>

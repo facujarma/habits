@@ -1,14 +1,21 @@
 'use client'
 
 import { useQuotes } from '@root/context/quotesContext'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SimpleQuoteCard from './SimpleQuoteCard'
 
 function FavoriteQuotes() {
 
     const { favoriteQuotes } = useQuotes()
 
-    const lan = localStorage.getItem('language');
+    const [lan, setLan] = useState("en")
+
+    useEffect(() => {
+        const storedLanguage = localStorage.getItem("language")
+        if (storedLanguage) {
+            setLan(storedLanguage)
+        }
+    }, [])
     return (
         <div className='z-10 flex gap-4 w-full overflow-x-auto'>
             {

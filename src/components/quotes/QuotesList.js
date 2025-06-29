@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import QuoteCard from './QuoteCard'
 import { useQuotes } from '@root/context/quotesContext'
 import QuoteCarousel from './QuoteCarrousel'
@@ -13,8 +13,14 @@ function QuotesList() {
     const current = quotes[actualQuote];
     const next = quotes[actualQuote + 1];
 
-    const lan = localStorage.getItem('language');
+    const [lan, setLan] = useState("en")
 
+    useEffect(() => {
+        const storedLanguage = localStorage.getItem("language")
+        if (storedLanguage) {
+            setLan(storedLanguage)
+        }
+    }, [])
     if (loading) {
         return (
             <div className='z-10 w-full flex justify-center mt-20'>

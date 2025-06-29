@@ -1,14 +1,21 @@
 'use client'
 
-import { useEffect, useRef } from "react"
-import QuoteCard from "./QuoteCard"
+import { useEffect, useRef, useState } from "react"
 import { useQuotes } from "@root/context/quotesContext"
 import QuoteListCard from "./QuoteListCard"
 
 export default function QuoteCarousel() {
     const containerRef = useRef(null)
     const { quotes, setActualQuoteFromIndex } = useQuotes()
-    const lan = localStorage.getItem('language')
+    const [lan, setLan] = useState("en")
+
+    useEffect(() => {
+        const storedLanguage = localStorage.getItem("language")
+        if (storedLanguage) {
+            setLan(storedLanguage)
+        }
+    }, [])
+
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
