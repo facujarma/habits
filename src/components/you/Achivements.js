@@ -3,13 +3,14 @@
 import { checkChallengesAchivements, checkCompletitionsAchivements, checkStreakAchievements } from '@root/utils/achievementsManager';
 import React, { useEffect, useState } from 'react'
 import CompletitionsAchivementsList from './CompletitionsAchivementsList';
-import { useFormState } from 'react-dom';
+import { useTranslation } from 'react-i18next';
 
-function Achivements() {
+function Achievements() {
+    const { t } = useTranslation('common');
+
     const [completedAchivements, setCompletedAchivements] = useState([]);
     const [streakAchivements, setStreakAchivements] = useState([]);
     const [challengesAchivements, setChallengesAchivements] = useState([]);
-
     const [loading, setLoading] = useState(true);
 
     const allAchievements = [
@@ -54,6 +55,7 @@ function Achivements() {
             condition: (completitions) => completitions >= 200,
         }
     ];
+
     const streakAchievements = [
         {
             name: "Just Started 🔁",
@@ -81,6 +83,7 @@ function Achivements() {
             condition: (streak) => streak >= 30,
         }
     ];
+
     const challengesAchievements = [
         {
             name: "Challenger 🥾",
@@ -133,30 +136,33 @@ function Achivements() {
 
             } catch (err) {
                 console.error("Error loading achievements:", err);
+                addToast({ title: t('error'), description: t('error_loading_achievements'), color: 'danger' })
             } finally {
                 setLoading(false);
             }
         }
 
         loadAchievements();
-    }, []);
+    }, [t]);
 
     return (
         <div>
             <div className='w-full flex flex-col gap-2 mt-4'>
-                <h2 className='text-xl text-[#C5C5C5]'>Completitions Achievements</h2>
+                <h2 className='text-xl text-[#C5C5C5]'>{t('completitions_achievements_title')}</h2>
                 <CompletitionsAchivementsList
                     loading={loading}
                     achievements={allAchievements}
                     achivements={completedAchivements}
                 />
-                <h2 className='text-xl text-[#C5C5C5]'>Streaks Achievements</h2>
+
+                <h2 className='text-xl text-[#C5C5C5]'>{t('streaks_achievements_title')}</h2>
                 <CompletitionsAchivementsList
                     loading={loading}
                     achievements={streakAchievements}
                     achivements={streakAchivements}
                 />
-                <h2 className='text-xl text-[#C5C5C5]'>Challenges Achievements</h2>
+
+                <h2 className='text-xl text-[#C5C5C5]'>{t('challenges_achievements_title')}</h2>
                 <CompletitionsAchivementsList
                     loading={loading}
                     achievements={challengesAchievements}
@@ -167,4 +173,4 @@ function Achivements() {
     );
 }
 
-export default Achivements;
+export default Achievements;

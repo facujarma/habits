@@ -3,8 +3,10 @@
 import { addToast } from '@heroui/toast'
 import { getVApeCounterForWeek, getVapeCountersForLast10Weeks } from '@lib/vape'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 function VapeMessage() {
+    const { t } = useTranslation('common')
     const [loading, setLoading] = useState(true)
     const [weekPuffs, setWeekPuffs] = useState(0)
     const [past10WeeksPuffs, setPast10WeeksPuffs] = useState([])
@@ -13,17 +15,16 @@ function VapeMessage() {
         async function loadWeekPuffs() {
             try {
                 const totalWeekPuffs = await getVApeCounterForWeek()
-                setWeekPuffs(totalWeekPuffs);
+                setWeekPuffs(totalWeekPuffs)
             } catch (error) {
                 addToast({
-                    title: "Error",
-                    description: "Ha ocurrido un error al obtener la cantidad de puffs de la semana.",
-                    color: "danger",
+                    title: t('error_title', 'Error'),
+                    description: t('error_loading_week_puffs', 'Error loading week puffs'),
+                    color: 'danger',
                     timeout: 2000
                 })
-                console.error(error);
+                console.error(error)
             }
-
         }
 
         async function loadPast10WeeksPuff() {
@@ -31,63 +32,63 @@ function VapeMessage() {
                 const totalPast10WeeksPuffs = await getVapeCountersForLast10Weeks()
                 setPast10WeeksPuffs(totalPast10WeeksPuffs)
                 setLoading(false)
-
             } catch (error) {
                 addToast({
-                    title: "Error",
-                    description: "Ha ocurrido un error al obtener la cantidad de puffs de las 10 semanas.",
-                    color: "danger",
+                    title: t('error_title', 'Error'),
+                    description: t('error_loading_past_weeks_puffs', 'Error loading past weeks puffs'),
+                    color: 'danger',
                     timeout: 2000
                 })
             }
         }
         loadWeekPuffs()
         loadPast10WeeksPuff()
-    }, [])
+    }, [t])
 
-    console.log(past10WeeksPuffs)
     let thisWeekBeats = 0
-    past10WeeksPuffs.forEach(week => {
-        if (week > weekPuffs || week == -1) {
+    past10WeeksPuffs.forEach((week) => {
+        if (week > weekPuffs || week === -1) {
             thisWeekBeats++
         }
-    });
+    })
 
     const thisWeekBeatsPercentage = (thisWeekBeats / 10) * 100
 
     function getEncouragementMessage(percentage) {
-        if (percentage === 100) return "Best week so far! 🏆";
-        if (percentage >= 90) return "Almost your best week!";
-        if (percentage >= 80) return "You’re crushing it 💪";
-        if (percentage >= 70) return "That’s real progress! 🙌";
-        if (percentage >= 60) return "Momentum’s building 🚀";
-        if (percentage >= 50) return "Half your weeks beat — nice!";
-        if (percentage >= 40) return "Almost halfway there!";
-        if (percentage >= 30) return "You’re getting there!";
-        if (percentage >= 20) return "Every step counts 👣";
-        if (percentage >= 10) return "Progress starts small 🌱";
-        return "Keep going, you’ve got this!";
+        if (percentage === 100) return t('encouragement_best_week')
+        if (percentage >= 90) return t('encouragement_almost_best_week')
+        if (percentage >= 80) return t('encouragement_crushing_it')
+        if (percentage >= 70) return t('encouragement_real_progress')
+        if (percentage >= 60) return t('encouragement_momentum_building')
+        if (percentage >= 50) return t('encouragement_half_beaten')
+        if (percentage >= 40) return t('encouragement_almost_halfway')
+        if (percentage >= 30) return t('encouragement_getting_there')
+        if (percentage >= 20) return t('encouragement_every_step')
+        if (percentage >= 10) return t('encouragement_progress_small')
+        return t('encouragement_keep_going')
     }
 
     if (loading) {
         return (
-            <div className='flex flex-col gap-4 w-full items-center mt-6'>
-                <h4 className='font-bold text-[#C5C5C5] text-lg'> Wait a moment... </h4>
-                <div className='w-fit bg-[#151A31] border border-[#666F9A] rounded-full px-3 py-1'>
-                    <span className="text-[#BEBEBE] text-sm">Better than the --- of your weeks</span>
+            <div className="flex flex-col gap-4 w-full items-center mt-6">
+                <h4 className="font-bold text-[#C5C5C5] text-lg">{t('wait_a_moment')}</h4>
+                <div className="w-fit bg-[#151A31] border border-[#666F9A] rounded-full px-3 py-1">
+                    <span className="text-[#BEBEBE] text-sm">{t('better_than_percent', { percent: '---' })}</span>
                 </div>
-                <span className='text-[#C5C5C5] text-sm'>-- puff on the week</span>
+                <span className="text-[#C5C5C5] text-sm">-- {t('puff_on_week')}</span>
             </div>
         )
     }
 
     return (
-        <div className='flex flex-col gap-4 w-full items-center mt-6'>
-            <h4 className='font-bold text-[#23B184] text-lg'> {getEncouragementMessage(thisWeekBeatsPercentage)} </h4>
-            <div className='w-fit bg-[#151A31] border border-[#666F9A] rounded-full px-3 py-1'>
-                <span className="text-[#BEBEBE] text-sm">Better than the {thisWeekBeatsPercentage.toFixed(0)}% of your weeks</span>
+        <div className="flex flex-col gap-4 w-full items-center mt-6">
+            <h4 className="font-bold text-[#23B184] text-lg">{getEncouragementMessage(thisWeekBeatsPercentage)}</h4>
+            <div className="w-fit bg-[#151A31] border border-[#666F9A] rounded-full px-3 py-1">
+                <span className="text-[#BEBEBE] text-sm">{t('better_than_percent', { percent: thisWeekBeatsPercentage.toFixed(0) })}</span>
             </div>
-            <span className='text-[#C5C5C5] text-sm'>{weekPuffs} puff on the week</span>
+            <span className="text-[#C5C5C5] text-sm">
+                {weekPuffs} {weekPuffs === 1 ? t('puff_on_week') : t('puff_on_week_plural', { count: weekPuffs })}
+            </span>
         </div>
     )
 }
