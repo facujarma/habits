@@ -10,8 +10,11 @@ import { getNegativeAllData } from '@lib/negativeHabit'
 import NegativeInfoTitle from './NegativeInfoTitle'
 import EditNegativeModal from './EditNegativeModal'
 import { redirect } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
 
 export default function NegativeAllInfo({ negativeID }) {
+    const { t } = useTranslation('common')
+
     const [habitInfo, setHabitInfo] = useState([])
     const [loading, setLoading] = useState(true)
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -21,22 +24,22 @@ export default function NegativeAllInfo({ negativeID }) {
             setLoading(true)
             try {
                 const data = await getNegativeAllData(negativeID)
-
                 setHabitInfo(data)
                 setLoading(false)
             } catch (err) {
                 addToast({
-                    title: 'Error',
-                    description: "There was an error getting the negative habit information.",
+                    title: t('negativeInfo_errorTitle'),
+                    description: t('negativeInfo_errorDescription'),
                     color: 'danger',
                 })
                 console.log(err)
                 redirect("/habits")
             }
         }
-
         fetchNegativeInfo()
-    }, [])
+    }, [negativeID, t])
+
+    // Resto de funciones sin cambios...
 
     function getHabitCompletionPercentage(habit, today = new Date()) {
         const createdAt = new Date(habit.created_at);
@@ -65,6 +68,7 @@ export default function NegativeAllInfo({ negativeID }) {
         const percentage = totalScheduled === 0 ? 0 : Math.round((totalCompleted / totalScheduled) * 100);
         return percentage;
     }
+
     function getMaxStreak(habit) {
         if (!habit.completedDates || !habit.scheduledWeekdays) return 0
         const completedDates = habit.completedDates
@@ -102,37 +106,29 @@ export default function NegativeAllInfo({ negativeID }) {
 
         return maxStreak;
     }
+
     if (loading || !habitInfo) return (
         <div className="flex flex-col gap-8">
             <Skeleton className='rounded-2xl'>
-                <div className="w-full h-20 bg-[#242424] rounded-2xl border border-[#616161] flex items-center">
-
-                </div>
+                <div className="w-full h-20 bg-[#242424] rounded-2xl border border-[#616161] flex items-center"></div>
             </Skeleton>
             <div className='w-full h-40 py-2 flex items-center justify-between gap-4 overflow-x-auto'>
-
                 <Skeleton className='rounded-2xl'>
-                    <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
-                    </div>
+                    <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center"></div>
                 </Skeleton>
-
                 <Skeleton className='rounded-2xl'>
-                    <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
-                    </div>
+                    <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center"></div>
                 </Skeleton>
-
                 <Skeleton className='rounded-2xl'>
-                    <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center">
-                    </div>
+                    <div className="min-w-36 max-h-full aspect-square bg-[#242424] border border-[#616161] rounded-2xl flex flex-col items-center"></div>
                 </Skeleton>
             </div>
             <Skeleton className='rounded-2xl'>
-                <div className="w-full aspect-square ">
-
-                </div>
+                <div className="w-full aspect-square "></div>
             </Skeleton>
         </div>
     )
+
     return (
         <div className="flex flex-col gap-8">
             <NegativeInfoTitle onOpen={onOpen} badHabit={habitInfo.bad_habit} goodHabit={habitInfo.good_habit} color={habitInfo.color} />

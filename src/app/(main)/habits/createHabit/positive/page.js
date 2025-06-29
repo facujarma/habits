@@ -1,4 +1,5 @@
 'use client'
+import React, { useState } from 'react'
 import CreateNewHabitFirstStep from "@/components/CreateNewHabitFirstStep"
 import CreateNewhabitSecondStep from "@/components/CreateNewhabitSecondStep"
 import CreateNewHabitThirdStep from "@/components/CreateNewHabitThirdStep"
@@ -6,13 +7,16 @@ import SeparatorLine from "@/components/SeparatorLine"
 import Header from "@/sections/Header"
 import Button from "@/components/Button"
 import { IconCirclePlus } from "@tabler/icons-react"
-import { useState } from "react"
 import { addHabit } from "@lib/habits"
-import { addToast } from "@heroui/react";
+import { addToast } from "@heroui/react"
 import CreateNewHabitFourthStep from "@components/CreateNewHabitFourthStep"
 import CreateNewHabitFifthStep from "@components/CreateNewHabitFifthStep"
+import { useTranslation } from 'react-i18next'
+import { useHabits } from '@root/context/habitContext'
 
-function page() {
+function Page() {
+  const { t } = useTranslation('common')
+  const { loadHabits } = useHabits()
 
   const [habitDescriptiveInfo, setHabitDescriptiveInfo] = useState({
     name: '',
@@ -34,7 +38,7 @@ function page() {
   const [habitIcon, setHabitIcon] = useState("")
 
   const handleCreateHabit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const promise = addHabit({
       name: habitDescriptiveInfo.name,
       when: habitDescriptiveInfo.when,
@@ -43,39 +47,45 @@ function page() {
       times: habitTimes,
       color: Array.from(habitColor)[0],
       icon: habitIcon
-    });
+    })
 
     addToast({
-      title: "Create a new Habit",
-      description: "Please wait while the habit is being created.",
+      title: t('createPositive_toast_creating_title'),
+      description: t('createPositive_toast_creating_description'),
       promise,
       timeout: 2000
-    });
+    })
 
     try {
-      await promise;
-      await loadHabits(force=true);
+      await promise
+      await loadHabits(true)
       addToast({
-        title: "Habit created",
-        description: "The habit has been created successfully.",
+        title: t('createPositive_toast_created_title'),
+        description: t('createPositive_toast_created_description'),
         color: "success",
         timeout: 2000
       })
     } catch (e) {
       addToast({
-        title: "Error",
-        description: "There was an error creating the habit.",
+        title: t('createPositive_toast_error_title'),
+        description: t('createPositive_toast_error_description'),
         color: "danger",
         timeout: 2000
       })
-
     }
-  };
+  }
 
   return (
     <div className="w-full h-full mb-10">
-      <Header title={"Create a new positive"} text={"The best way to start a habit is by completing the following phrase:"} />
-      <CreateNewHabitFirstStep colorSet={habitColor} habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} />
+      <Header
+        title={t('createPositive_title')}
+        text={t('createPositive_text')}
+      />
+      <CreateNewHabitFirstStep
+        colorSet={habitColor}
+        habitDescriptiveInfo={habitDescriptiveInfo}
+        setHabitDescriptiveInfo={setHabitDescriptiveInfo}
+      />
       <SeparatorLine />
       <CreateNewhabitSecondStep setHabitDays={setHabitDays} habitDays={habitDays} />
       <SeparatorLine />
@@ -83,9 +93,13 @@ function page() {
       <SeparatorLine />
       <CreateNewHabitFourthStep color={habitColor} setColor={setHabitColor} />
       <CreateNewHabitFifthStep onSelect={setHabitIcon} />
-      <Button icon={<IconCirclePlus />} text={"Create"} handleClick={handleCreateHabit} />
+      <Button
+        icon={<IconCirclePlus />}
+        text={t('createPositive_button_create')}
+        handleClick={handleCreateHabit}
+      />
     </div>
   )
 }
 
-export default page
+export default Page

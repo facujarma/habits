@@ -10,11 +10,13 @@ import { Skeleton } from '@heroui/skeleton'
 import { redirect } from 'next/navigation'
 import EditHabitModal from './EditHabitModal'
 import { useDisclosure } from '@heroui/modal'
+import { useTranslation } from 'react-i18next'
 
 export default function HabitsAllInfo({ habitID }) {
     const [habitInfo, setHabitInfo] = useState([])
     const [loading, setLoading] = useState(true)
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const { t } = useTranslation('common')
 
     useEffect(() => {
         async function fetchHabitInfo() {
@@ -25,8 +27,8 @@ export default function HabitsAllInfo({ habitID }) {
                 setLoading(false)
             } catch (err) {
                 addToast({
-                    title: 'Error',
-                    description: "There was an error getting the habit information.",
+                    title: t("habitInfo_fetchError_title"),
+                    description: t("habitInfo_fetchError_description"),
                     color: 'danger',
                 })
                 console.log(err)

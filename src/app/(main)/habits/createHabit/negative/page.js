@@ -9,7 +9,10 @@ import Button from '@components/Button'
 import { IconCirclePlus } from '@tabler/icons-react'
 import { addNegativeHabit } from '@lib/negativeHabit'
 import { addToast } from '@heroui/toast'
-function page() {
+import { useTranslation } from 'react-i18next'
+
+function Page() {
+    const { t } = useTranslation('common')
 
     const [habitDescriptiveInfo, setHabitDescriptiveInfo] = useState({
         badHabit: "",
@@ -26,8 +29,8 @@ function page() {
         });
 
         addToast({
-            title: "Create a new negative",
-            description: "Please wait while the negative habit is being created.",
+            title: t('createNewNegative_page_title'),
+            description: t('toast_createNewNegative_pleaseWait'),
             promise,
             timeout: 2000
         });
@@ -35,36 +38,42 @@ function page() {
         try {
             await promise;
             addToast({
-                title: "Negative created",
-                description: "The negative habit has been created successfully.",
+                title: t('createNewNegative_page_title'),
+                description: t('toast_createNewNegative_success'),
                 color: "success",
                 timeout: 2000
             })
         } catch (e) {
             addToast({
-                title: "Error",
-                description: "There was an error creating the negative habit.",
+                title: t('createNewNegative_page_title'),
+                description: t('toast_createNewNegative_error'),
                 color: "danger",
                 timeout: 2000
             })
-
         }
     }
 
     return (
         <div className="w-full h-full mb-10">
-            <Header title={"Create a new negative"} text={"An effective way to break a bad habit is by replacing it with a good one, which is why we suggest you complete this sentence:"} />
-            <CreateNewNegativeFirstStep habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} colorSet={color} />
+            <Header
+                title={t('createNewNegative_page_title')}
+                text={t('createNewNegative_page_text')}
+            />
+            <CreateNewNegativeFirstStep
+                habitDescriptiveInfo={habitDescriptiveInfo}
+                setHabitDescriptiveInfo={setHabitDescriptiveInfo}
+                colorSet={color}
+            />
             <SeparatorLine />
             <div className="w-full flex flex-col gap-4 py-6">
-                <h2 className="text-[#C5C5C5] text-xl ">Frequency:</h2>
-                <p className='text-[#C5C5C5] text-base'>The frequency of negative habits is set <b>to daily by default</b>, as we believe that one doesn’t choose when to engage in a bad habit.</p>
+                <h2 className="text-[#C5C5C5] text-xl ">{t('createNewNegative_page_frequency_title')}:</h2>
+                <p className='text-[#C5C5C5] text-base'>{t('createNewNegative_page_frequency_text')}</p>
             </div>
             <SeparatorLine />
             <CreateNewHabitFourthStep color={color} setColor={setColor} />
-            <Button icon={<IconCirclePlus />} text={"Create"} handleClick={(e) => handleCreateNegative(e)} />
+            <Button icon={<IconCirclePlus />} text={t('createNewNegative_page_create_button')} handleClick={handleCreateNegative} />
         </div>
     )
 }
 
-export default page
+export default Page

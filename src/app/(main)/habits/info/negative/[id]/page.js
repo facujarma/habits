@@ -1,31 +1,38 @@
+'use client'
+
+import { use } from "react"
 import NegativeAllInfo from "@negativeHabits/NegativeAllInfo"
 import { NegativeHabitsProvider } from "@root/context/negativeHabitContext"
 import AdviceEditHabitPage from "@sections/AdviceEditHabitPage"
-export default async function Page({ params }) {
-    const { id } = await params
+import { useTranslation } from "react-i18next"
+import { useMemo } from "react"
 
-    const advices = [
+export default function Page({ params }) {
+    const { id } = use(params)
+    const { t } = useTranslation('common')
+
+    const advices = useMemo(() => [
         {
             id: 1,
-            title: "Surround with Role Models.",
-            description: "Spend time with people who already live the way you want to live to reinforce positive change."
+            title: t('advice_surroundWithRoleModels_title'),
+            description: t('advice_surroundWithRoleModels_description'),
         },
         {
             id: 2,
-            title: "Remove Triggers",
-            description: "Eliminate or hide the cues in your environment that prompt your unwanted behavior."
+            title: t('advice_removeTriggers_title'),
+            description: t('advice_removeTriggers_description'),
         },
         {
             id: 3,
-            title: "Change Environment.",
-            description: "Rearrange your surroundings to make the bad habit harder and good habits easier."
+            title: t('advice_changeEnvironment_title'),
+            description: t('advice_changeEnvironment_description'),
         },
         {
             id: 4,
-            title: "Partner Up.",
-            description: "Team up with someone else so you can hold each other accountable and celebrate progress together."
+            title: t('advice_partnerUp_title'),
+            description: t('advice_partnerUp_description'),
         },
-    ]
+    ], [t])
 
     return (
         <div className="w-full h-full">

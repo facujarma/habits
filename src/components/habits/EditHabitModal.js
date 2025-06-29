@@ -1,3 +1,5 @@
+'use client'
+
 import {
     Button,
     Modal,
@@ -15,67 +17,85 @@ import { redirect } from "next/navigation";
 import { useHabits } from "@root/context/habitContext";
 import IconRenderer from "@components/IconRenderer";
 import CreateNewHabitFifthStep from "@components/CreateNewHabitFifthStep";
+import { useTranslation } from "react-i18next";
 
 function EditHabitModal({ habitID, isOpen, onOpen, onOpenChange, defName, defWhen, defPersonToBe, defIcon }) {
+    const { t } = useTranslation("common");
     const [name, setName] = useState(defName);
     const [when, setWhen] = useState(defWhen);
     const [personToBe, setPersonToBe] = useState(defPersonToBe);
     const [color, setColor] = useState(new Set(["#668C9A"]));
     const [icon, setIcon] = useState(defIcon);
-    const { loadHabits } = useHabits()
+    const { loadHabits } = useHabits();
+
     const handleEditHabit = async () => {
         const habit = {
-            name: name,
-            when: when,
-            personToBe: personToBe,
+            name,
+            when,
+            personToBe,
             color: Array.from(color)[0],
-            icon: icon
+            icon
         }
 
         try {
-            console.log(habit)
             await editHabit(habitID, habit);
             await loadHabits(true);
             addToast({
-                title: "Habit edited",
-                description: "The habit has been edited successfully.",
+                title: t("editHabitModal_toast_success_title"),
+                description: t("editHabitModal_toast_success_description"),
                 color: "success",
                 timeout: 2000
-            })
-            redirect('/habits');
-        }
-        catch (e) {
+            });
+            redirect("/habits");
+        } catch (e) {
             addToast({
-                title: "Error",
-                description: "An error has occurred while editing the habit.",
+                title: t("editHabitModal_toast_error_title"),
+                description: t("editHabitModal_toast_error_description"),
                 color: "danger",
                 timeout: 2000
-            })
-            console.log(e)
+            });
+            console.log(e);
         }
-    }
+    };
 
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} theme="dark">
             <ModalContent>
                 {(onClose) => (
                     <>
-                        <ModalHeader className="flex flex-col gap-1">Edit Habit.</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">
+                            {t("editHabitModal_title")}
+                        </ModalHeader>
                         <ModalBody>
-                            <p>Here you can edit the habit.</p>
+                            <p>{t("editHabitModal_description")}</p>
                             <IconRenderer iconName={icon} color="white" />
-                            <Input label="Habit" placeholder="Example: Go to the gym" setText={setName} defaultValue={name} />
-                            <Input label="When" placeholder="Example: After dinner" setText={setWhen} defaultValue={when} />
-                            <Input label="Person to be" placeholder="Example: Myself" setText={setPersonToBe} defaultValue={personToBe} />
+                            <Input
+                                label={t("editHabitModal_input_name")}
+                                placeholder={t("editHabitModal_input_name_placeholder")}
+                                setText={setName}
+                                defaultValue={name}
+                            />
+                            <Input
+                                label={t("editHabitModal_input_when")}
+                                placeholder={t("editHabitModal_input_when_placeholder")}
+                                setText={setWhen}
+                                defaultValue={when}
+                            />
+                            <Input
+                                label={t("editHabitModal_input_person")}
+                                placeholder={t("editHabitModal_input_person_placeholder")}
+                                setText={setPersonToBe}
+                                defaultValue={personToBe}
+                            />
                             <CreateNewHabitFourthStep color={color} setColor={setColor} />
                             <CreateNewHabitFifthStep overflow={true} onSelect={setIcon} />
                         </ModalBody>
                         <ModalFooter>
                             <Button variant="light" onPress={onClose}>
-                                Cancel
+                                {t("editHabitModal_button_cancel")}
                             </Button>
                             <Button color="primary" onPress={() => { handleEditHabit(); onClose(); }}>
-                                Save
+                                {t("editHabitModal_button_save")}
                             </Button>
                         </ModalFooter>
                     </>
