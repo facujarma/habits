@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import {
     Dropdown,
@@ -16,55 +18,55 @@ import {
 import { IconMenu2 } from "@tabler/icons-react";
 import { deleteHabit } from "@lib/habits";
 import { useHabits } from "@root/context/habitContext";
+import { useTranslation } from "react-i18next";
 
 export default function HabitContainerMenu({ habitID }) {
-
+    const { t } = useTranslation('common');
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { loadHabits } = useHabits();
+
     const handleConfirmDelete = async () => {
         try {
             await deleteHabit(habitID);
             await loadHabits(true);
             addToast({
-                title: "Hábito eliminado",
-                description: "El hábito se ha eliminado correctamente.",
+                title: t('habitContainerMenu_toast_success_title'),
+                description: t('habitContainerMenu_toast_success_description'),
                 color: "success",
                 timeout: 2000
-            })
+            });
         } catch (e) {
             addToast({
-                title: "Error",
-                description: "Ha ocurrido un error al eliminar el hábito.",
+                title: t('habitContainerMenu_toast_error_title'),
+                description: t('habitContainerMenu_toast_error_description'),
                 color: "danger",
                 timeout: 2000
-            })
-            console.log(e)
+            });
+            console.log(e);
         }
     };
-
 
     const handleOptionSelected = (option) => {
         if (option === "delete") {
             onOpen();
         }
         if (option === "view") {
-            window.location.href = `/habits/info/positive/${habitID}`
+            window.location.href = `/habits/info/positive/${habitID}`;
         }
-    }
+    };
 
     return (
         <>
-
             <Dropdown>
                 <DropdownTrigger>
                     <div className="rounded-r-xl h-full p-2 border-l border-[#616161] flex items-center justify-center bg-[#242424] hover:bg-[#616161] duration-200">
                         <IconMenu2 className="text-[#C5C5C5]" size={32} />
                     </div>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="Dropdown Variants" onAction={(key) => handleOptionSelected(key)}>
-                    <DropdownItem key="view">View Habit</DropdownItem>
+                <DropdownMenu aria-label="Dropdown Variants" onAction={handleOptionSelected}>
+                    <DropdownItem key="view">{t('habitContainerMenu_dropdown_view')}</DropdownItem>
                     <DropdownItem key="delete" className="text-danger" color="danger">
-                        Delete Habit
+                        {t('habitContainerMenu_dropdown_delete')}
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -73,18 +75,18 @@ export default function HabitContainerMenu({ habitID }) {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Delete Habit.</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">
+                                {t('habitContainerMenu_modal_title')}
+                            </ModalHeader>
                             <ModalBody>
-                                <p>
-                                    Are you sure you want to delete this habit?
-                                </p>
+                                <p>{t('habitContainerMenu_modal_body')}</p>
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="primary" variant="light" onPress={onClose}>
-                                    Cancel
+                                    {t('habitContainerMenu_modal_cancel')}
                                 </Button>
                                 <Button color="danger" onPress={() => { handleConfirmDelete(); onClose(); }}>
-                                    Delete
+                                    {t('habitContainerMenu_modal_confirm')}
                                 </Button>
                             </ModalFooter>
                         </>
@@ -94,4 +96,3 @@ export default function HabitContainerMenu({ habitID }) {
         </>
     );
 }
-

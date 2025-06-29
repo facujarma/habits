@@ -1,0 +1,1081 @@
+
+% of your weeks
+'s members
+*, habit_schedules!inner(weekday)
+*, room_habit_schedules!inner(weekday)
+, as we believe that one doesn’t choose when to engage in a bad habit.
+-- puff on the week
+10 challenges done. Nothing can stop you now.
+100
+100 challenges done. This is epic!
+100 completions! This is legendary stuff.
+100%
+15 consecutive days. Whoa!
+150 completions. Maybe take a break?
+1RM Record:
+2-day streak! Keep it up!
+200+ completions. You rule this realm.
+21 great ways to stop procrastinating and get things done.
+25 challenges completed. Incredible determination!
+25 completions? You’re on fire!
+30-day streak. You’ve ascended.
+5 challenges completed. You're gaining momentum.
+5 days in a row. Impressive!
+5 habits completed. You're heating up!
+50 challenges done. You’re setting the standard.
+50 completed habits. You’re unstoppable.
+6 unique
+7-day streak. You're a legend!
+75 challenges completed. You’re on fire!
+@blocknote/xl-pdf-exporter
+@react-pdf/renderer
+A comprehensive guide to building lasting self-respect.
+A great way to get motivated and feel like doing a habit is to create a group with friends who are in the same situation.
+A great way to get motivated and feel like doing a habit is to join a group with friends who are in the same situation.
+A home for the healthier life you're building
+A journal so flexible and customizable, you could use it as a personal notebook.
+A new UK clinic treats youth addicted to e-cigarettes with behavioral support and nicotine replacement therapy.
+A new habit will be created on your home screen with these characteristics. However, remember that you can modify them once the habit is created in the "View Habit Information" section.
+A new study shows that the medication varenicline (Chantix) helps young people quit vaping when combined with counseling.
+A practical guide with 64 simple rules for healthy eating.
+A reflection on cooking as a cultural and transformative act.
+A system to help you organize tasks and get more done with less stress.
+ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
+ADMIN
+AM
+Account
+Account deleted.
+Achivements
+Add
+Add Habit to the room
+Add Time
+Add a habit to the room:
+Add a new habit
+Add a reflection
+Add an exercice
+Add book
+Add new exercice
+Add the time when you want to complete the habit.
+Add to Reading
+Admins:
+After dinner
+After sitting for a long time
+After waking up
+All
+Almost halfway there!
+Almost your best week!
+An effective way to break a bad habit is by replacing it with a good one, which is why we suggest you complete this sentence:
+An error has occurred while creating the exercice.
+An error has occurred while editing the habit.
+An error has occurred while removing the book.
+An error occurred during sign-up. Please try again.
+An error occurred while adding the quote to favorites.
+An error occurred while checking the session.
+An error occurred while creating the session.
+An error occurred while deleting the room.
+An error occurred while editing the room.
+An error occurred while getting members info.
+An error occurred while getting the exercices.
+An error occurred while getting the habits.
+An error occurred while getting the information.
+An error occurred while getting the status.
+An error occurred while getting the top words.
+An error occurred while logging in. Please try again.
+An error occurred while setting the status.
+An error occurred while updating the room.
+And instead i will
+Anyone
+App info
+App version
+April
+Are you sure you want to delete this habit?
+Are you sure you want to delete your account?
+Are you sure you want to remove the book? This action cannot be undone.
+Are you sure!?
+At night
+Atomic Habits
+Attach the new habit to one you already do.
+August
+Author
+Bad Habit
+Be the first to complete this habit
+Be the first to send a message
+Because you want to be:
+Before bed
+Before lunch
+Benefits:
+Best week so far! 🏆
+Better Heart Health
+Better than the
+Better than the --- of your weeks
+Book added
+Book description...
+Book edited
+Book removed
+Book type
+Britain opens first vaping clinic for kids as young as 11
+Calendario de hábitos
+Cancel
+Century Club 💯
+Challenge Accepted 💪
+Challenge Master 🎯
+Challenger 🥾
+Challenges Achievements
+Change Email
+Change Environment.
+Change Language.
+Change app language (quotes only)
+Change app theme
+Change your internal dialogue to change your life.
+Check out Habits, a great app to track your habits!
+Clean your room or workspace for 15 minutes.
+Cleaning
+Clear cache
+Clicked!!
+Close
+Color:
+Completed 10 habits. Are you even human?
+Completed by:
+Completion Leaderboard
+Completion:
+Completitions Achievements
+Confirm
+Congratulations!
+Cooked
+Copied
+Copy
+Copy invitation link
+Could not export to PDF.
+Couldn't make member admin, an error occurred
+Couldn't remove member, an error occurred
+Crear Cuenta
+Create
+Create a habit that you’ll need to complete on certain days of the week. We’ll keep track of the days you perform the habit.
+Create a negative habit — that is, a habit in reverse. All days will be marked as completed by default, and you’ll need to unmark the days on which you actually do the habit.
+Create a new Habit
+Create a new negative
+Create a new negative:
+Create a new positive
+Create a new positive:
+Create a new room
+Create a new room:
+Create a new session to track your progress
+Create an account
+Create group habits so your friends can join and track each other’s progress — there are even public rooms available!
+Create new exercice
+Create new workout
+DANGER ZONE
+DELETE MY ACCOUNT
+Days:
+December
+Deep Work
+Delete
+Delete Account
+Delete Account.
+Delete Book
+Delete Habit
+Delete Habit.
+Delete Message
+Delete room
+Description
+Developing focus in a distracted world.
+Do 20 minutes of bodyweight exercises or go for a short run.
+Do you have an account?
+Do you want to remove the habit?
+Don’t rely on memory—set reminders or alarms. Uninstall distractions during habit time.
+Download as PDF
+Drink a full glass of water to rehydrate after sleep.
+Drink water
+Dropdown Variants
+E-cigarettes were designed to help smokers quit, but have created a new health crisis among teens.
+EBook
+Eat That Frog!
+Edit
+Edit Book
+Edit Habit.
+Edit Room information.
+Edit exercice.
+Edit the habit
+El hábito se ha eliminado correctamente.
+El programa se ha iniciado correctamente.
+Eliminate or hide the cues in your environment that prompt your unwanted behavior.
+Email
+Email address is invalid
+Email not confirmed
+Email not confirmed. Please check your inbox.
+Email or password is incorrect
+English
+Entry updated successfully
+Error
+Error actualizando challenges_completitions:
+Error actualizando hábito negativo:
+Error actualizando user_stats:
+Error al actualizar el desafío
+Error al actualizar la sala:
+Error al agregar cita a favoritos:
+Error al buscar el desafío del día.
+Error al crear la sala:
+Error al editar el hábito:
+Error al eliminar hábito:
+Error al guardar el progreso
+Error al guardar puff:
+Error al iniciar programa:
+Error al insertar hábito:
+Error al insertar miembro inicial:
+Error al insertar nuevo desafío
+Error al insertar schedules:
+Error al marcar como completado:
+Error al obtener citas favoritas:
+Error al obtener citas:
+Error al obtener contador actual:
+Error al obtener el contador de vapes:
+Error al obtener el hábito:
+Error al obtener entradas:
+Error al obtener hábitos negativos:
+Error al obtener las completaciones:
+Error al obtener las salas:
+Error al obtener los hábitos:
+Error al obtener records:
+Error al verificar estado
+Error al verificar estado del hábito negativo
+Error al verificar miembro:
+Error al verificar programa:
+Error cargando citas favoritas de la base de datos:
+Error cargando contador de puffs:
+Error cargando hábitos negativos:
+Error cargando hábitos:
+Error cargando todas las citas:
+Error deleting habit
+Error exporting PDF:
+Error insertando logros de retos:
+Error insertando logros:
+Error loading achievements:
+Error loading exercice info
+Error loading exercices:
+Error loading journal entry.
+Error loading progress:
+Error loading session:
+Error obteniendo logros desbloqueados
+Error saving journal entry.
+Error starting session
+Escape the 9–5 and live more by working less.
+Essentialism
+Every step counts 👣
+Ex. Gym Room for workouts
+Ex. Room 1
+Example: After dinner
+Example: Exercising
+Example: Go to the gym
+Example: If your habit is working out, lay out your clothes the night before.
+Example: Myself
+Example: Smoking
+Exercice
+Exercice created
+Exercice edited
+Exercice name
+Exercices loaded from cache
+Exercices loaded from database
+Exercise
+Exercises order
+Explores the ethical and health implications of modern food choices.
+February
+Feel
+Finish
+Finished:
+First Step 👣
+Focus on what truly matters by eliminating what doesn't.
+Follow every part of your life — wherever you are, whenever you need.
+Food Rules
+For every one to understand
+Found a bug?
+Frequency:
+Game of Thrones
+General settings
+General stats
+Getting Things Done
+Getting Warm 🔥
+Getting your words...
+Go to general settings
+Go to home
+Good Habit
+Grapchics
+Gratitude journaling
+Green
+Gym
+Gymbros
+Ha ocurrido un error al agregar el puff.
+Ha ocurrido un error al eliminar el hábito.
+Ha ocurrido un error al iniciar el programa.
+Ha ocurrido un error al marcar el hábito como completo.
+Ha ocurrido un error al marcar el hábito como incompleto.
+Ha ocurrido un error al obtener la cantidad de puffs de la semana.
+Ha ocurrido un error al obtener la cantidad de puffs de las 10 semanas.
+Habit
+Habit Hero 🦸‍♂️
+Habit added
+Habit created
+Habit edited
+Habits
+Habits.
+Habits:
+Half your weeks beat — nice!
+Healthier
+Hemos enviado un correo electronico para activar tu cuenta. Revisa tu bandeja de entrada.
+Here you can add a new book to your collection.
+Here you can edit a book from your collection.
+Here you can edit a session from your collection.
+Here you can edit the exercice.
+Here you can edit the habit.
+Here you can see the info of an exercice
+Here you can view the information we’ve gathered about you, and access your account settings.
+Home
+How a fix for smoking sparked a new crisis
+How habits shape our diet and how to change them.
+How to make an habit easier to do?
+Hábito eliminado
+I am going to stop
+I want to
+I want to stop vaping
+I'm a beginner
+I'm a intermediate
+I'm a newbie
+I'm an advanced
+I'm an expert
+INSERT
+IconAlarm
+IconApple
+IconBed
+IconBike
+IconBook
+IconBottle
+IconBrush
+IconCalendarCheck
+IconCalendarPlus
+IconChartBar
+IconChartDots
+IconChefHat
+IconClipboardCheck
+IconClock
+IconCoffee
+IconDroplet
+IconEye
+IconHandStop
+IconHeart
+IconHeartbeat
+IconLeaf
+IconMoodHappy
+IconMoodSmile
+IconMoon
+IconMusic
+IconNotebook
+IconPencil
+IconPlant
+IconRecycle
+IconRun
+IconSmokingNo
+IconSparkles
+IconStethoscope
+IconStretching
+IconSun
+IconTarget
+IconWalk
+IconWeight
+IconYoga
+If you are currently a vaper, we can help you overcome your addiction and build a better and healthier habit.
+If you have internet, you can open Habits. No more excuses.
+Illinois will use a $24 million settlement with Juul to fund youth vaping prevention and cessation programs.
+Improved Lung Health
+In Defense of Food
+In the morning
+In this section, you can add new habits to the rooms where you are an admin.
+In this section, you will find all your journal entries.
+In this section, you will find inspiring quotes from famous thinkers, leaders, philosophers, captains, and soldiers who inspired thousands of people
+Iniciar Sesion
+Instead you have to:
+Instead you will...
+Invalid credentials. Please check your email and password.
+Invalid email address.
+Invalid login credentials
+Is the rooms public?
+It helps us a lot if you send me an email.
+January
+Join
+Journal entry saved successfully.
+Journaling
+Journaling is a way to record your thoughts and feelings, and to reflect on your life and the people around you. In this section, you’ll be able to write down whatever you're thinking at any time.
+July
+June
+Juornaling
+Just Started 🔁
+Keep going, you’ve got this!
+Know when, where, and how you'll do the habit. 'I’ll write for 5 minutes after lunch at my desk.' Want to meditate? Begin with 2 minutes.
+Language saved successfully.
+Latest news:
+Learning
+Legendary Challenger 🏆
+Let go of who you think you should be and embrace who you are.
+Leveling Up ⚔️
+Link copied to clipboard.
+List
+Living in the present moment as a mental habit for peace.
+Loading...
+Log in
+Logout
+Longest Streak:
+Love going to the gym? Create custom exercises and routines — we’ll handle the rest by showing your progress with clear visuals!
+MEMBER
+Make It Enjoyable.
+Make the habit as easy as possible to start.
+Manage your account settings.
+March
+Mark as finished
+Mark as not finished
+Master of Habits 🧘‍♂️
+Master the skill of focused success in a distracted world.
+Max one rep
+Max volume
+Max weight
+May
+Meditate for 10 minutes to start the day with clarity.
+Meditation
+Member made admin successfully
+Member removed successfully
+Members:
+Message deleted successfully. Reload the page to see the changes.
+Momentum’s building 🚀
+More flexible
+More focused
+More grateful
+More hydrated
+More knowledgeable
+More mindful
+More organized
+Name
+Name:
+Negative created
+Negative habit edited
+Negative habits loaded from cache
+Negative habits loaded from database
+No Limits 🚀
+No books found
+No content to export
+No eres admin de la sala
+No eres miembro de la sala
+No hay ejercicios válidos para asociar a la sesión.
+No hay usuario autenticado:
+No more members
+No quotes found
+No se pudieron asignar los días al hábito
+No se pudieron eliminar los ejercicios anteriores.
+No se pudieron guardar los logros de retos
+No se pudieron guardar los logros nuevos
+No se pudieron insertar los nuevos ejercicios.
+No se pudieron obtener el progreso del hábito
+No se pudieron obtener las citas
+No se pudieron obtener las citas favoritas
+No se pudieron obtener las entradas
+No se pudieron obtener las estadísticas de retos
+No se pudieron obtener las estadísticas del usuario
+No se pudieron obtener las salas
+No se pudieron obtener las sesiones
+No se pudieron obtener los desafios
+No se pudieron obtener los ejercicios
+No se pudieron obtener los ejercicios de la sesión
+No se pudieron obtener los hábitos
+No se pudieron obtener los hábitos de hoy
+No se pudieron obtener los hábitos de la sala
+No se pudieron obtener los miembros de la sala
+No se pudieron obtener los registros
+No se pudieron obtener los schedules
+No se pudieron vincular los ejercicios a la sesión
+No se pudo actualizar el estado
+No se pudo actualizar el estado negativo
+No se pudo actualizar el libro
+No se pudo actualizar la cantidad de retos
+No se pudo actualizar la sala
+No se pudo actualizar las estadísticas del usuario
+No se pudo agregar el ejercicios a la sesion
+No se pudo agregar el libro
+No se pudo agregar el usuario a la sala
+No se pudo agregar la cita a favoritos
+No se pudo crear el ejercicios
+No se pudo crear el hábito
+No se pudo crear el registro
+No se pudo crear el registro negativo
+No se pudo crear la sala
+No se pudo crear la sesioon
+No se pudo crear la sesión
+No se pudo editar el ejercicios
+No se pudo editar el hábito
+No se pudo editar el hábito
+No se pudo editar el libro
+No se pudo editar la sesion
+No se pudo eliminar el hábito
+No se pudo eliminar el hábito de la sala
+No se pudo eliminar el libro
+No se pudo eliminar el mensaje
+No se pudo eliminar el usuario
+No se pudo eliminar la sala
+No se pudo encontrar la sala
+No se pudo expulsar al usuario de la sala
+No se pudo finalizar la sesión
+No se pudo generar un código único.
+No se pudo guardar el diario
+No se pudo guardar el puff
+No se pudo hacer al usuario admin de la sala
+No se pudo iniciar el programa
+No se pudo iniciar la sesión
+No se pudo marcar como completado
+No se pudo marcar como incompleto
+No se pudo obtener el contador
+No se pudo obtener el contador de vapes
+No se pudo obtener el diario de hoy
+No se pudo obtener el estado del desafio
+No se pudo obtener el estado del hábito
+No se pudo obtener el estado del hábito negativo
+No se pudo obtener el historial del diario
+No se pudo obtener el hábito
+No se pudo obtener el progreso
+No se pudo obtener el username del usuario
+No se pudo obtener la cantidad de hábitos del usuario
+No se pudo obtener la información del usuario
+No se pudo obtener la racha actual
+No se pudo obtener la reflexión
+No se pudo obtener la sesión
+No se pudo obtener los libros
+No se pudo obtener los nombres de los usuarios que completaron el hábito
+No se pudo verificar estado del programa
+No se pudo verificar miembro
+No se pudo verificar si eres miembro de la sala
+No words found
+No workout found
+Not buying vape products means more money saved for you.
+Not saved
+Not sure what to write? Try answering one of these questions.
+November
+Now complete the information for the habit you want to add.
+Nro
+Nutrition
+Obsessed Much? 😅
+October
+On a Roll 🌀
+On a session to track your progress
+One Week Wonder 🧙
+Options
+Or sign up with (no apps yet):
+Or use our templates:
+Our Recommendations:
+Over
+Overcome shame and self-judgment to find self-worth.
+PGRST116
+PM
+Pages
+Pages:
+Pair It With an Existing Habit.
+Partner Up.
+Password
+People to be
+People we want to become
+Person I want to become
+Person to be
+Person to be:
+Philosophy
+Plan Ahead.
+Please confirm your email address before continuing.
+Please enter a message
+Please provide a name for the session.
+Please select an option
+Please wait while the habit is being created and added to the room.
+Please wait while the habit is being created.
+Please wait while the negative habit is being created.
+Please wait while the room is being created.
+Please write 'DELETE MY ACCOUNT'.
+Please, if reading this news makes you anxious, don't read them. Our goal is not to make you anxious.
+Practicing gratitude
+Printed Book
+Productivity
+Programa iniciado
+Progress
+Progress saved successfully
+Progress starts small 🌱
+Quitting vaping helps your lungs recover and function better.
+Quitting vaping with varenicline effective for young people
+Quotes
+RIR
+Radical Acceptance
+Read more than 150 quotes on different topics, writers, philosophies, and much more. Reflect on them and learn how to apply them in your daily life.
+Reading is a very important habit, which is why we believe it deserves its own section. Keep track of the books you read here.
+Reading:
+Rearrange your surroundings to make the bad habit harder and good habits easier.
+Reflect about this
+Remove Barriers.
+Remove Triggers
+Remove the Book.
+Repetitions Record:
+Reps
+Request a feature
+Revisa tu correo
+Room Name
+Room created
+Room edited
+Room joined
+Room:
+Rooms
+Rooms are spaces where habits are shared among people. Complete the information for the habit you want to do as a group (you’ll be able to add more later).
+Rooms loaded from cache
+Routine Machine 🤖
+Sa
+Save
+Save & Create
+Save Book Reflection
+Save Money
+Saved
+Search
+Select a room
+Select an option
+Self-esteem
+Send a message...
+Send me an email.
+September
+Sesión o ejercicio no disponible
+Session created
+Session ended
+Session name
+Session started
+Sets
+Share with your friends
+Sign Up
+Sign up
+Signup requires a valid email
+Simple UI
+Small changes that lead to big transformations.
+So I can be
+So we can be
+Spanish
+Spend 30 minutes learning a new skill or topic.
+Spend time with people who already live the way you want to live to reinforce positive change.
+Start Small (2-Minute Rule)
+Start the process of stopping vaping.
+Stop doubting your greatness and start living an awesome life.
+Stop vaping
+Stopping vaping reduces your risk of heart disease.
+Streak Freak ⚡
+Streaks Achievements
+Stretch for 5 minutes to release tension from your body.
+Stretching
+Su
+Success
+Surround with Role Models.
+Swipe
+Talk more about the room
+Team up with someone else so you can hold each other accountable and celebrate progress together.
+Th
+Thanks You!
+That’s real progress! 🙌
+The 4-Hour Workweek
+The 7 Habits of Highly Effective People
+The Gifts of Imperfection
+The Habit King 👑
+The Omnivore’s Dilemma
+The Power of Habit
+The Power of Now
+The Six Pillars of Self-Esteem
+The app designed to help you improve every aspect of your life. Completely free.
+The best way to start a habit is by completing the following phrase:
+The book has been added to your collection successfully.
+The book has been edited successfully.
+The book has been removed successfully.
+The exercice has been created successfully.
+The exercice has been edited successfully.
+The frequency of negative habits is set
+The habit has been added to the room successfully.
+The habit has been created successfully.
+The habit has been edited successfully.
+The invitation link has been copied to the clipboard.
+The main words you use in your journal entries
+The negative habit has been created successfully.
+The negative habit has been deleted.
+The negative habit has been edited successfully.
+The room has been created successfully.
+The room has been edited successfully.
+The session has been created successfully.
+The ultimate app to track your habits because we focus on much more than only simple habits.
+The ultimate habit app and goal tracker
+There was an error adding the book to your collection.
+There was an error changing the challenge status
+There was an error copying the link.
+There was an error creating the habit.
+There was an error creating the negative habit.
+There was an error creating the room.
+There was an error deleting the habit
+There was an error deleting the negative habit.
+There was an error editing the book.
+There was an error editing the exercice.
+There was an error getting the challenge status
+There was an error getting the entry.
+There was an error getting the habit information.
+There was an error getting the negative habit information.
+There was an error joining the room
+There was an error saving the progress
+There was an error saving the workout.
+There was an error sharing the link.
+There was an error while creating the habit.
+These are some books we believe could help you get through tough times or become a better person!
+Think of one positive moment of your day before going to bed.
+This action is irreversible.
+This habit belongs to a room in where you are a member
+This is your space. Here, we show your account information and the stats on how your progress with Habits. has evolved.
+This only reset local data, not the server.
+This section is exclusively for managing your workouts. Here, you'll be able to see your progress more clearly.
+Time:
+Timeless principles for personal and interpersonal effectiveness.
+Title
+Today Puffs:
+Total completions:
+Total reps
+Try to refresh the page.
+Tu
+Type your email
+Type your password
+Type your session name
+Type your username
+Understanding how habits form and how to change them.
+Unexpected server error during sign-up. Please try again.
+Unexpected server error. Please try again later.
+Unstoppable Force 🧨
+Unstoppable Train 🚂
+Use a template.
+Use it on your PC
+Use it on your fridge
+Use it on your mobile
+Use music, a fun app, or turn it into a game. Track progress and celebrate small wins.
+Use now
+User already exists
+User already exists. Try logging in instead.
+User already registered
+User settings
+Username
+Usuario no autenticado
+Vaping lawsuit settlement to fund Illinois cessation efforts
+View Habit
+View info
+View members
+Violet
+Volume Record:
+Wait a moment...
+Want to read? Start with 1 page. Want to meditate? Begin with 2 minutes.
+We have two types of habits: positive and negative. Choose the one that best fits your needs.
+We want to
+We want to help people
+We will change the home page with a new section to help you quit vaping.
+Week
+Weight
+Weight Record:
+Welcome back to Habits.
+Welcome to Habits. We hope you have a great day.
+What am I grateful for today?
+What emotions am I feeling right now?
+What option best suits you?
+What to Say When You Talk to Your Self
+What’s been challenging me lately?
+What’s one small goal I can set for today?
+What’s something I’m proud of recently?
+When
+Who made a positive impact on me this week?
+Why we should eat real food and avoid nutritionism.
+Workout name
+Workout not found
+Workout saved successfully.
+Workouts loaded from cache
+Workouts loaded from database
+Write "DELETE MY ACCOUNT" to confirm
+Write down 3 things you're grateful for today.
+Write in your personal journal every day with a simple but powerful editor that lets you beautifully style your reflections.
+Wrong input.
+Ya eres miembro de la sala
+Ya tienes una sesión iniciada
+Yellow
+You
+You Are a Badass
+You are an admin of this room
+You are currently working on a session.
+You can use Habits in many ways—one of them is to quit vaping. The app helps you track your puffs per day and recommends ways to reduce them.
+You completed your first challenge. Well done!
+You completed your very first habit!
+You don't have an account of Habits.?
+You have been invited!
+You have joined the room successfully
+You saved this quotes:
+You will do it:
+Your Journal
+Your account has been deleted successfully.
+Your completitions by hour
+Your exercices
+Your full journal
+Your information
+Your puffs per week
+Your total challenges
+Your total completitions
+Your workouts
+You’re crushing it 💪
+You’re getting there!
+You’ve been part of Habits. for 123 days. We truly appreciate that you’ve chosen us.
+[GOOGLE LOGIN ERROR]
+[GOOGLE LOGIN EXCEPTION]
+[INSERT USER_DATA ERROR]
+[LOGIN ERROR]
+[LOGIN EXCEPTION]
+[SIGNUP ERROR]
+[SIGNUP EXCEPTION]
+absolute
+advanced
+allQuotes
+april
+august
+auto
+badHabit
+beforeunload
+beginner
+bg-[#242424]
+bg-[#242424] border border-[#616161]
+bg-[#242424] border-[#616161]
+bg-[#242424] hover:bg-[#3F3F3F]
+bg-[#616161]
+bg-[#626262]
+bg-[#666F96]/50
+bg-[#666F9A]/40 border border-[#666F9A]
+bg-green-300/40
+bg-green-600
+bg-slate-500/40
+bg-white
+black-translucent
+books
+border-[#82669A] bg-[#82669A]/40
+cachedHabits
+cachedNegativeHabits
+cachedRooms
+categories to help you grow in
+center
+center bottom
+challengeID
+challengesList_timeLeftLabel
+challengesList_title
+challenges_completitions
+code
+color:
+common
+content
+counter
+created_at
+created_by
+current_streak, last_completed, max_streak
+danger
+dark
+data-index
+dataMax
+date
+days
+december
+default
+delete
+desconocido
+different areas of your life.
+edit
+empty
+en
+ended_at
+error
+es
+exact
+exerciceID
+exercices
+expert
+faded
+favoriteQuotes
+favorites_quotes
+february
+filled
+finished
+flex flex-col
+flex justify-center
+get_daily_challenges
+goodHabit
+google
+gym_exercices
+gym_exercices_workouts
+gym_session_exercice_progress
+gym_sessions
+gym_workouts
+habit
+habitID
+habit_records
+habit_schedules
+habit_schedules.weekday
+habits built and strengthened with Habits.
+habitsList_createLinkDescription
+habitsList_createLinkText
+habitsList_noHabitsMessage
+heading
+home_sectionTitle_habits
+home_tabs_challenges
+home_tabs_personal
+home_tabs_rooms
+hover:bg-[#242424] hover:cursor-pointer
+hover:border-[#82669A] border-[#616161]
+https://habits-theta-five.vercel.app
+https://www.myjournalcourier.com/news/article/vaping-lawsuit-settlement-fund-cessation-20275117.php?utm_source=chatgpt.com
+https://www.statnews.com/2025/04/23/quitting-vaping-e-cigarettes-varenicline-chantix-young-adults/?utm_source=chatgpt.com
+https://www.thetimes.co.uk/article/patients-as-young-as-11-treated-at-vaping-clinic-for-children-pxf68b06v?utm_source=chatgpt.com
+https://www.vox.com/public-health/410443/vaping-conundrum-public-health-youth-ecigarettes?utm_source=chatgpt.com
+id
+id, content
+id, created_at
+id, created_at, updated_at
+id, name, description, code
+initialized
+intermediate
+isInProgram
+isInProgram loaded from local storage
+is_active
+january
+july
+june
+kg
+language
+latin
+layout
+left
+lg
+light
+loading rooms from db
+loading...
+login with google
+mailto:facundojarma@gmail.com?subject=Bug%20Report%20In%20Habits
+mailto:facundojarma@gmail.com?subject=Requesting%20a%20Feature%20In%20Habits
+mainActionBooks
+mainActionGym
+mainActionHabit
+mainActionJournal
+mainActionQuestion
+mainActionQuote
+mainActionVape
+march
+max-h-[120px] overflow-y-auto
+maxOneRep
+maxVolume
+maxWeight
+max_streak
+may
+mg of nicotine
+mt-5
+mt-[27em]
+myjournalcourier.com
+name
+negativeID
+negative_habit
+negative_records
+newbie
+next
+none
+november
+october
+pages
+password
+percent
+personToBe
+personal
+pointer
+postgres_changes
+primary
+public
+puff on the week
+px
+quoteID
+quotes
+record_date
+reflection
+reflection.pdf
+reflexion
+repetitions
+reps
+right
+rir
+role
+roomID
+room_habit_progress
+room_habit_schedules
+room_habit_schedules.weekday
+room_habits
+room_members
+room_messages
+rooms
+roomsHabitsList_createButton
+roomsHabitsList_noRoomsDescription
+roomsHabitsList_noRoomsTitle
+roomsPublicList_noRoomsFound
+roomsPublicList_title
+roomsPublicList_toast_error_description
+roomsPublicList_toast_error_title
+september
+series -
+sessionID
+set_number
+smooth
+spring
+start
+statnews.com
+status
+stopVapingBanner_description
+stopVapingBanner_title
+stop_vaping_program
+string
+success
+text
+text-black
+text-white
+the bad habit
+the good Habit
+thetimes.co.uk
+times
+to daily by default
+token_hash
+totalReps
+total_completitions
+transform 0.4s ease, opacity 0.4s ease, border-color 0.4s ease
+translate(-50%, -50%)
+translate-x-0
+translate-x-full
+type
+unfinished
+useBooks debe usarse dentro de BooksProvider
+useGym debe usarse dentro de GymProvider
+useHabits debe usarse dentro de HabitsProvider
+usePuff debe usarse dentro de PuffProvider
+useQuotes debe usarse dentro de QuotesProvider
+useRooms debe usarse dentro de RoomsProvider
+useTodayEntry debe usarse dentro de TodayEntryProvider
+userID
+userID, role, created_at
+userID, status, record_date
+userID,date
+userID,habitID,record_date
+user_achievements
+user_challenges
+user_data
+user_diaries
+user_stats
+username
+value
+vape_counter
+vertical-rl
+view
+vox.com
+w-full
+w-full overflow-hidden
+weekday
+weight
+when
+when:
+white
+workoutID
+workouts

@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@babel/parser": "^7.27.7",
+    "@babel/traverse": "^7.27.7",
     "@blocknote/core": "^0.32.0-hackdays.0",
     "@blocknote/mantine": "^0.32.0-hackdays.0",
     "@blocknote/react": "^0.32.0-hackdays.0",

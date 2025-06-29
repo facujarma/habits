@@ -1,4 +1,6 @@
-import React from "react";
+'use client'
+
+import React from "react"
 import {
     Dropdown,
     DropdownTrigger,
@@ -12,44 +14,47 @@ import {
     ModalFooter,
     useDisclosure,
     addToast
-} from "@heroui/react";
-import { IconMenu2 } from "@tabler/icons-react";
-import { useNegativeHabits } from "@root/context/negativeHabitContext";
-import { deleteNegativeHabit } from "@lib/negativeHabit";
+} from "@heroui/react"
+import { IconMenu2 } from "@tabler/icons-react"
+import { useNegativeHabits } from "@root/context/negativeHabitContext"
+import { deleteNegativeHabit } from "@lib/negativeHabit"
+import { useTranslation } from "react-i18next"
 
 export default function NegativeContainerMenu({ negativeID }) {
+    const { t } = useTranslation('common')
+    const { isOpen, onOpen, onOpenChange } = useDisclosure()
+    const { loadNegativeHabits } = useNegativeHabits()
 
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { loadNegativeHabits } = useNegativeHabits();
     const handleConfirmDelete = async () => {
         try {
-            await deleteNegativeHabit(negativeID);
+            await deleteNegativeHabit(negativeID)
             await loadNegativeHabits()
             addToast({
-                title: "Delete Habit",
-                description: "The negative habit has been deleted.",
+                title: t('negativeContainerMenu_toast_success_title'),
+                description: t('negativeContainerMenu_toast_success_description'),
                 color: "success",
                 timeout: 2000
             })
         } catch (e) {
             addToast({
-                title: "Error",
-                description: "There was an error deleting the negative habit.",
+                title: t('negativeContainerMenu_toast_error_title'),
+                description: t('negativeContainerMenu_toast_error_description'),
                 color: "danger",
                 timeout: 2000
             })
             console.log(e)
         }
-    };
+    }
 
     const handleOptionSelected = (option) => {
         if (option === "delete") {
-            onOpen();
+            onOpen()
         }
         if (option === "view") {
             window.location.href = `/habits/info/negative/${negativeID}`
         }
     }
+
     return (
         <>
             <Dropdown>
@@ -58,10 +63,10 @@ export default function NegativeContainerMenu({ negativeID }) {
                         <IconMenu2 className="text-[#C5C5C5]" size={32} />
                     </div>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="Dropdown Variants" onAction={(key) => handleOptionSelected(key)}>
-                    <DropdownItem key="view">View Habit</DropdownItem>
+                <DropdownMenu aria-label="Dropdown Variants" onAction={handleOptionSelected}>
+                    <DropdownItem key="view">{t('negativeContainerMenu_dropdown_view')}</DropdownItem>
                     <DropdownItem key="delete" className="text-danger" color="danger">
-                        Delete Habit
+                        {t('negativeContainerMenu_dropdown_delete')}
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -70,18 +75,18 @@ export default function NegativeContainerMenu({ negativeID }) {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Delete Habit.</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">
+                                {t('negativeContainerMenu_modal_title')}
+                            </ModalHeader>
                             <ModalBody>
-                                <p>
-                                    Are you sure you want to delete this habit?
-                                </p>
+                                <p>{t('negativeContainerMenu_modal_body')}</p>
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="primary" variant="light" onPress={onClose}>
-                                    Cancel
+                                    {t('negativeContainerMenu_modal_cancel')}
                                 </Button>
                                 <Button color="danger" onPress={() => { handleConfirmDelete(); onClose(); }}>
-                                    Delete
+                                    {t('negativeContainerMenu_modal_confirm')}
                                 </Button>
                             </ModalFooter>
                         </>
@@ -89,6 +94,5 @@ export default function NegativeContainerMenu({ negativeID }) {
                 </ModalContent>
             </Modal>
         </>
-    );
+    )
 }
-

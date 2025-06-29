@@ -7,7 +7,7 @@ function page() {
             <HomeNavbar />
             <header className='mt-12 flex '>
                 <div className='w-1/2 flex flex-col gap-6'>
-                    <h1 className='text-6xl font-bold'>Habits.</h1>
+                    <h1 className='text-6xl font-bold'>{t("Habits.")}</h1>
                     <p className='2xl:text-2xl text-xl 2xl:w-full w-3/4'>
                         The ultimate app to track your habits because we focus on much more than only simple habits.
                     </p>
@@ -67,7 +67,7 @@ function page() {
                     </div>
                     <div className='bg-[#242424] col-span-3 row-span-2 rounded-2xl flex items-center justify-center p-6 '>
                         <h2 className='text-5xl'>
-                            Over <span className='text-[#82669A]'>6 unique</span>  categories to help you grow in <span className='text-[#82669A]'>different areas of your life.</span>
+                            Over <span className='text-[#82669A]'>{t("6 unique")}</span>{t("  categories to help you grow in ")}<span className='text-[#82669A]'>{t("different areas of your life.")}</span>
                         </h2>
                     </div>
                     <div className='bg-[#242424] col-span-4 row-span-1 rounded-2xl flex items-center justify-center p-6 '>
