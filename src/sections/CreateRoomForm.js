@@ -14,8 +14,10 @@ import { createNewRoom } from '@lib/rooms'
 import { addToast } from '@heroui/toast'
 import { useRooms } from '@root/context/roomsContext'
 import { Checkbox } from '@heroui/react'
-function CreateRoomForm() {
+import { useTranslation } from 'react-i18next'
 
+function CreateRoomForm() {
+    const { t } = useTranslation('common')
     const { fetchRooms } = useRooms()
 
     const [roomName, setName] = useState('')
@@ -23,7 +25,7 @@ function CreateRoomForm() {
     const [habitDescriptiveInfo, setHabitDescriptiveInfo] = useState({
         name: '',
         when: '',
-        personToBe: ''
+        personToBe: '',
     })
     const [habitDays, setHabitDays] = useState({
         M: false,
@@ -32,12 +34,12 @@ function CreateRoomForm() {
         Th: false,
         F: false,
         Sa: false,
-        Su: false
+        Su: false,
     })
     const [habitTimes, setHabitTimes] = useState([])
     const [isPublic, setIsPublic] = useState(false)
-    const [habitColor, setHabitColor] = useState(new Set(["#668C9A"]))
-    const [habitIcon, setHabitIcon] = useState("")
+    const [habitColor, setHabitColor] = useState(new Set(['#668C9A']))
+    const [habitIcon, setHabitIcon] = useState('')
 
     const handleCreate = async () => {
         const habit = {
@@ -47,53 +49,51 @@ function CreateRoomForm() {
             weekdays: habitDays,
             times: habitTimes,
             color: Array.from(habitColor)[0],
-            icon: habitIcon
+            icon: habitIcon,
         }
 
         const roomInfo = {
             name: roomName,
             description: roomDesc,
-            public: isPublic
+            public: isPublic,
         }
-        const promise = createNewRoom(roomInfo, habit);
+        const promise = createNewRoom(roomInfo, habit)
 
         addToast({
-            title: "Create a new room",
-            description: "Please wait while the room is being created.",
+            title: t('create_new_room'),
+            description: t('creating_room_please_wait'),
             promise,
-            timeout: 2000
-        });
+            timeout: 2000,
+        })
 
         try {
-            await promise;
-            await fetchRooms(true);
+            await promise
+            await fetchRooms(true)
             addToast({
-                title: "Room created",
-                description: "The room has been created successfully.",
-                color: "success",
-                timeout: 2000
+                title: t('create_new_room'),
+                description: t('room_created_successfully'),
+                color: 'success',
+                timeout: 2000,
             })
         } catch (e) {
             addToast({
-                title: "Error",
-                description: "There was an error creating the room.",
-                color: "danger",
-                timeout: 2000
+                title: t('error_creating_room'),
+                description: '',
+                color: 'danger',
+                timeout: 2000,
             })
-            console.log(e)
+            console.error(e)
         }
     }
 
     return (
-        <div className='w-full'>
-            <Input label="Name" placeholder="Gymbros" setText={setName} />
-            <Input label="Description" placeholder="Talk more about the room" setText={setDesc} />
+        <div className="w-full">
+            <Input label={t('name_label')} placeholder={t('name_placeholder')} setText={setName} />
+            <Input label={t('description_label')} placeholder={t('description_placeholder')} setText={setDesc} />
             <Checkbox isSelected={isPublic} onValueChange={setIsPublic}>
-                Is the rooms public?
+                {t('is_public_label')}
             </Checkbox>
-            <p className='text-base text-[#C5C5C5] my-10'>
-                Rooms are spaces where habits are shared among people. Complete the information for the habit you want to do as a group (you’ll be able to add more later).
-            </p>
+            <p className="text-base text-[#C5C5C5] my-10">{t('rooms_info_text')}</p>
 
             <CreateNewHabitFirstStep plural={true} colorSet={habitColor} habitDescriptiveInfo={habitDescriptiveInfo} setHabitDescriptiveInfo={setHabitDescriptiveInfo} />
             <SeparatorLine />
@@ -104,7 +104,7 @@ function CreateRoomForm() {
             <CreateNewHabitFourthStep color={habitColor} setColor={setHabitColor} />
             <CreateNewHabitFifthStep onSelect={setHabitIcon} />
 
-            <Button icon={<IconCirclePlus />} text={"Create"} handleClick={handleCreate} />
+            <Button icon={<IconCirclePlus />} text={t('create_button_text')} handleClick={handleCreate} />
         </div>
     )
 }
