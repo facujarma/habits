@@ -5,8 +5,11 @@ import Header from "@/sections/Header"
 import SignupForm from "@/sections/SignupForm"
 import Button from "@/components/Button"
 import { IconBrandGoogleFilled } from "@tabler/icons-react"
+import { loginWithGoogle } from "../actions"
+import { useTranslation } from "react-i18next"
 
-function page() {
+function Page() {
+  const { t } = useTranslation("common")
 
   const handleLoginWithGoogle = async () => {
     await loginWithGoogle()
@@ -14,13 +17,13 @@ function page() {
 
   return (
     <div>
-      <Header title={"Create an account"} text={"Welcome to Habits. We hope you have a great day."} />
+      <Header title={t("signup_title")} text={t("signup_subtitle")} />
       <SignupForm />
       <SeparatorLine />
-      <h2 className="text-[#C5C5C5] text-lg my-6">Or sign up with (no apps yet):</h2>
-      {/* <Button icon={<IconBrandGoogleFilled />} text={"Google"} handleClick={() => handleLoginWithGoogle()} /> */}
+      <h2 className="text-[#C5C5C5] text-lg my-6">{t("signup_or_with")}</h2>
+      {/* <Button icon={<IconBrandGoogleFilled />} text={"google"} handleClick={handleLoginWithGoogle} /> */}
     </div>
   )
 }
 
-export default page
+export default Page

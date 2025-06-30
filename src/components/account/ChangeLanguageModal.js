@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 import {
     Button,
@@ -10,17 +12,23 @@ import {
     Select
 } from "@heroui/react";
 import { SelectItem } from '@heroui/select';
-import i18n from '@i18n/client'; // importa tu instancia i18n
+import i18n from '@i18n/client'
+import { useTranslation } from 'react-i18next'
 
 function ChangeLanguageModal({ isOpen, onOpenChange }) {
+    const { t } = useTranslation('common')
     const [language, setLanguage] = useState('en');
 
     const handleSave = async () => {
-        // language es un Set de keys seleccionadas, convertimos a array y tomamos la primera
         const lan = Array.from(language)[0];
         localStorage.setItem('language', lan);
-        await i18n.changeLanguage(lan); // cambia idioma en i18next
-        addToast({ title: "Saved", description: "Language saved successfully.", color: "success", timeout: 2000 });
+        await i18n.changeLanguage(lan);
+        addToast({
+            title: t('save'),
+            description: t('language_saved'),
+            color: "success",
+            timeout: 2000
+        });
     }
 
     return (
@@ -28,19 +36,21 @@ function ChangeLanguageModal({ isOpen, onOpenChange }) {
             <ModalContent>
                 {(onClose) => (
                     <>
-                        <ModalHeader className="flex flex-col gap-1">Change Language.</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">
+                            {t('change_language_modal_title')}
+                        </ModalHeader>
                         <ModalBody>
                             <Select onSelectionChange={setLanguage} defaultSelectedKeys={['en']}>
-                                <SelectItem key="en">English</SelectItem>
-                                <SelectItem key="es">Spanish</SelectItem>
+                                <SelectItem key="en">{t('english')}</SelectItem>
+                                <SelectItem key="es">{t('spanish')}</SelectItem>
                             </Select>
                         </ModalBody>
                         <ModalFooter>
                             <Button variant="light" onPress={onClose}>
-                                Cancel
+                                {t('cancel')}
                             </Button>
                             <Button color="primary" onPress={() => { handleSave(); onClose(); }}>
-                                Save
+                                {t('save')}
                             </Button>
                         </ModalFooter>
                     </>
