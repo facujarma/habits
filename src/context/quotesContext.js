@@ -107,11 +107,12 @@ export function QuotesProvider({ children }) {
   // Función para aplicar filtros sobre todas las citas y reiniciar índice
   const setFilters = useCallback(
     filters => {
+      console.log(filters);
       let filtered = allQuotes;
       if (filters.author && filters.author !== 'All' && filters.author !== 'Todos') {
         filtered = filtered.filter(q => q.author === filters.author);
       }
-      if (filters.feeling && filters.feeling !== 'All' && filters.feeling !== 'Cualquiera') {
+      if (filters.feeling && filters.feeling !== 'All' && filters.feeling !== 'Todos') {
         filtered = filtered.filter(q => q.feeling === filters.feeling);
       }
       if (filters.philosophy && filters.philosophy !== 'All' && filters.philosophy !== 'Todos') {
