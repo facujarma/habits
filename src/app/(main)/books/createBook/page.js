@@ -1,13 +1,20 @@
+'use client'
 
 import CreateBook from "@root/components/books/CreateBook"
 import { BooksProvider } from "@root/context/booksContext"
 import Header from "@root/sections/Header"
+import { useTranslation } from "react-i18next"
 
-function page() {
+function Page() {
+    const { t } = useTranslation('common')
 
     return (
         <div>
-            <Header title="Add book" text="Here you can add a new book to your collection." goBack="/books" />
+            <Header
+                title={t('add_book_title')}
+                text={t('add_book_description')}
+                goBack="/books"
+            />
             <BooksProvider>
                 <CreateBook />
             </BooksProvider>
@@ -15,4 +22,4 @@ function page() {
     )
 }
 
-export default page
+export default Page

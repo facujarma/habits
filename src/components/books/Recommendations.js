@@ -2,8 +2,11 @@ import { addToast } from '@heroui/toast'
 import { useBooks } from '@root/context/booksContext';
 import { addBook } from '@root/utils/books'
 import React from 'react'
-
+import { useTranslation } from 'react-i18next'
 function Recommendations() {
+
+    const { t } = useTranslation('common')
+
     const recommendedBooks = [
         {
             topic: "Nutrition",
@@ -154,32 +157,32 @@ function Recommendations() {
     return (
         <div className='mt-6'>
             <header>
-                <h2 className='text-2xl text-[#C5C5C5]'>Our Recommendations:</h2>
+                <h2 className='text-2xl text-[#C5C5C5]'>{t('recommendations_title')}</h2>
                 <p className="text-[#C5C5C5] text-base leading-6">
-                    These are some books we believe could help you get through tough times or become a better person!
+                    {t('recommendations_description')}
                 </p>
             </header>
 
             <div className="mt-4 space-y-6">
                 {recommendedBooks.map(({ topic, books }) => (
                     <section key={topic} className='flex gap-6'>
-
                         <ul className="space-y-2 flex overflow-x-auto gap-5 items-center py-4">
                             <div className='bg-[#242424] border border-[#616161] rounded-2xl p-4 min-w-42 h-24 flex items-center'>
                                 <h3 className="text-2xl text-[#C5C5C5] font-semibold mb-2">{topic}</h3>
                             </div>
                             {books.map((book, index) => (
                                 <li key={index} className="flex flex-col p-3 border border-[#C5C5C5]/30 rounded-xl bg-[#C5C5C5]/5 min-w-72 h-full">
-                                    <div className='flex-1 '>
-
+                                    <div className='flex-1'>
                                         <h4 className="text-white font-bold text-lg mb-4">{book.title}</h4>
                                         <p className="text-white text-base mb-2">{book.description}</p>
-                                        <p className="text-[#B3B3B3] text-base">Pages: {book.pages}</p>
+                                        <p className="text-[#B3B3B3] text-base">
+                                            {t('recommendations_pages')}: {book.pages}
+                                        </p>
                                     </div>
                                     <button
                                         onClick={() => handleAddToReading(book)}
-                                        className=' bg-[#616161] rounded-xl w-full h-10 flex items-center justify-center'>
-                                        Add to Reading
+                                        className='bg-[#616161] rounded-xl w-full h-10 flex items-center justify-center'>
+                                        {t('recommendations_add_button')}
                                     </button>
                                 </li>
                             ))}
@@ -189,6 +192,7 @@ function Recommendations() {
             </div>
         </div>
     )
+
 }
 
 export default Recommendations

@@ -1,12 +1,21 @@
+'use client'
+
 import EditBook from "@root/components/books/EditBook"
 import { BooksProvider } from "@root/context/booksContext"
 import Header from "@root/sections/Header"
+import { useTranslation } from "react-i18next"
 
-async function page({ params }) {
+function Page({ params }) {
     const { id } = params
+    const { t } = useTranslation('common')
+
     return (
         <div>
-            <Header title="Edit a book" text="Here you can edit a book from your collection." goBack="/books" />
+            <Header
+                title={t('edit_book_title')}
+                text={t('edit_book_description')}
+                goBack="/books"
+            />
             <BooksProvider>
                 <EditBook bookID={id} />
             </BooksProvider>
@@ -14,4 +23,4 @@ async function page({ params }) {
     )
 }
 
-export default page
+export default Page

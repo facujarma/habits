@@ -1,64 +1,81 @@
 'use client'
 
 import React, { useState } from 'react'
-import Button from '../Button';
-import { IconPlus } from '@tabler/icons-react';
-import { useBooks } from '@root/context/booksContext';
-import Input from '../Input';
-import { addToast, Select } from '@heroui/react';
-import { SelectItem } from '@heroui/select';
-import { addBook } from '@root/utils/books';
+import Button from '../Button'
+import { Select, addToast } from '@heroui/react'
+import { SelectItem } from '@heroui/select'
+import Input from '../Input'
+import { addBook } from '@root/utils/books'
+import { useBooks } from '@root/context/booksContext'
+import { useTranslation } from 'react-i18next'
 
 function CreateBook() {
+    const { t } = useTranslation('common')
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [pages, setPages] = useState('');
-    const [bookType, setBookType] = useState('');
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [pages, setPages] = useState('')
+    const [bookType, setBookType] = useState('EBook')
 
-    const { loadBooks } = useBooks();
+    const { loadBooks } = useBooks()
 
-    const handleCreate = () => {
-
+    const handleCreate = async () => {
         const type = Array.from(bookType)[0]
-        console.log(type);
-        try {
-            addBook(title, description, pages, type).then(async () => {
-                await loadBooks(true);
 
-                addToast({
-                    title: "Book added",
-                    description: "The book has been added to your collection successfully.",
-                    color: "success",
-                    timeout: 2000
-                })
-            })
-        }
-        catch (e) {
+        try {
+            await addBook(title, description, pages, type)
+            await loadBooks(true)
+
             addToast({
-                title: "Error",
-                description: "There was an error adding the book to your collection.",
-                color: "danger",
+                title: t('create_book_success_title'),
+                description: t('create_book_success_description'),
+                color: 'success',
                 timeout: 2000
             })
-            console.log(e)
+        } catch (e) {
+            addToast({
+                title: t('create_book_error_title'),
+                description: t('create_book_error_description'),
+                color: 'danger',
+                timeout: 2000
+            })
+            console.error(e)
         }
     }
 
-
     return (
         <div>
-            <Input label="Title" placeholder="Game of Thrones" setText={setTitle} />
-            <Input label="Description" placeholder="Book description..." setText={setDescription} />
-            <Input label="Pages" placeholder="100" type="number" setText={setPages} />
-            <label className='text-[#C5C5C5] text-lg font-bold'>Book type</label>
+            <Input
+                label={t('create_book_title_label')}
+                placeholder={t('create_book_title_placeholder')}
+                setText={setTitle}
+            />
+            <Input
+                label={t('create_book_description_label')}
+                placeholder={t('create_book_description_placeholder')}
+                setText={setDescription}
+            />
+            <Input
+                label={t('create_book_pages_label')}
+                placeholder={t('create_book_pages_placeholder')}
+                type="number"
+                setText={setPages}
+            />
+            <label className="text-[#C5C5C5] text-lg font-bold">
+                {t('create_book_type_label')}
+            </label>
 
-            <Select defaultSelectedKeys={['EBook']} variant="faded" onSelectionChange={setBookType}>
-                <SelectItem key={"EBook"}>EBook</SelectItem>
-                <SelectItem key={"Printed Book"}>Printed Book</SelectItem>
+            <Select
+                defaultSelectedKeys={['EBook']}
+                variant="faded"
+                onSelectionChange={setBookType}
+            >
+                <SelectItem key="EBook">{t('create_book_type_ebook')}</SelectItem>
+                <SelectItem key="Printed Book">{t('create_book_type_printed')}</SelectItem>
             </Select>
+
             <div className="mt-6">
-                <Button text="Create" handleClick={() => { handleCreate() }} />
+                <Button text={t('create_book_button_create')} handleClick={handleCreate} />
             </div>
         </div>
     )
