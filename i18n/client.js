@@ -1,15 +1,15 @@
-// i18n.ts (o i18n.js)
 'use client';
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
-// importa directamente tu JSON
 import commonEn from 'src/locales/en/common.json';
 import commonEs from 'src/locales/es/common.json';
 
 if (!i18n.isInitialized) {
     i18n
+        .use(LanguageDetector) // 🔍 Detección automática
         .use(initReactI18next)
         .init({
             resources: {
@@ -19,10 +19,14 @@ if (!i18n.isInitialized) {
             fallbackLng: 'en',
             supportedLngs: ['en', 'es'],
             defaultNS: 'common',
+            detection: {
+                order: ['localStorage', 'navigator'],
+                lookupLocalStorage: 'language',
+                caches: ['localStorage'],
+            },
             react: {
                 useSuspense: false,
             },
-            // evita la inicialización en el siguiente tick
             initImmediate: false,
         });
 }
