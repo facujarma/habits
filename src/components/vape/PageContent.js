@@ -24,4 +24,4 @@ function PageContent() {
     )
 }
 
-export default page
+export default PageContent

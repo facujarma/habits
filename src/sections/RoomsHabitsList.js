@@ -37,10 +37,10 @@ function RoomsHabitsList() {
             </div>
             {rooms && rooms.length === 0 ? (
                 <div>
-                    <h2 className="text-[#C5C5C5]/50 text-2xl text-center my-6">
+                    <h2 className="text-[#C5C5C5] text-2xl text-center my-6">
                         {t('roomsHabitsList_noRoomsTitle')}
                     </h2>
-                    <p className="text-[#C5C5C5]/50 text-sm text-center">
+                    <p className="text-[#C5C5C5]/75 text-sm text-center mb-6">
                         {t('roomsHabitsList_noRoomsDescription')}
                     </p>
                 </div>

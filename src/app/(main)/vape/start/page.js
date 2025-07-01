@@ -1,6 +1,6 @@
 import { userIsInProgram } from '@lib/vape'
 import { redirect } from 'next/navigation'
-import PageContent from '@vape/PageContent'
+import PageContentT from '@vape/PageContent'
 import React from 'react'
 
 async function getIsInProgram() {
@@ -15,7 +15,7 @@ async function page() {
   }
 
   return (
-    <PageContent />
+    <PageContentT />
   )
 }
 

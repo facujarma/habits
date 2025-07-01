@@ -447,5 +447,7 @@
   "weight_record": "Weight Record",
   "reps_record": "Repetitions Record",
   "one_rm_record": "1RM Record",
-  "volume_record": "Volume Record"
+  "volume_record": "Volume Record",
+  "no_workouts": "You haven't created any routines yet. The first step is to start by creating your exercises — then you'll be able to add them to your own routine.",
+  "no_exercices": "No exercises created yet. Create one to be able to track your progress"
 }
