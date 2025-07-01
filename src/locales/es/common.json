@@ -502,5 +502,17 @@
   "create_book_success_title": "Libro agregado",
   "create_book_success_description": "El libro se agregó a tu colección correctamente.",
   "create_book_error_title": "Error",
-  "create_book_error_description": "Ocurrió un error al agregar el libro a tu colección."
+  "create_book_error_description": "Ocurrió un error al agregar el libro a tu colección.",
+  "pages": "páginas",
+  "edit_book": "Editar libro",
+  "mark_as_finished": "Marcar como terminado",
+  "mark_as_not_finished": "Marcar como no terminado",
+  "add_reflection": "Agregar una reflexión",
+  "delete_book": "Eliminar libro",
+  "remove_book_title": "Eliminar el libro.",
+  "remove_book_confirmation": "¿Estás seguro de que quieres eliminar el libro? Esta acción no se puede deshacer.",
+  "delete": "Eliminar",
+  "book_removed": "Libro eliminado",
+  "book_removed_success": "El libro se ha eliminado correctamente.",
+  "book_remove_error": "Ocurrió un error al eliminar el libro."
 }

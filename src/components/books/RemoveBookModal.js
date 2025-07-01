@@ -9,8 +9,10 @@ import {
 } from "@heroui/react";
 import { useBooks } from "@root/context/booksContext";
 import { deleteBook } from "@root/utils/books";
-function RemoveBookModal({ isOpen, onOpenChange, bookID }) {
+import { useTranslation } from "react-i18next";
 
+function RemoveBookModal({ isOpen, onOpenChange, bookID }) {
+    const { t } = useTranslation('common');
     const { loadBooks } = useBooks();
 
     const handleDelete = async () => {
@@ -18,19 +20,19 @@ function RemoveBookModal({ isOpen, onOpenChange, bookID }) {
             await deleteBook(bookID);
             await loadBooks(true);
             addToast({
-                title: "Book removed",
-                description: "The book has been removed successfully.",
+                title: t('book_removed'),
+                description: t('book_removed_success'),
                 color: "success",
                 timeout: 2000
-            })
+            });
         }
         catch {
             addToast({
-                title: "Error",
-                description: "An error has occurred while removing the book.",
+                title: t('error'),
+                description: t('book_remove_error'),
                 color: "danger",
                 timeout: 2000
-            })
+            });
         }
     }
 
@@ -39,17 +41,16 @@ function RemoveBookModal({ isOpen, onOpenChange, bookID }) {
             <ModalContent>
                 {(onClose) => (
                     <>
-                        <ModalHeader className="flex flex-col gap-1">Remove the Book.</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">{t('remove_book_title')}</ModalHeader>
                         <ModalBody>
-                            <p>Are you sure you want to remove the book? This action cannot be undone.</p>
-
+                            <p>{t('remove_book_confirmation')}</p>
                         </ModalBody>
                         <ModalFooter>
                             <Button variant="light" onPress={onClose}>
-                                Cancel
+                                {t('cancel')}
                             </Button>
                             <Button color="danger" onPress={() => { handleDelete(); onClose(); }}>
-                                Delete
+                                {t('delete')}
                             </Button>
                         </ModalFooter>
                     </>

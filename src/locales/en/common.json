@@ -501,5 +501,17 @@
   "create_book_success_title": "Book added",
   "create_book_success_description": "The book has been added to your collection successfully.",
   "create_book_error_title": "Error",
-  "create_book_error_description": "There was an error adding the book to your collection."
+  "create_book_error_description": "There was an error adding the book to your collection.",
+  "pages": "pages",
+  "edit_book": "Edit Book",
+  "mark_as_finished": "Mark as finished",
+  "mark_as_not_finished": "Mark as not finished",
+  "add_reflection": "Add a reflection",
+  "delete_book": "Delete Book",
+  "remove_book_title": "Remove the Book.",
+  "remove_book_confirmation": "Are you sure you want to remove the book? This action cannot be undone.",
+  "delete": "Delete",
+  "book_removed": "Book removed",
+  "book_removed_success": "The book has been removed successfully.",
+  "book_remove_error": "An error has occurred while removing the book."
 }
