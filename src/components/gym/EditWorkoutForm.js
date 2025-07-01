@@ -10,8 +10,11 @@ import Button from '../Button'
 import { IconEdit } from '@tabler/icons-react'
 import { redirect } from 'next/navigation'
 import { editWorkoutInfo } from '@root/utils/gym'
+import { useTranslation } from 'react-i18next'
 
 function EditWorkoutForm({ workoutID }) {
+  const { t } = useTranslation('common')
+
   const [workout, setWorkout] = useState(null)
   const [exerciceOrder, setExerciceOrder] = useState([])
 
@@ -22,17 +25,16 @@ function EditWorkoutForm({ workoutID }) {
 
     const foundWorkout = workouts.find(workout => workout.id.toString() === workoutID)
     if (!foundWorkout) {
-      addToast({ title: "Error", description: "Workout not found", color: "danger", timeout: 2000 })
+      addToast({ title: t('error'), description: t('workout_not_found'), color: "danger", timeout: 2000 })
       redirect('/gym')
     }
 
     setWorkout(foundWorkout)
-    console.log(foundWorkout)
     setExerciceOrder(foundWorkout.exercicesIDs.map((e, index) => ({
       id: index,
       selectedID: e.toString()
     })))
-  }, [workouts, loading])
+  }, [workouts, loading, workoutID, t])
 
   const handleSelect = (internalId, newSelectedID) => {
     setExerciceOrder(prev =>
@@ -64,7 +66,6 @@ function EditWorkoutForm({ workoutID }) {
     setExerciceOrder(newOrder)
   }
 
-
   const addSelector = () => {
     setExerciceOrder(prev => [
       ...prev,
@@ -75,15 +76,14 @@ function EditWorkoutForm({ workoutID }) {
     ])
   }
 
-
   const handleSave = async () => {
     try {
       await editWorkoutInfo(workoutID, workout.name, exerciceOrder)
       await loadWorkouts(true)
-      addToast({ title: "Saved", description: "Workout saved successfully.", color: "success", timeout: 2000 })
+      addToast({ title: t('saved'), description: t('workout_saved'), color: "success", timeout: 2000 })
     } catch (e) {
       console.error(e)
-      addToast({ title: "Error", description: "There was an error saving the workout.", color: "danger", timeout: 2000 })
+      addToast({ title: t('error'), description: t('workout_save_error'), color: "danger", timeout: 2000 })
     }
   }
 
@@ -92,7 +92,7 @@ function EditWorkoutForm({ workoutID }) {
       <div className='flex flex-col gap-4 my-6'>
         <Skeleton className="z-20 w-full h-20 rounded-2xl" />
         <h2 className='text-[#C5C5C5] text-2xl'>
-          Exercises order
+          {t('exercises_order')}
         </h2>
         <div className='flex flex-col gap-4'>
           <Skeleton className="z-20 w-full h-32 rounded-2xl" />
@@ -105,13 +105,13 @@ function EditWorkoutForm({ workoutID }) {
   return (
     <div className='flex flex-col gap-6'>
       <Input
-        label='Workout name'
-        placeholder='Workout name'
+        label={t('workout_name')}
+        placeholder={t('workout_name')}
         defaultValue={workout.name}
       />
 
       <h2 className='text-[#C5C5C5] text-2xl'>
-        Exercises order
+        {t('exercises_order')}
       </h2>
 
       {exerciceOrder.map((item, index) => (
@@ -128,14 +128,14 @@ function EditWorkoutForm({ workoutID }) {
         />
       ))}
       <Button
-        text="Add an exercice"
+        text={t('add_exercice')}
         className='max-h-10'
         handleClick={addSelector}
       />
       <Button
-        text="Save"
+        text={t('save')}
         icon={<IconEdit />}
-        handleClick={() => handleSave()}
+        handleClick={handleSave}
       />
     </div>
   )

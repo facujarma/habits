@@ -7,13 +7,15 @@ import { addToast } from '@heroui/toast'
 import { redirect } from 'next/navigation'
 import GraphicTypeSelector from './GraphicTypeSelector'
 import ExerciceStats from './ExerciceStats'
+import { useTranslation } from 'react-i18next'
 
 function ExerciceInfo({ exerciceID }) {
+    const { t } = useTranslation('common')
 
-    const [exerciceData, setExerciceData] = useState({})
+    const [exerciceData, setExerciceData] = useState([])
     const [graphicType, setGraphicType] = useState("maxWeight")
-
     const [loading, setLoading] = useState(true)
+
     const renderMaxWeight = () => {
         const data = []
         exerciceData.forEach((session, index) => {
@@ -21,7 +23,7 @@ function ExerciceInfo({ exerciceID }) {
             session.sets.forEach(series => {
                 if (series.weight > maxWeight) maxWeight = series.weight
             })
-            data.push({ name: `Session ${index + 1}`, value: maxWeight })
+            data.push({ name: `${t('session')} ${index + 1}`, value: maxWeight })
         })
         return data
     }
@@ -33,7 +35,7 @@ function ExerciceInfo({ exerciceID }) {
             session.sets.forEach(series => {
                 totalReps += series.reps
             })
-            data.push({ name: `Session ${index + 1}`, value: totalReps })
+            data.push({ name: `${t('session')} ${index + 1}`, value: totalReps })
         })
         return data
     }
@@ -56,10 +58,11 @@ function ExerciceInfo({ exerciceID }) {
             session.sets.forEach(series => {
                 totalVolume += calculateVolume(series.weight, series.reps, series.rir)
             })
-            data.push({ name: `Session ${index + 1}`, value: totalVolume })
+            data.push({ name: `${t('session')} ${index + 1}`, value: totalVolume })
         })
         return data
     }
+
     const renderMaxOne = () => {
         const data = []
         exerciceData.forEach((session, index) => {
@@ -68,7 +71,7 @@ function ExerciceInfo({ exerciceID }) {
                 const oneRM = calculate1RM(series.weight, series.reps, series.rir)
                 if (oneRM > maxOne) maxOne = oneRM
             })
-            data.push({ name: `Session ${index + 1}`, value: maxOne })
+            data.push({ name: `${t('session')} ${index + 1}`, value: maxOne })
         })
         return data
     }
@@ -77,11 +80,10 @@ function ExerciceInfo({ exerciceID }) {
         const loadInfo = async () => {
             try {
                 const data = await getExerciceProgressData(exerciceID)
-                console.log(data)
                 setExerciceData(data)
             }
             catch (error) {
-                addToast({ title: "Error", description: "Error loading exercice info", color: "danger", timeout: 2000 })
+                addToast({ title: t('error'), description: t('error_loading_exercice_info'), color: "danger", timeout: 2000 })
                 redirect('/gym')
             }
             finally {
@@ -89,20 +91,20 @@ function ExerciceInfo({ exerciceID }) {
             }
         }
         loadInfo()
-    }, [])
+    }, [exerciceID, t])
 
-    if (loading) return <div>Loading...</div>
+    if (loading) return <div>{t('loading')}</div>
 
     return (
         <div>
-            <h2 className='text-2xl my-4 text-[#C5C5C5]'>Grapchics</h2>
+            <h2 className='text-2xl my-4 text-[#C5C5C5]'>{t('graphics')}</h2>
             <GraphicTypeSelector setGraphicType={setGraphicType} graphicType={graphicType} />
             <BarGraphic data={
-                graphicType == "maxWeight" ?
+                graphicType === "maxWeight" ?
                     renderMaxWeight() :
-                    graphicType == "totalReps" ?
+                    graphicType === "totalReps" ?
                         renderTotalReps() :
-                        graphicType == "maxOneRep" ?
+                        graphicType === "maxOneRep" ?
                             renderMaxOne() :
                             renderVolume()
             } />

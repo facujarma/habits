@@ -8,11 +8,15 @@ import ExerciceSelector from './ExerciceSelector'
 import { createWorkoutWithExercices } from '@root/utils/gym'
 import { addToast } from '@heroui/toast'
 import { useGym } from '@root/context/gymContext'
+import { useTranslation } from 'react-i18next'
 
 function CreateSessionForm() {
+    const { t } = useTranslation('common')
+
     const [selectors, setSelectors] = useState([{ id: Date.now(), exerciceID: null }])
     const { loadWorkouts } = useGym()
     const [name, setName] = useState('')
+
     const addSelector = () => {
         setSelectors(prev => [...prev, { id: Date.now(), exerciceID: null }])
     }
@@ -40,37 +44,53 @@ function CreateSessionForm() {
     }
 
     const handleSave = () => {
-
         if (!name) {
-            addToast({ title: "Error", description: "Please provide a name for the session.", color: "danger", timeout: 2000 })
+            addToast({
+                title: t('error', 'Error'),
+                description: t('session_name_required', 'Please provide a name for the session.'),
+                color: "danger",
+                timeout: 2000
+            })
             return
         }
 
         try {
             createWorkoutWithExercices(name, selectors.map(sel => sel.exerciceID)).then(async () => {
                 await loadWorkouts(true)
-                addToast({ title: "Session created", description: "The session has been created successfully.", color: "success", timeout: 2000 })
+                addToast({
+                    title: t('session_created', 'Session created'),
+                    description: t('session_created_success', 'The session has been created successfully.'),
+                    color: "success",
+                    timeout: 2000
+                })
             })
 
         } catch (error) {
             console.error(error)
-            addToast({ title: "Error", description: "An error occurred while creating the session.", color: "danger", timeout: 2000 })
+            addToast({
+                title: t('error', 'Error'),
+                description: t('session_create_error', 'An error occurred while creating the session.'),
+                color: "danger",
+                timeout: 2000
+            })
         }
     }
 
     return (
         <div className='flex flex-col gap-6'>
-            <Input label="Session name" placeholder="Type your session name" setText={setName} />
+            <Input
+                label={t('session_name_label', 'Session name')}
+                placeholder={t('session_name_placeholder', 'Type your session name')}
+                setText={setName}
+            />
             <SeparatorLine />
             <div className='flex flex-col gap-4'>
                 {selectors.map((sel, index) => (
-
-                    <div>
+                    <div key={sel.id}>
                         <span className='text-[#C5C5C5] text-xl mb-2'>
                             {index + 1}
                         </span>
                         <ExerciceSelector
-                            key={sel.id}
                             id={sel.id}
                             selectedID={sel.exerciceID}
                             onSelect={updateSelector}
@@ -83,9 +103,8 @@ function CreateSessionForm() {
                     </div>
                 ))}
             </div>
-            <Button text="Add an exercice" className='max-h-10' handleClick={addSelector} />
-            <Button text="Save & Create" className='max-h-10' handleClick={handleSave} />
-
+            <Button text={t('add_exercice', 'Add an exercice')} className='max-h-10' handleClick={addSelector} />
+            <Button text={t('save_create', 'Save & Create')} className='max-h-10' handleClick={handleSave} />
         </div>
     )
 }

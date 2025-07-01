@@ -1,15 +1,22 @@
+'use client'
+
 import EditWorkoutForm from '@root/components/gym/EditWorkoutForm'
 import { GymProvider } from '@root/context/gymContext'
 import Header from '@root/sections/Header'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
-async function page({ params }) {
-
-  const { id } = await params
+function Page({ params }) {
+  const { t } = useTranslation('common')
+  const { id } = params
 
   return (
     <div className='w-full h-full'>
-      <Header title="Edit a session" text="Here you can edit a session from your collection." goBack='/gym' />
+      <Header
+        title={t('edit_session_title', 'Edit a session')}
+        text={t('edit_session_text', 'Here you can edit a session from your collection.')}
+        goBack='/gym'
+      />
       <GymProvider>
         <EditWorkoutForm workoutID={id} />
       </GymProvider>
@@ -17,4 +24,4 @@ async function page({ params }) {
   )
 }
 
-export default page
+export default Page
