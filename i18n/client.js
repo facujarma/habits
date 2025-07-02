@@ -6,6 +6,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 import commonEn from 'src/locales/en/common.json';
 import commonEs from 'src/locales/es/common.json';
+import commonFr from 'src/locales/fr/common.json';
+import commonDe from 'src/locales/de/common.json';
 
 if (!i18n.isInitialized) {
     i18n
@@ -15,9 +17,11 @@ if (!i18n.isInitialized) {
             resources: {
                 en: { common: commonEn },
                 es: { common: commonEs },
+                fr: { common: commonFr },
+                de: { common: commonDe },
             },
             fallbackLng: 'en',
-            supportedLngs: ['en', 'es'],
+            supportedLngs: ['en', 'es', 'fr', 'de'],
             defaultNS: 'common',
             detection: {
                 order: ['localStorage', 'navigator'],

@@ -43,6 +43,9 @@ function ChangeLanguageModal({ isOpen, onOpenChange }) {
                             <Select onSelectionChange={setLanguage} defaultSelectedKeys={['en']}>
                                 <SelectItem key="en">{t('english')}</SelectItem>
                                 <SelectItem key="es">{t('spanish')}</SelectItem>
+                                <SelectItem key="fr">{t('french')}</SelectItem>
+                                <SelectItem key="de">{t('german')}</SelectItem>
+
                             </Select>
                         </ModalBody>
                         <ModalFooter>
