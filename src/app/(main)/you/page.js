@@ -10,6 +10,7 @@ import TimeCompleted from '@root/components/you/TimeCompleted'
 import Achivements from '@root/components/you/Achivements'
 import ChallengesCompleted from '@root/components/you/ChallengesCompleted'
 import { useTranslation } from 'react-i18next'
+import ReadedBooks from '@root/components/you/ReadedBooks'
 
 function Page() {
     const { t } = useTranslation('common')
@@ -19,9 +20,10 @@ function Page() {
             <Header title={t('you_title')} text={t('you_description')} />
             <Carrousel>
                 <GeneralProgress />
-                <TimeCompleted />
                 <VapeProgress />
                 <ChallengesCompleted />
+                <ReadedBooks />
+                <TimeCompleted />
             </Carrousel>
             <JournalingWords />
             <h2 className="text-2xl text-[#C5C5C5] mt-10">{t('achievements_title')}</h2>

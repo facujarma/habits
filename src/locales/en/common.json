@@ -513,5 +513,6 @@
   "delete": "Delete",
   "book_removed": "Book removed",
   "book_removed_success": "The book has been removed successfully.",
-  "book_remove_error": "An error has occurred while removing the book."
+  "book_remove_error": "An error has occurred while removing the book.",
+  "challenges_readed_books": "Readed books"
 }

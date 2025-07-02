@@ -183,3 +183,34 @@ export async function getTotalChallengesCompletitonsInLast10Weeks() {
     console.log(response);
     return response;
 }
+
+export async function getTotalBooksReadedPerMonth() {
+    const supabase = await createClient();
+    const user = await getCurrentUser();
+
+    const response = [];
+
+    for (let i = 0; i < 12; i++) {
+        const now = new Date();
+        const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - i, 1));
+        const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - i + 1, 0, 23, 59, 59));
+
+        const { count, error: countError } = await supabase
+            .from('books')
+            .select('*', { count: 'exact' })
+            .eq('userID', user.id)
+            .eq('finished', true)
+            .gte('created_at', start.toISOString())
+            .lte('created_at', end.toISOString());
+
+        if (countError) {
+            console.error(`Error al contar libros leídos en el mes ${i}:`, countError);
+            response.push({ month: i, count: 0 });
+            continue;
+        }
+
+        response.push({ month: i, count: count ?? 0 });
+    }
+    console.log(response);
+    return response;
+}
