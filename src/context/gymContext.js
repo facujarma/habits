@@ -1,89 +1,65 @@
 'use client';
 
 import { addToast } from '@heroui/toast';
-import { getUserExercices, getWorkoutsFullData, isOnSession } from '@root/utils/gym';
+import {
+    getUserExercices,
+    getWorkoutsFullData,
+    isOnSession,
+} from '@root/utils/gym';
 import React, {
     createContext,
     useContext,
     useState,
     useEffect,
     useCallback,
-    useMemo
+    useMemo,
 } from 'react';
 
-const GymContext = createContext({
-    exercices: [],
-    loading: true,
-    loadExercices: () => { },
-});
+const GymContext = createContext();
 
 export function GymProvider({ children }) {
     const [exercices, setExercices] = useState([]);
     const [workouts, setWorkouts] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [session, setSession] = useState(null);
-    const loadExercices = useCallback(async (force = false) => {
-        setLoading(true);
+    const [loading, setLoading] = useState(true);
+
+    const fetchWithCache = async (key, fetcher, setState, force = false) => {
         try {
-            const cachedRaw = sessionStorage.getItem('exercices');
-            const parsed = cachedRaw ? JSON.parse(cachedRaw) : null;
+            const cached = sessionStorage.getItem(key);
+            const parsed = cached ? JSON.parse(cached) : null;
 
             if (!force && parsed) {
-                setExercices(parsed);
-                console.log('Exercices loaded from cache');
+                setState(parsed);
+                console.log(`${key} loaded from cache`);
             } else {
-                const fresh = await getUserExercices();
-                setExercices(fresh);
-                sessionStorage.setItem('exercices', JSON.stringify(fresh));
-                console.log('Exercices loaded from database');
+                const fresh = await fetcher();
+                setState(fresh);
+                sessionStorage.setItem(key, JSON.stringify(fresh));
+                console.log(`${key} loaded from database`);
             }
         } catch (e) {
             addToast({
                 title: 'Error',
-                message: 'An error occurred while getting the exercices.',
+                message: `An error occurred while loading ${key}.`,
                 color: 'danger',
             });
-            console.error('Error loading exercices:', e);
-        } finally {
-            setLoading(false);
+            console.error(`Error loading ${key}:`, e);
         }
+    };
+
+    const loadExercices = useCallback(async (force = false) => {
+        await fetchWithCache('exercices', getUserExercices, setExercices, force);
     }, []);
 
     const loadWorkouts = useCallback(async (force = false) => {
-        setLoading(true);
-        try {
-            const cachedRaw = sessionStorage.getItem('workouts');
-            const parsed = cachedRaw ? JSON.parse(cachedRaw) : null;
-
-            if (!force && parsed) {
-                setWorkouts(parsed);
-                console.log('Workouts loaded from cache');
-            } else {
-                const fresh = await getWorkoutsFullData();
-                setWorkouts(fresh);
-                sessionStorage.setItem('workouts', JSON.stringify(fresh));
-                console.log('Workouts loaded from database');
-            }
-        } catch (e) {
-            addToast({
-                title: 'Error',
-                message: 'An error occurred while getting the exercices.',
-                color: 'danger',
-            });
-            console.error('Error loading exercices:', e);
-        }
-        finally {
-            setLoading(false);
-        }
+        await fetchWithCache('workouts', getWorkoutsFullData, setWorkouts, force);
     }, []);
 
     const isASessionActive = useCallback(async () => {
-        setLoading(true);
         try {
-            const session = await isOnSession()
-            setSession(session);
-        }
-        catch (e) {
+            const currentSession = await isOnSession();
+            setSession(currentSession);
+        } catch (e) {
             addToast({
                 title: 'Error',
                 message: 'An error occurred while checking the session.',
@@ -91,22 +67,35 @@ export function GymProvider({ children }) {
             });
             console.error('Error loading session:', e);
         }
-        finally {
-            setLoading(false);
-        }
     }, []);
 
-
     useEffect(() => {
-        loadExercices();
-        loadWorkouts();
-        isASessionActive();
+        Promise.all([
+            loadExercices(),
+            loadWorkouts(),
+            isASessionActive()
+        ]).finally(() => setLoading(false));
     }, [loadExercices, loadWorkouts, isASessionActive]);
 
-    const contextValue = useMemo(
-        () => ({ exercices, loading, loadExercices, workouts, loadWorkouts, session, setSession, isASessionActive }),
-        [exercices, loading, loadExercices, workouts, loadWorkouts, session, setSession, isASessionActive]
-    );
+    const contextValue = useMemo(() => ({
+        exercices,
+        workouts,
+        session,
+        loading,
+        loadExercices,
+        loadWorkouts,
+        setSession,
+        isASessionActive,
+    }), [
+        exercices,
+        workouts,
+        session,
+        loading,
+        loadExercices,
+        loadWorkouts,
+        setSession,
+        isASessionActive
+    ]);
 
     return (
         <GymContext.Provider value={contextValue}>

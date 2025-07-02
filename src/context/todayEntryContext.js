@@ -2,7 +2,14 @@
 
 import { addToast } from '@heroui/toast';
 import { getTodayEntry } from '@root/utils/journal';
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    useCallback,
+    useMemo,
+} from 'react';
 
 const TodayEntryContext = createContext();
 
@@ -12,68 +19,65 @@ export function TodayEntryProvider({ children }) {
     const [loaded, setLoaded] = useState(false);
     const [editorRef, setEditorRef] = useState(null);
 
-    useEffect(() => {
-        const loadEntry = async () => {
-            try {
-                const data = await getTodayEntry();
-                if (!data) return;
-                const { id, content } = data;
-                if (content) {
-                    const json = JSON.parse(content);
-                    setEntry(json);
-                    setEntryID(id);
-                }
-            } catch (err) {
-                console.error(err);
-                addToast({
-                    title: "Error",
-                    description: "Error loading journal entry.",
-                    color: "danger",
-                    timeout: 2000,
-                });
-            } finally {
-                setLoaded(true);
-            }
-        };
+    const loadEntry = useCallback(async () => {
+        try {
+            const data = await getTodayEntry();
+            if (!data) return;
 
-        loadEntry();
+            const { id, content } = data;
+            if (content) {
+                const json = JSON.parse(content);
+                setEntry(json);
+                setEntryID(id);
+            }
+        } catch (err) {
+            console.error(err);
+            addToast({
+                title: "Error",
+                description: "Error loading journal entry.",
+                color: "danger",
+                timeout: 2000,
+            });
+        } finally {
+            setLoaded(true);
+        }
     }, []);
 
-    const questionTemplate = (question) => {
-        return {
-            id: crypto.randomUUID(),
-            type: "heading",
-            props: {
-                textColor: "default",
-                backgroundColor: "default",
-                textAlignment: "left",
-                level: 1
-            },
-            content: [{ type: "text", text: question, styles: {} }],
-            children: []
-        };
-    };
+    useEffect(() => {
+        loadEntry();
+    }, [loadEntry]);
 
-    const addQuestionToEntry = (question) => {
+    const questionTemplate = (question) => ({
+        id: crypto.randomUUID(),
+        type: "heading",
+        props: {
+            textColor: "default",
+            backgroundColor: "default",
+            textAlignment: "left",
+            level: 1,
+        },
+        content: [{ type: "text", text: question, styles: {} }],
+        children: [],
+    });
+
+    const addQuestionToEntry = useCallback((question) => {
         const newQuestion = questionTemplate(question);
-        const newEntry = [...entry, newQuestion];
-        setEntry(newEntry);
-        console.log("Entry updated successfully");
+        const updatedEntry = [...entry, newQuestion];
+        setEntry(updatedEntry);
 
-        if (editorRef) {
-            editorRef.replaceBlocks(editorRef.document, newEntry);
+        if (editorRef?.replaceBlocks) {
+            editorRef.replaceBlocks(editorRef.document, updatedEntry);
         }
-    };
+    }, [entry, editorRef]);
 
-
-    const contextValue = {
+    const contextValue = useMemo(() => ({
         entry,
-        loaded,
         entryID,
+        loaded,
         setEntry,
         addQuestionToEntry,
-        setEditorRef
-    };
+        setEditorRef,
+    }), [entry, entryID, loaded, addQuestionToEntry]);
 
     return (
         <TodayEntryContext.Provider value={contextValue}>

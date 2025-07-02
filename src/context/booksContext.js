@@ -2,106 +2,87 @@
 
 import { addToast } from '@heroui/toast';
 import { getBooks, uploadBookStars, uploadBookState } from '@root/utils/books';
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const BooksContext = createContext();
 
 export function BooksProvider({ children }) {
+    const [books, setBooks] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const [books, setBooks] = useState([])
-    const [loading, setLoading] = useState(true)
+    const updateBooks = (updatedBook) => {
+        setBooks(prev => {
+            const newBooks = prev.map(book => book.id === updatedBook.id ? { ...book, ...updatedBook } : book);
+            sessionStorage.setItem('books', JSON.stringify(newBooks));
+            return newBooks;
+        });
+    };
 
-    const loadBooks = (force = true) => {
-        const books = JSON.parse(sessionStorage.getItem('books'))
+    const loadBooks = async (force = false) => {
+        const storedBooks = sessionStorage.getItem('books');
 
-        if (force || !books) {
-            try {
-                getBooks().then(books => {
-                    setBooks(books)
-                    setLoading(false)
-                    sessionStorage.setItem('books', JSON.stringify(books))
-                })
-            }
-            catch (e) {
-                addToast({
-                    title: 'Error',
-                    message: 'An error occurred while getting the information.',
-                    color: 'danger'
-                })
-                console.log(e)
-            }
-        } else {
-            setBooks(books)
-            setLoading(false)
+        if (!force && storedBooks) {
+            const parsed = JSON.parse(storedBooks);
+            setBooks(parsed);
+            setLoading(false);
+            return;
         }
 
-    }
+        try {
+            const fetchedBooks = await getBooks();
+            setBooks(fetchedBooks);
+            sessionStorage.setItem('books', JSON.stringify(fetchedBooks));
+        } catch (e) {
+            console.error(e);
+            addToast({
+                title: 'Error',
+                message: 'An error occurred while getting the books.',
+                color: 'danger'
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const changeStars = async (id, stars) => {
         try {
-            await uploadBookStars(id, stars)
-            const books = JSON.parse(sessionStorage.getItem('books'))
-            const newBooks = books.map(book => {
-                if (book.id === id) {
-                    book.stars = stars
-                }
-                return book
-            })
-            setBooks(newBooks)
-            sessionStorage.setItem('books', JSON.stringify(newBooks))
-        }
-        catch (e) {
+            await uploadBookStars(id, stars);
+            updateBooks({ id, stars });
+        } catch (e) {
+            console.error(e);
             addToast({
                 title: 'Error',
-                message: 'An error occurred while getting the information.',
+                message: 'An error occurred while updating the stars.',
                 color: 'danger'
-            })
-            console.log(e)
+            });
         }
-    }
+    };
 
     const changeState = async (id, finished) => {
         try {
-            await uploadBookState(id, finished)
-            const books = JSON.parse(sessionStorage.getItem('books'))
-            const newBooks = books.map(book => {
-                if (book.id === id) {
-                    book.finished = finished
-                }
-                return book
-            })
-            setBooks(newBooks)
-            sessionStorage.setItem('books', JSON.stringify(newBooks))
-        }
-        catch (e) {
+            await uploadBookState(id, finished);
+            updateBooks({ id, finished });
+        } catch (e) {
+            console.error(e);
             addToast({
                 title: 'Error',
-                message: 'An error occurred while getting the information.',
+                message: 'An error occurred while updating the state.',
                 color: 'danger'
-            })
-            console.log(e)
+            });
         }
-    }
-
-    useEffect(() => {
-        loadBooks()
-    }, [])
-
-
-    const contextValue = {
-        books,
-        loading,
-        loadBooks,
-        changeStars,
-        changeState
     };
 
+    useEffect(() => {
+        loadBooks();
+    }, []);
+
     return (
-        <BooksContext.Provider value={contextValue}>
+        <BooksContext.Provider value={{ books, loading, loadBooks, changeStars, changeState }}>
             {children}
         </BooksContext.Provider>
     );
 }
+
 export function useBooks() {
     const context = useContext(BooksContext);
     if (!context) {

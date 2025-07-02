@@ -1,7 +1,9 @@
 'use client'
 
+import { addToast } from '@heroui/toast'
 import { useBooks } from '@root/context/booksContext'
 import Header from '@root/sections/Header'
+import { redirect } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 function BookInfo({ bookID }) {
@@ -11,12 +13,17 @@ function BookInfo({ bookID }) {
     const [bookDescription, setBookDescription] = useState("")
 
     useEffect(() => {
+        if (loading || !books) return
         const book = books.find(book => book.id === bookID)
         if (book) {
             setBookName(book.title)
             setBookDescription(book.description)
         }
-    }, [books, bookID])
+        else {
+            addToast({ title: "Error", description: "Book not found", color: "danger", timeout: 2000 });
+            redirect('/books')
+        }
+    }, [books, bookID, loading])
 
     return (
         <div>
