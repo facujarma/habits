@@ -10,6 +10,7 @@ import { IconCirclePlus } from '@tabler/icons-react'
 import { addNegativeHabit } from '@lib/negativeHabit'
 import { addToast } from '@heroui/toast'
 import { useTranslation } from 'react-i18next'
+import { useNegativeHabits } from '@root/context/negativeHabitContext'
 
 function Page() {
     const { t } = useTranslation('common')
@@ -19,6 +20,8 @@ function Page() {
         goodHabit: ""
     })
     const [color, setColor] = useState(new Set(["#668C9A"]))
+
+    const { loadNegativeHabits } = useNegativeHabits();
 
     const handleCreateNegative = async (e) => {
         e.preventDefault();
@@ -37,6 +40,7 @@ function Page() {
 
         try {
             await promise;
+            await loadNegativeHabits(true);
             addToast({
                 title: t('createNewNegative_page_title'),
                 description: t('toast_createNewNegative_success'),
