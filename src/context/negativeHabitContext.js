@@ -1,71 +1,84 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { getNegativeHabits } from "@lib/negativeHabit";
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import { getNegativeHabits } from '@lib/negativeHabit'
 
-const NegativeHabitsContext = createContext();
 
+// ① Valor por defecto para que nunca sea undefined
+const defaultContext = {
+    negativesHabits: [],
+    loading: false,
+    loadNegativeHabits: async () => { },
+    updateNegativeHabit: () => { },
+}
+
+// ② Creación del contexto con valor por defecto
+const NegativeHabitsContext = createContext(defaultContext)
+
+// ③ Provider
 export function NegativeHabitsProvider({ children }) {
-    const [negativesHabits, setNegativesHabits] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [negativesHabits, setNegativesHabits] = useState([])
+    const [loading, setLoading] = useState(true)
 
+    // Función para cargar y cachear
     async function loadNegativeHabits(force = false) {
-        setLoading(true);
+        setLoading(true)
         try {
-            const cached = sessionStorage.getItem("cachedNegativeHabits");
-            const parsed = cached ? JSON.parse(cached) : null;
-            const today = new Date().toISOString().split("T")[0];
+            const cached = sessionStorage.getItem('cachedNegativeHabits')
+            const parsed = cached ? JSON.parse(cached) : null
+            const today = new Date().toISOString().split('T')[0]
 
             if (!force && parsed?.date === today) {
-                setNegativesHabits(parsed.habits);
-                console.log("Negative habits loaded from cache");
+                setNegativesHabits(parsed.habits)
+                console.log('Negative habits loaded from cache')
             } else {
-                const negatives = await getNegativeHabits();
-                setNegativesHabits(negatives);
+                const negatives = await getNegativeHabits()
+                setNegativesHabits(negatives)
                 sessionStorage.setItem(
-                    "cachedNegativeHabits",
+                    'cachedNegativeHabits',
                     JSON.stringify({ date: today, habits: negatives })
-                );
-                console.log("Negative habits loaded from database");
+                )
+                console.log('Negative habits loaded from database')
             }
         } catch (error) {
-            console.error("Error cargando hábitos negativos:", error);
+            console.error('Error cargando hábitos negativos:', error)
+            // Aquí puedes mostrar un toast de error si lo deseas
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
     }
 
-    async function updateNegativeHabit(id, updatedFields) {
-        try {
-            setNegativesHabits((prev) =>
-                prev.map((habit) =>
-                    habit.id === id ? { ...habit, ...updatedFields } : habit
-                )
-            );
+    // Función para actualizar un hábito y la caché
+    function updateNegativeHabit(id, updatedFields) {
+        // Actualización en estado local
+        setNegativesHabits(prev =>
+            prev.map(h => (h.id === id ? { ...h, ...updatedFields } : h))
+        )
 
-            const cached = sessionStorage.getItem("cachedNegativeHabits");
-            const parsed = cached ? JSON.parse(cached) : null;
-            const today = new Date().toISOString().split("T")[0];
+        // Actualización en caché
+        try {
+            const cached = sessionStorage.getItem('cachedNegativeHabits')
+            const parsed = cached ? JSON.parse(cached) : null
+            const today = new Date().toISOString().split('T')[0]
 
             if (parsed?.date === today) {
-                const updatedHabits = parsed.habits.map((habit) =>
-                    habit.id === id ? { ...habit, ...updatedFields } : habit
-                );
-
+                const updatedHabits = parsed.habits.map((h) =>
+                    h.id === id ? { ...h, ...updatedFields } : h
+                )
                 sessionStorage.setItem(
-                    "cachedNegativeHabits",
+                    'cachedNegativeHabits',
                     JSON.stringify({ date: today, habits: updatedHabits })
-                );
+                )
             }
-
         } catch (error) {
-            console.error("Error actualizando hábito negativo:", error);
+            console.error('Error actualizando hábito negativo en caché:', error)
         }
     }
 
+    // Carga inicial
     useEffect(() => {
-        loadNegativeHabits();
-    }, []);
+        loadNegativeHabits()
+    }, [])
 
     return (
         <NegativeHabitsContext.Provider
@@ -73,9 +86,10 @@ export function NegativeHabitsProvider({ children }) {
         >
             {children}
         </NegativeHabitsContext.Provider>
-    );
+    )
 }
 
+// Hook de consumo
 export function useNegativeHabits() {
-    return useContext(NegativeHabitsContext);
+    return useContext(NegativeHabitsContext)
 }
